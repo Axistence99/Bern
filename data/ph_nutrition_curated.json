@@ -1,0 +1,4016 @@
+{
+ "source": "Bern curated nutrition: recipe estimates (FNRI PhilFCT + USDA FDC ingredient values) and restaurant items",
+ "built_at": "2026-11-11T01:42:04+00:00",
+ "counts": {
+  "dishes": 28,
+  "meals": 3,
+  "restaurant_items": 66
+ },
+ "foods": [
+  {
+   "id": "dish:pork-adobo",
+   "source": "dish",
+   "type": "dish",
+   "name": "Pork adobo",
+   "local_name": "Adobong baboy",
+   "aliases": [
+    "adobo",
+    "adobong baboy",
+    "pork adobo",
+    "baboy adobo"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Ulam (viand)",
+   "per_100g": {
+    "kcal": 312,
+    "protein_g": 18.1,
+    "fat_g": 25.2,
+    "sat_fat_g": 8.4,
+    "carbs_g": 3.2,
+    "sugars_g": 0.6,
+    "fiber_g": 0.2,
+    "sodium_mg": 286,
+    "calcium_mg": 41,
+    "iron_mg": 1.9,
+    "vitamin_c_mg": 0.2
+   },
+   "servings": [
+    {
+     "label": "1 serving (about 3 pieces with sauce)",
+     "grams": 150
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Home recipe for ~6 servings, sauce included, ~10% of the rendered fat skimmed. FNRI lab value for canned pork adobo: 277 kcal/100 g.",
+   "featured": true,
+   "ingredients": [
+    "1000 g pork kasim (Boston butt, lean)",
+    "100 g soy sauce",
+    "100 g coconut vinegar",
+    "30 g garlic",
+    "15 g cooking oil",
+    "5 g brown sugar"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 1250.0,
+    "cooked_yield_g": 890
+   },
+   "range": {
+    "kcal_low": 181,
+    "kcal_high": 428,
+    "basis": "lean pork shoulder vs fatty pork belly (liempo)"
+   },
+   "reported": {
+    "kcal_min": 215,
+    "kcal_max": 380,
+    "note": "per serving as published by recipe/nutrition sites (150-200 g servings)"
+   },
+   "boost": 1.16
+  },
+  {
+   "id": "dish:chicken-adobo",
+   "source": "dish",
+   "type": "dish",
+   "name": "Chicken adobo",
+   "local_name": "Adobong manok",
+   "aliases": [
+    "adobong manok",
+    "chicken adobo",
+    "manok adobo"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Ulam (viand)",
+   "per_100g": {
+    "kcal": 206,
+    "protein_g": 16.3,
+    "fat_g": 14.3,
+    "sat_fat_g": 3.5,
+    "carbs_g": 3.2,
+    "sugars_g": 0.7,
+    "fiber_g": 0.2,
+    "sodium_mg": 286,
+    "cholesterol_mg": 68,
+    "calcium_mg": 29,
+    "iron_mg": 1.3,
+    "vitamin_c_mg": 3.8
+   },
+   "servings": [
+    {
+     "label": "1 serving (1 thigh + leg with sauce)",
+     "grams": 150
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Home recipe, quantities are edible weights (bones excluded); ~15% of chicken fat left in the pot.",
+   "featured": true,
+   "ingredients": [
+    "800 g chicken thigh & leg (edible meat)",
+    "80 g soy sauce",
+    "80 g coconut vinegar",
+    "25 g garlic",
+    "20 g cooking oil",
+    "5 g brown sugar"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 1010.0,
+    "cooked_yield_g": 760
+   },
+   "range": {
+    "kcal_low": 156,
+    "kcal_high": 254,
+    "basis": "breast vs skin-on leg"
+   },
+   "reported": {
+    "kcal_min": 215,
+    "kcal_max": 215,
+    "note": "per 200 g serving, nutriscan.app"
+   },
+   "boost": 1.1
+  },
+  {
+   "id": "dish:adobong-kangkong",
+   "source": "dish",
+   "type": "dish",
+   "name": "Adobong kangkong",
+   "local_name": "Adobong kangkong",
+   "aliases": [
+    "kangkong adobo",
+    "adobo kangkong"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Vegetables",
+   "per_100g": {
+    "kcal": 139,
+    "protein_g": 4.8,
+    "fat_g": 8.1,
+    "sat_fat_g": 1.1,
+    "carbs_g": 11.6,
+    "sugars_g": 2.3,
+    "fiber_g": 4.8,
+    "sodium_mg": 386,
+    "calcium_mg": 69,
+    "iron_mg": 2.5,
+    "vitamin_c_mg": 1.6
+   },
+   "servings": [
+    {
+     "label": "1 cup",
+     "grams": 100
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Home recipe, stir-fried then simmered.",
+   "featured": false,
+   "ingredients": [
+    "400 g kangkong (swamp cabbage) leaves",
+    "20 g garlic",
+    "25 g cooking oil",
+    "40 g soy sauce",
+    "30 g coconut vinegar",
+    "5 g brown sugar"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 520.0,
+    "cooked_yield_g": 330
+   }
+  },
+  {
+   "id": "dish:beef-pares",
+   "source": "dish",
+   "type": "dish",
+   "name": "Beef pares",
+   "local_name": "Pares",
+   "aliases": [
+    "pares",
+    "beef pares",
+    "baka pares",
+    "pares mami",
+    "pares overload"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Ulam (viand)",
+   "per_100g": {
+    "kcal": 340,
+    "protein_g": 22.4,
+    "fat_g": 21.7,
+    "sat_fat_g": 7.6,
+    "carbs_g": 13.7,
+    "sugars_g": 9.9,
+    "fiber_g": 0.5,
+    "sodium_mg": 360,
+    "cholesterol_mg": 65,
+    "calcium_mg": 39,
+    "iron_mg": 2.5,
+    "vitamin_c_mg": 17.4
+   },
+   "servings": [
+    {
+     "label": "1 serving (beef + sauce)",
+     "grams": 150
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Street/carinderia style: beef brisket simmered ~2 h with soy sauce, brown sugar, garlic, ginger and star anise. Served with garlic rice and broth - see 'Pares meal'.",
+   "featured": true,
+   "ingredients": [
+    "1000 g beef brisket",
+    "120 g soy sauce",
+    "80 g brown sugar",
+    "30 g garlic",
+    "100 g onion",
+    "20 g ginger",
+    "30 g cooking oil"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 1380.0,
+    "cooked_yield_g": 850
+   },
+   "range": {
+    "kcal_low": 293,
+    "kcal_high": 461,
+    "basis": "beef chuck vs fattier rib cuts"
+   },
+   "boost": 1.14
+  },
+  {
+   "id": "dish:bopis",
+   "source": "dish",
+   "type": "dish",
+   "name": "Bopis",
+   "local_name": "Bopis",
+   "aliases": [
+    "bopis",
+    "bofe",
+    "pork bopis",
+    "bopis baboy"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Ulam (viand)",
+   "per_100g": {
+    "kcal": 166,
+    "protein_g": 14.8,
+    "fat_g": 9.4,
+    "sat_fat_g": 1.8,
+    "carbs_g": 5.5,
+    "sugars_g": 1.5,
+    "fiber_g": 0.5,
+    "sodium_mg": 254,
+    "cholesterol_mg": 192,
+    "calcium_mg": 26,
+    "iron_mg": 3.0,
+    "vitamin_c_mg": 11.3
+   },
+   "servings": [
+    {
+     "label": "1 serving (about 1/2 cup)",
+     "grams": 120
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Pork lung and heart boiled in vinegar, chopped, then sauteed with onion, garlic, tomato and chili. Organ meat - high in cholesterol.",
+   "featured": true,
+   "ingredients": [
+    "400 g pork lung",
+    "250 g pork heart",
+    "100 g onion",
+    "20 g garlic",
+    "100 g tomato",
+    "20 g chili pepper",
+    "40 g cooking oil",
+    "30 g coconut vinegar",
+    "20 g soy sauce",
+    "10 g fish sauce"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 990.0,
+    "cooked_yield_g": 650
+   },
+   "range": {
+    "kcal_low": 139,
+    "kcal_high": 194,
+    "basis": "amount of cooking oil (20-60 g)"
+   },
+   "reported": {
+    "kcal_min": 180,
+    "kcal_max": 559,
+    "note": "per serving as published by recipe sites (delish.ph, panlasangpinoy, delishglobe, kelsierecipes)"
+   },
+   "boost": 1.12
+  },
+  {
+   "id": "dish:pork-sisig",
+   "source": "dish",
+   "type": "dish",
+   "name": "Pork sisig",
+   "local_name": "Sisig",
+   "aliases": [
+    "sisig",
+    "pork sisig",
+    "sizzling sisig"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Ulam (viand)",
+   "per_100g": {
+    "kcal": 393,
+    "protein_g": 14.7,
+    "fat_g": 34.6,
+    "carbs_g": 5.5,
+    "calcium_mg": 191,
+    "iron_mg": 4.6,
+    "vitamin_c_mg": 8.2
+   },
+   "servings": [
+    {
+     "label": "1 serving (sizzling plate)",
+     "grams": 150
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Boiled, grilled and chopped pork face with liver, onion, chili, calamansi and mayo. A fried egg on top adds ~90 kcal.",
+   "featured": true,
+   "ingredients": [
+    "500 g pork head (maskara)",
+    "200 g pork ear",
+    "100 g pork liver",
+    "120 g onion",
+    "15 g chili pepper",
+    "40 g calamansi",
+    "30 g cooking oil",
+    "30 g mayonnaise",
+    "20 g soy sauce"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 1055.0,
+    "cooked_yield_g": 700
+   },
+   "range": {
+    "kcal_low": 311,
+    "kcal_high": 444,
+    "basis": "fat rendered out vs kept; with or without mayonnaise"
+   }
+  },
+  {
+   "id": "dish:dinuguan",
+   "source": "dish",
+   "type": "dish",
+   "name": "Dinuguan",
+   "local_name": "Dinuguan",
+   "aliases": [
+    "dinuguan",
+    "chocolate meat",
+    "pork blood stew"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Ulam (viand)",
+   "per_100g": {
+    "kcal": 245,
+    "protein_g": 16.7,
+    "fat_g": 18.2,
+    "carbs_g": 3.3,
+    "sugars_g": 1.2,
+    "fiber_g": 0.4,
+    "calcium_mg": 35,
+    "iron_mg": 1.3,
+    "vitamin_c_mg": 2.7
+   },
+   "servings": [
+    {
+     "label": "1 serving",
+     "grams": 150
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Home recipe for ~5 servings.",
+   "featured": false,
+   "ingredients": [
+    "500 g pork kasim (Boston butt, lean)",
+    "300 g pork blood",
+    "100 g coconut vinegar",
+    "20 g garlic",
+    "100 g onion",
+    "20 g chili pepper",
+    "20 g cooking oil"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 1060.0,
+    "cooked_yield_g": 750
+   }
+  },
+  {
+   "id": "dish:kare-kare",
+   "source": "dish",
+   "type": "dish",
+   "name": "Kare-kare",
+   "local_name": "Kare-kare",
+   "aliases": [
+    "kare kare",
+    "karekare",
+    "kare-kare",
+    "oxtail kare kare"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Ulam (viand)",
+   "per_100g": {
+    "kcal": 208,
+    "protein_g": 13.2,
+    "fat_g": 14.5,
+    "sat_fat_g": 4.4,
+    "carbs_g": 6.2,
+    "fiber_g": 1.3,
+    "sodium_mg": 70,
+    "calcium_mg": 39,
+    "iron_mg": 1.2,
+    "vitamin_c_mg": 4.3
+   },
+   "servings": [
+    {
+     "label": "1 serving (meat, vegetables, sauce)",
+     "grams": 250
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Served with bagoong (shrimp paste, +20 kcal per tbsp) and rice.",
+   "featured": true,
+   "ingredients": [
+    "400 g beef shank",
+    "300 g beef oxtail",
+    "100 g peanut butter",
+    "30 g rice flour",
+    "150 g eggplant",
+    "150 g string beans (sitaw)",
+    "100 g pechay",
+    "60 g onion",
+    "15 g garlic",
+    "30 g cooking oil"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 1335.0,
+    "cooked_yield_g": 1300
+   }
+  },
+  {
+   "id": "dish:nilagang-baka",
+   "source": "dish",
+   "type": "dish",
+   "name": "Nilagang baka",
+   "local_name": "Nilaga",
+   "aliases": [
+    "nilaga",
+    "nilagang baka",
+    "beef nilaga",
+    "beef soup"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Soup & Stew",
+   "per_100g": {
+    "kcal": 59,
+    "protein_g": 5.7,
+    "fat_g": 2.5,
+    "sat_fat_g": 0.9,
+    "carbs_g": 3.3,
+    "sugars_g": 1.1,
+    "fiber_g": 0.6,
+    "sodium_mg": 41,
+    "cholesterol_mg": 11,
+    "calcium_mg": 17,
+    "iron_mg": 0.7,
+    "vitamin_c_mg": 9.9
+   },
+   "servings": [
+    {
+     "label": "1 bowl (350 g)",
+     "grams": 350
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Includes the broth.",
+   "featured": false,
+   "ingredients": [
+    "300 g beef brisket",
+    "300 g beef shank",
+    "200 g potato",
+    "150 g cabbage",
+    "100 g pechay",
+    "100 g saba banana",
+    "60 g onion",
+    "10 g fish sauce"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 1220.0,
+    "cooked_yield_g": 2300
+   }
+  },
+  {
+   "id": "dish:pork-sinigang",
+   "source": "dish",
+   "type": "dish",
+   "name": "Pork sinigang",
+   "local_name": "Sinigang na baboy",
+   "aliases": [
+    "sinigang",
+    "sinigang na baboy",
+    "pork sinigang",
+    "sinigang baboy"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Soup & Stew",
+   "per_100g": {
+    "kcal": 82,
+    "protein_g": 3.0,
+    "fat_g": 6.3,
+    "sat_fat_g": 2.3,
+    "carbs_g": 3.5,
+    "sugars_g": 1.2,
+    "fiber_g": 0.7,
+    "sodium_mg": 48,
+    "cholesterol_mg": 8,
+    "calcium_mg": 11,
+    "iron_mg": 0.4,
+    "vitamin_c_mg": 1.2
+   },
+   "servings": [
+    {
+     "label": "1 bowl (350 g)",
+     "grams": 350
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Includes the broth; a bowl usually holds 2-3 pieces of pork.",
+   "featured": true,
+   "ingredients": [
+    "500 g pork belly (liempo)",
+    "60 g tamarind (sampalok), ripe",
+    "100 g tomato",
+    "80 g onion",
+    "150 g kangkong",
+    "100 g string beans (sitaw)",
+    "100 g taro (gabi)",
+    "100 g eggplant",
+    "10 g chili pepper",
+    "20 g fish sauce"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 1220.0,
+    "cooked_yield_g": 3000
+   },
+   "range": {
+    "kcal_low": 61,
+    "kcal_high": 109,
+    "basis": "lean spare ribs vs 700 g of pork belly"
+   },
+   "reported": {
+    "kcal_min": 180,
+    "kcal_max": 290,
+    "note": "per bowl as published (nutriscan.app, Filipino food calorie guide)"
+   },
+   "boost": 1.12
+  },
+  {
+   "id": "dish:tinolang-manok",
+   "source": "dish",
+   "type": "dish",
+   "name": "Tinolang manok",
+   "local_name": "Tinola",
+   "aliases": [
+    "tinola",
+    "tinolang manok",
+    "chicken tinola"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Soup & Stew",
+   "per_100g": {
+    "kcal": 71,
+    "protein_g": 5.7,
+    "fat_g": 4.7,
+    "sat_fat_g": 1.2,
+    "carbs_g": 1.3,
+    "sugars_g": 0.5,
+    "fiber_g": 0.3,
+    "sodium_mg": 63,
+    "cholesterol_mg": 23,
+    "calcium_mg": 19,
+    "iron_mg": 0.5,
+    "vitamin_c_mg": 5.1
+   },
+   "servings": [
+    {
+     "label": "1 bowl (350 g)",
+     "grams": 350
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Includes the broth.",
+   "featured": false,
+   "ingredients": [
+    "600 g chicken thigh & leg (edible meat)",
+    "200 g sayote (chayote)",
+    "50 g malunggay leaves",
+    "30 g ginger",
+    "50 g onion",
+    "10 g garlic",
+    "15 g cooking oil",
+    "15 g fish sauce"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 970.0,
+    "cooked_yield_g": 2000
+   }
+  },
+  {
+   "id": "dish:lechon-kawali",
+   "source": "dish",
+   "type": "dish",
+   "name": "Lechon kawali",
+   "local_name": "Lechon kawali",
+   "aliases": [
+    "lechon kawali",
+    "kawali",
+    "deep fried pork belly"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Ulam (viand)",
+   "per_100g": {
+    "kcal": 509,
+    "protein_g": 16.7,
+    "fat_g": 49.1,
+    "sat_fat_g": 16.4,
+    "sodium_mg": 46,
+    "cholesterol_mg": 58,
+    "calcium_mg": 19,
+    "iron_mg": 1.2,
+    "vitamin_c_mg": 1.2
+   },
+   "servings": [
+    {
+     "label": "1 serving (2 slices)",
+     "grams": 100
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Boiled then deep-fried. FNRI lab value for pan-fried pork belly is much lower (245 kcal/100 g).",
+   "featured": true,
+   "ingredients": [
+    "1000 g pork belly (liempo)",
+    "40 g cooking oil absorbed while frying"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 1040.0,
+    "cooked_yield_g": 650
+   },
+   "range": {
+    "kcal_low": 390,
+    "kcal_high": 599,
+    "basis": "how much fat renders out while boiling and frying"
+   }
+  },
+  {
+   "id": "dish:pork-menudo",
+   "source": "dish",
+   "type": "dish",
+   "name": "Pork menudo",
+   "local_name": "Menudo",
+   "aliases": [
+    "menudo",
+    "pork menudo"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Ulam (viand)",
+   "per_100g": {
+    "kcal": 258,
+    "protein_g": 14.0,
+    "fat_g": 18.0,
+    "sat_fat_g": 5.5,
+    "carbs_g": 10.0,
+    "sugars_g": 2.4,
+    "fiber_g": 1.8,
+    "sodium_mg": 270,
+    "calcium_mg": 42,
+    "iron_mg": 4.2,
+    "vitamin_c_mg": 24.9
+   },
+   "servings": [
+    {
+     "label": "1 serving",
+     "grams": 150
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "",
+   "featured": false,
+   "ingredients": [
+    "400 g pork kasim (Boston butt, lean)",
+    "100 g pork liver",
+    "150 g potato",
+    "100 g carrot",
+    "50 g red bell pepper",
+    "100 g tomato sauce",
+    "100 g hotdog",
+    "40 g green peas",
+    "60 g onion",
+    "15 g garlic",
+    "30 g cooking oil",
+    "20 g soy sauce"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 1165.0,
+    "cooked_yield_g": 800
+   }
+  },
+  {
+   "id": "dish:chicken-afritada",
+   "source": "dish",
+   "type": "dish",
+   "name": "Chicken afritada",
+   "local_name": "Apritadang manok",
+   "aliases": [
+    "afritada",
+    "apritada",
+    "chicken afritada"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Ulam (viand)",
+   "per_100g": {
+    "kcal": 211,
+    "protein_g": 15.1,
+    "fat_g": 13.1,
+    "sat_fat_g": 3.2,
+    "carbs_g": 8.4,
+    "sugars_g": 1.9,
+    "fiber_g": 1.6,
+    "sodium_mg": 266,
+    "cholesterol_mg": 59,
+    "calcium_mg": 39,
+    "iron_mg": 1.4,
+    "vitamin_c_mg": 25.4
+   },
+   "servings": [
+    {
+     "label": "1 serving",
+     "grams": 150
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "",
+   "featured": false,
+   "ingredients": [
+    "700 g chicken thigh & leg (edible meat)",
+    "200 g potato",
+    "100 g carrot",
+    "60 g red bell pepper",
+    "150 g tomato sauce",
+    "60 g onion",
+    "15 g garlic",
+    "25 g cooking oil",
+    "15 g fish sauce"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 1325.0,
+    "cooked_yield_g": 900
+   }
+  },
+  {
+   "id": "dish:beef-caldereta",
+   "source": "dish",
+   "type": "dish",
+   "name": "Beef caldereta",
+   "local_name": "Caldereta",
+   "aliases": [
+    "caldereta",
+    "kaldereta",
+    "beef caldereta"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Ulam (viand)",
+   "per_100g": {
+    "kcal": 179,
+    "protein_g": 13.4,
+    "fat_g": 10.5,
+    "sat_fat_g": 3.7,
+    "carbs_g": 7.7,
+    "sugars_g": 1.8,
+    "fiber_g": 1.4,
+    "sodium_mg": 201,
+    "cholesterol_mg": 38,
+    "calcium_mg": 50,
+    "iron_mg": 1.4,
+    "vitamin_c_mg": 19.2
+   },
+   "servings": [
+    {
+     "label": "1 serving",
+     "grams": 150
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "FNRI lab value for canned beef caldereta: 284 kcal/100 g.",
+   "featured": false,
+   "ingredients": [
+    "600 g beef chuck",
+    "40 g liver spread",
+    "150 g tomato sauce",
+    "150 g potato",
+    "100 g carrot",
+    "60 g red bell pepper",
+    "30 g processed cheese",
+    "60 g onion",
+    "15 g garlic",
+    "30 g cooking oil",
+    "10 g chili pepper"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 1245.0,
+    "cooked_yield_g": 1000
+   }
+  },
+  {
+   "id": "dish:giniling-guisado",
+   "source": "dish",
+   "type": "dish",
+   "name": "Giniling na baka (ground beef guisado)",
+   "local_name": "Giniling na baka",
+   "aliases": [
+    "giniling",
+    "giniling na baka",
+    "ground beef guisado",
+    "picadillo",
+    "ground beef with potatoes"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Ulam (viand)",
+   "per_100g": {
+    "kcal": 215,
+    "protein_g": 12.1,
+    "fat_g": 14.5,
+    "sat_fat_g": 5.0,
+    "carbs_g": 8.1,
+    "sugars_g": 2.2,
+    "fiber_g": 1.5,
+    "sodium_mg": 185,
+    "cholesterol_mg": 44,
+    "calcium_mg": 33,
+    "iron_mg": 1.8,
+    "vitamin_c_mg": 9.9
+   },
+   "servings": [
+    {
+     "label": "1 serving",
+     "grams": 150
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Ground beef sauteed with potato, carrot, tomato sauce and peas.",
+   "featured": true,
+   "ingredients": [
+    "500 g ground beef, 80% lean (raw)",
+    "150 g potato",
+    "100 g carrot",
+    "80 g onion",
+    "15 g garlic",
+    "100 g tomato sauce",
+    "40 g green peas",
+    "15 g cooking oil",
+    "20 g soy sauce"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 1020.0,
+    "cooked_yield_g": 800
+   },
+   "range": {
+    "kcal_low": 166,
+    "kcal_high": 263,
+    "basis": "90% lean vs 70% lean ground beef"
+   }
+  },
+  {
+   "id": "dish:pinakbet",
+   "source": "dish",
+   "type": "dish",
+   "name": "Pinakbet",
+   "local_name": "Pinakbet",
+   "aliases": [
+    "pinakbet",
+    "pakbet"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Vegetables",
+   "per_100g": {
+    "kcal": 136,
+    "protein_g": 4.7,
+    "fat_g": 9.1,
+    "sat_fat_g": 2.8,
+    "carbs_g": 8.7,
+    "sugars_g": 2.8,
+    "fiber_g": 2.0,
+    "sodium_mg": 181,
+    "cholesterol_mg": 9,
+    "calcium_mg": 60,
+    "iron_mg": 0.9,
+    "vitamin_c_mg": 2.9
+   },
+   "servings": [
+    {
+     "label": "1 cup",
+     "grams": 170
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "",
+   "featured": false,
+   "ingredients": [
+    "150 g pork belly (liempo)",
+    "200 g kalabasa (squash)",
+    "150 g eggplant",
+    "100 g okra",
+    "100 g ampalaya (bitter melon)",
+    "100 g string beans (sitaw)",
+    "100 g tomato",
+    "50 g onion",
+    "15 g garlic",
+    "30 g bagoong alamang (shrimp paste)",
+    "15 g cooking oil"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 1010.0,
+    "cooked_yield_g": 800
+   }
+  },
+  {
+   "id": "dish:ginisang-munggo",
+   "source": "dish",
+   "type": "dish",
+   "name": "Ginisang munggo",
+   "local_name": "Ginisang munggo",
+   "aliases": [
+    "munggo",
+    "mongo",
+    "ginisang munggo",
+    "mung bean soup"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Soup & Stew",
+   "per_100g": {
+    "kcal": 118,
+    "protein_g": 6.7,
+    "fat_g": 4.4,
+    "sat_fat_g": 1.1,
+    "carbs_g": 12.9,
+    "sugars_g": 1.9,
+    "fiber_g": 3.9,
+    "sodium_mg": 81,
+    "calcium_mg": 45,
+    "iron_mg": 1.3,
+    "vitamin_c_mg": 9.9
+   },
+   "servings": [
+    {
+     "label": "1 cup",
+     "grams": 240
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "",
+   "featured": false,
+   "ingredients": [
+    "200 g mung beans, green, dried",
+    "100 g pork kasim (Boston butt, lean)",
+    "60 g malunggay leaves",
+    "80 g tomato",
+    "60 g onion",
+    "15 g garlic",
+    "20 g cooking oil",
+    "15 g fish sauce"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 550.0,
+    "cooked_yield_g": 1100
+   }
+  },
+  {
+   "id": "dish:chopsuey",
+   "source": "dish",
+   "type": "dish",
+   "name": "Chopsuey",
+   "local_name": "Chopsuey",
+   "aliases": [
+    "chop suey",
+    "chopsuey"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Vegetables",
+   "per_100g": {
+    "kcal": 101,
+    "protein_g": 7.8,
+    "fat_g": 4.4,
+    "sat_fat_g": 0.7,
+    "carbs_g": 7.7,
+    "sugars_g": 2.0,
+    "fiber_g": 1.8,
+    "sodium_mg": 88,
+    "cholesterol_mg": 19,
+    "calcium_mg": 57,
+    "iron_mg": 1.2,
+    "vitamin_c_mg": 27.7
+   },
+   "servings": [
+    {
+     "label": "1 cup",
+     "grams": 160
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "",
+   "featured": false,
+   "ingredients": [
+    "150 g chicken breast",
+    "100 g shrimp",
+    "150 g cabbage",
+    "80 g carrot",
+    "100 g pechay",
+    "60 g red bell pepper",
+    "100 g green beans",
+    "50 g onion",
+    "15 g garlic",
+    "25 g cooking oil",
+    "15 g cornstarch",
+    "20 g soy sauce"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 865.0,
+    "cooked_yield_g": 800
+   }
+  },
+  {
+   "id": "dish:ginataang-kalabasa",
+   "source": "dish",
+   "type": "dish",
+   "name": "Ginataang kalabasa at sitaw",
+   "local_name": "Ginataang kalabasa at sitaw",
+   "aliases": [
+    "ginataang gulay",
+    "ginataang kalabasa",
+    "kalabasa at sitaw sa gata"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Vegetables",
+   "per_100g": {
+    "kcal": 142,
+    "protein_g": 5.5,
+    "fat_g": 9.0,
+    "sat_fat_g": 7.8,
+    "carbs_g": 9.8,
+    "fiber_g": 2.3,
+    "sodium_mg": 111,
+    "cholesterol_mg": 13,
+    "calcium_mg": 44,
+    "iron_mg": 1.3,
+    "vitamin_c_mg": 2.2
+   },
+   "servings": [
+    {
+     "label": "1 cup",
+     "grams": 200
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "",
+   "featured": false,
+   "ingredients": [
+    "250 g kalabasa (squash)",
+    "150 g string beans (sitaw)",
+    "150 g coconut milk (gata)",
+    "80 g shrimp",
+    "40 g onion",
+    "10 g garlic",
+    "10 g fish sauce"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 690.0,
+    "cooked_yield_g": 600
+   }
+  },
+  {
+   "id": "dish:laing",
+   "source": "dish",
+   "type": "dish",
+   "name": "Laing",
+   "local_name": "Laing",
+   "aliases": [
+    "laing"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Vegetables",
+   "per_100g": {
+    "kcal": 276,
+    "protein_g": 8.6,
+    "fat_g": 24.0,
+    "sat_fat_g": 18.5,
+    "carbs_g": 6.4,
+    "fiber_g": 3.3,
+    "sodium_mg": 185,
+    "calcium_mg": 145,
+    "iron_mg": 3.0,
+    "vitamin_c_mg": 43.8
+   },
+   "servings": [
+    {
+     "label": "1/2 cup",
+     "grams": 120
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "",
+   "featured": false,
+   "ingredients": [
+    "200 g taro leaves (dried-style, gabi)",
+    "300 g coconut milk (gata)",
+    "100 g pork kasim (Boston butt, lean)",
+    "20 g chili pepper",
+    "20 g bagoong alamang (shrimp paste)",
+    "10 g ginger",
+    "10 g garlic",
+    "40 g onion"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 700.0,
+    "cooked_yield_g": 550
+   }
+  },
+  {
+   "id": "dish:pancit-canton",
+   "source": "dish",
+   "type": "dish",
+   "name": "Pancit canton (guisado)",
+   "local_name": "Pancit canton",
+   "aliases": [
+    "pancit canton",
+    "pancit",
+    "canton guisado",
+    "stir fried canton"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Noodles",
+   "per_100g": {
+    "kcal": 229,
+    "protein_g": 8.9,
+    "fat_g": 12.0,
+    "carbs_g": 21.5,
+    "sugars_g": 3.1,
+    "fiber_g": 2.0,
+    "sodium_mg": 330,
+    "cholesterol_mg": 7,
+    "calcium_mg": 35,
+    "iron_mg": 1.4,
+    "vitamin_c_mg": 5.1
+   },
+   "servings": [
+    {
+     "label": "1 plate (250 g)",
+     "grams": 250
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Home recipe with vegetables and chicken; 250 g dry noodles is ~4 servings.",
+   "featured": true,
+   "ingredients": [
+    "250 g canton noodles (dry)",
+    "150 g chicken breast",
+    "100 g cabbage",
+    "60 g carrot",
+    "60 g green beans",
+    "50 g onion",
+    "15 g garlic",
+    "30 g cooking oil",
+    "40 g soy sauce"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 755.0,
+    "cooked_yield_g": 800
+   }
+  },
+  {
+   "id": "dish:pancit-bihon",
+   "source": "dish",
+   "type": "dish",
+   "name": "Pancit bihon (guisado)",
+   "local_name": "Pancit bihon",
+   "aliases": [
+    "pancit bihon",
+    "bihon guisado",
+    "bihon"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Noodles",
+   "per_100g": {
+    "kcal": 150,
+    "protein_g": 4.6,
+    "fat_g": 3.9,
+    "sat_fat_g": 0.7,
+    "carbs_g": 24.1,
+    "sugars_g": 1.1,
+    "fiber_g": 1.1,
+    "sodium_mg": 99,
+    "cholesterol_mg": 5,
+    "calcium_mg": 25,
+    "iron_mg": 0.9,
+    "vitamin_c_mg": 4.1
+   },
+   "servings": [
+    {
+     "label": "1 plate (250 g)",
+     "grams": 250
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "",
+   "featured": false,
+   "ingredients": [
+    "250 g rice noodles / bihon (dry)",
+    "150 g chicken breast",
+    "100 g cabbage",
+    "60 g carrot",
+    "60 g green beans",
+    "50 g onion",
+    "15 g garlic",
+    "30 g cooking oil",
+    "40 g soy sauce"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 755.0,
+    "cooked_yield_g": 1000
+   }
+  },
+  {
+   "id": "dish:pancit-palabok",
+   "source": "dish",
+   "type": "dish",
+   "name": "Pancit palabok",
+   "local_name": "Palabok",
+   "aliases": [
+    "palabok",
+    "pancit palabok",
+    "luglug"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Noodles",
+   "per_100g": {
+    "kcal": 204,
+    "protein_g": 7.0,
+    "fat_g": 7.3,
+    "sat_fat_g": 1.8,
+    "carbs_g": 27.5,
+    "fiber_g": 0.7,
+    "sodium_mg": 153,
+    "cholesterol_mg": 70,
+    "calcium_mg": 37,
+    "iron_mg": 1.2,
+    "vitamin_c_mg": 0.5
+   },
+   "servings": [
+    {
+     "label": "1 plate (300 g)",
+     "grams": 300
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "",
+   "featured": false,
+   "ingredients": [
+    "250 g rice noodles / bihon (dry)",
+    "100 g shrimp",
+    "100 g ground pork",
+    "100 g boiled eggs (2)",
+    "30 g rice flour (sauce thickener)",
+    "30 g cooking oil",
+    "15 g garlic",
+    "50 g onion",
+    "20 g fish sauce"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 695.0,
+    "cooked_yield_g": 900
+   }
+  },
+  {
+   "id": "dish:lumpiang-shanghai",
+   "source": "dish",
+   "type": "dish",
+   "name": "Lumpiang Shanghai (fried)",
+   "local_name": "Lumpiang Shanghai",
+   "aliases": [
+    "lumpia",
+    "shanghai",
+    "lumpiang shanghai",
+    "fried lumpia"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Street Food & Merienda",
+   "per_100g": {
+    "kcal": 302,
+    "protein_g": 12.8,
+    "fat_g": 22.1,
+    "sat_fat_g": 6.0,
+    "carbs_g": 12.2,
+    "fiber_g": 0.7,
+    "sodium_mg": 66,
+    "cholesterol_mg": 74,
+    "calcium_mg": 26,
+    "iron_mg": 1.5,
+    "vitamin_c_mg": 1.0
+   },
+   "servings": [
+    {
+     "label": "3 pieces",
+     "grams": 51
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "About 40 pieces of ~17 g each; a piece is ~50 kcal before dipping sauce.",
+   "featured": true,
+   "ingredients": [
+    "400 g ground pork",
+    "60 g carrot",
+    "60 g onion",
+    "15 g garlic",
+    "50 g egg",
+    "100 g lumpia wrapper",
+    "60 g cooking oil absorbed while frying"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 745.0,
+    "cooked_yield_g": 680
+   }
+  },
+  {
+   "id": "dish:kwek-kwek",
+   "source": "dish",
+   "type": "dish",
+   "name": "Kwek-kwek (orange fried quail eggs)",
+   "local_name": "Kwek-kwek",
+   "aliases": [
+    "kwek kwek",
+    "tokneneng",
+    "quail egg fritters"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Street Food & Merienda",
+   "per_100g": {
+    "kcal": 294,
+    "protein_g": 10.0,
+    "fat_g": 19.1,
+    "sat_fat_g": 3.7,
+    "carbs_g": 20.5,
+    "sugars_g": 0.3,
+    "fiber_g": 0.6,
+    "sodium_mg": 67,
+    "cholesterol_mg": 494,
+    "calcium_mg": 85,
+    "iron_mg": 2.4
+   },
+   "servings": [
+    {
+     "label": "5 pieces",
+     "grams": 80
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "",
+   "featured": false,
+   "ingredients": [
+    "300 g quail eggs, boiled (30)",
+    "100 g wheat flour (batter)",
+    "20 g cornstarch",
+    "60 g cooking oil absorbed while frying"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 480.0,
+    "cooked_yield_g": 480
+   }
+  },
+  {
+   "id": "dish:taho",
+   "source": "dish",
+   "type": "dish",
+   "name": "Taho",
+   "local_name": "Taho",
+   "aliases": [
+    "taho",
+    "soy pudding"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Street Food & Merienda",
+   "per_100g": {
+    "kcal": 133,
+    "protein_g": 5.8,
+    "fat_g": 3.9,
+    "carbs_g": 18.7,
+    "sugars_g": 14.5,
+    "fiber_g": 0.3,
+    "sodium_mg": 36,
+    "calcium_mg": 137,
+    "iron_mg": 2.4
+   },
+   "servings": [
+    {
+     "label": "1 cup (240 g)",
+     "grams": 240
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "",
+   "featured": false,
+   "ingredients": [
+    "200 g soft tofu (soybean curd)",
+    "40 g brown sugar (arnibal)",
+    "10 g tapioca pearls (sago), dry"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 250.0,
+    "cooked_yield_g": 280
+   }
+  },
+  {
+   "id": "dish:tortang-talong",
+   "source": "dish",
+   "type": "dish",
+   "name": "Tortang talong",
+   "local_name": "Tortang talong",
+   "aliases": [
+    "tortang talong",
+    "eggplant omelette"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Ulam (viand)",
+   "per_100g": {
+    "kcal": 126,
+    "protein_g": 4.9,
+    "fat_g": 9.4,
+    "sat_fat_g": 1.8,
+    "carbs_g": 5.3,
+    "sugars_g": 2.5,
+    "fiber_g": 1.4,
+    "sodium_mg": 43,
+    "cholesterol_mg": 135,
+    "calcium_mg": 23,
+    "iron_mg": 0.8,
+    "potassium_mg": 228,
+    "vitamin_c_mg": 2.6
+   },
+   "servings": [
+    {
+     "label": "1 piece",
+     "grams": 190
+    },
+    {
+     "label": "100 g",
+     "grams": 100.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "",
+   "featured": false,
+   "ingredients": [
+    "150 g eggplant, grilled",
+    "60 g egg",
+    "10 g onion",
+    "12 g cooking oil absorbed while frying"
+   ],
+   "extra": {
+    "recipe_raw_mass_g": 232.0,
+    "cooked_yield_g": 190
+   }
+  },
+  {
+   "id": "dish:pares-meal",
+   "source": "dish",
+   "type": "meal",
+   "name": "Pares meal (beef pares + garlic rice)",
+   "local_name": "Pares with sinangag",
+   "aliases": [
+    "pares meal",
+    "pares with rice",
+    "pares overload",
+    "beef pares with rice",
+    "pares sinangag"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Rice Meal",
+   "per_serving": {
+    "kcal": 790,
+    "protein_g": 37.5,
+    "fat_g": 38.5,
+    "sat_fat_g": 16.5,
+    "carbs_g": 73.3,
+    "sugars_g": 15.0,
+    "fiber_g": 1.5,
+    "sodium_mg": 546,
+    "cholesterol_mg": 98,
+    "calcium_mg": 63,
+    "iron_mg": 5.4,
+    "vitamin_c_mg": 26.1
+   },
+   "serving_label": "1 meal",
+   "serving_g": 300.0,
+   "servings": [
+    {
+     "label": "1 meal",
+     "grams": 300.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Beef pares (150 g) + 1 cup garlic fried rice. The clear soup that comes with pares adds only ~10-20 kcal.",
+   "featured": true,
+   "ingredients": [
+    "150 g beef pares",
+    "150 g garlic fried rice (1 cup)"
+   ]
+  },
+  {
+   "id": "dish:adobo-rice-meal",
+   "source": "dish",
+   "type": "meal",
+   "name": "Pork adobo with rice",
+   "local_name": "Adobo with kanin",
+   "aliases": [
+    "adobo meal",
+    "adobo with rice",
+    "adobo rice"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Rice Meal",
+   "per_serving": {
+    "kcal": 674,
+    "protein_g": 30.5,
+    "fat_g": 38.1,
+    "sat_fat_g": 12.7,
+    "carbs_g": 52.3,
+    "sugars_g": 1.1,
+    "fiber_g": 0.9,
+    "sodium_mg": 434,
+    "calcium_mg": 79,
+    "iron_mg": 3.8,
+    "vitamin_c_mg": 0.3
+   },
+   "serving_label": "1 meal",
+   "serving_g": 310.0,
+   "servings": [
+    {
+     "label": "1 meal",
+     "grams": 310.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Pork adobo (150 g) + 1 cup steamed white rice.",
+   "featured": true,
+   "ingredients": [
+    "150 g pork adobo",
+    "160 g steamed rice (1 cup)"
+   ]
+  },
+  {
+   "id": "dish:bopis-rice-meal",
+   "source": "dish",
+   "type": "meal",
+   "name": "Bopis with rice",
+   "local_name": "Bopis with kanin",
+   "aliases": [
+    "bopis meal",
+    "bopis with rice",
+    "bopis rice"
+   ],
+   "brand": "",
+   "category": "Filipino Dishes - Rice Meal",
+   "per_serving": {
+    "kcal": 406,
+    "protein_g": 21.1,
+    "fat_g": 11.6,
+    "sat_fat_g": 2.2,
+    "carbs_g": 54.1,
+    "sugars_g": 2.0,
+    "fiber_g": 1.2,
+    "sodium_mg": 310,
+    "cholesterol_mg": 230,
+    "calcium_mg": 49,
+    "iron_mg": 4.6,
+    "vitamin_c_mg": 13.6
+   },
+   "serving_label": "1 meal",
+   "serving_g": 280.0,
+   "servings": [
+    {
+     "label": "1 meal",
+     "grams": 280.0
+    }
+   ],
+   "quality": "recipe_estimate",
+   "source_ref": "Bern recipe estimate (FNRI PhilFCT + USDA FoodData Central ingredient values; scripts/build_ph_nutrition.py)",
+   "notes": "Bopis (120 g) + 1 cup steamed white rice.",
+   "featured": false,
+   "ingredients": [
+    "120 g bopis",
+    "160 g steamed rice (1 cup)"
+   ]
+  },
+  {
+   "id": "resto:mcdo-ph-big-mac",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Big Mac",
+   "local_name": "",
+   "aliases": [
+    "big mac",
+    "bigmac",
+    "mcdo big mac",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 510,
+    "sodium_mg": 1080
+   },
+   "serving_label": "1 burger",
+   "servings": [
+    {
+     "label": "1 burger",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": true,
+   "reported": {
+    "kcal_min": 500,
+    "kcal_max": 510,
+    "note": "2025 PH menu listing shows 500 kcal"
+   },
+   "reference_id": "usda:170720"
+  },
+  {
+   "id": "resto:mcdo-ph-quarter-pounder-with-cheese",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Quarter Pounder with Cheese",
+   "local_name": "",
+   "aliases": [
+    "quarter pounder",
+    "qpc",
+    "mcdo quarter pounder",
+    "quarter pounder with cheese",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 560,
+    "sodium_mg": 1390
+   },
+   "serving_label": "1 burger",
+   "servings": [
+    {
+     "label": "1 burger",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": true,
+   "reported": {
+    "kcal_min": 550,
+    "kcal_max": 560,
+    "note": "2025 PH menu listing shows 550 kcal"
+   },
+   "reference_id": "usda:170719"
+  },
+  {
+   "id": "resto:mcdo-ph-double-cheeseburger",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Double Cheeseburger",
+   "local_name": "",
+   "aliases": [
+    "double cheeseburger",
+    "mcdo double cheeseburger",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 420,
+    "sodium_mg": 1260
+   },
+   "serving_label": "1 burger",
+   "servings": [
+    {
+     "label": "1 burger",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false,
+   "reference_id": "usda:172065"
+  },
+  {
+   "id": "resto:mcdo-ph-hamburger",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Hamburger",
+   "local_name": "",
+   "aliases": [
+    "mcdo hamburger",
+    "hamburger",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 240,
+    "sodium_mg": 560
+   },
+   "serving_label": "1 burger",
+   "servings": [
+    {
+     "label": "1 burger",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false,
+   "reference_id": "usda:170717"
+  },
+  {
+   "id": "resto:mcdo-ph-burger-mcdo",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Burger McDo",
+   "local_name": "",
+   "aliases": [
+    "burger mcdo",
+    "mcdo burger",
+    "burger mcdonalds",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 250,
+    "sodium_mg": 760
+   },
+   "serving_label": "1 burger",
+   "servings": [
+    {
+     "label": "1 burger",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": true,
+   "reported": {
+    "kcal_min": 250,
+    "kcal_max": 347,
+    "note": "other menu sites list up to 347 kcal"
+   }
+  },
+  {
+   "id": "resto:mcdo-ph-cheeseburger",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Cheeseburger",
+   "local_name": "",
+   "aliases": [
+    "mcdo cheeseburger",
+    "cheeseburger",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 290,
+    "sodium_mg": 810
+   },
+   "serving_label": "1 burger",
+   "servings": [
+    {
+     "label": "1 burger",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false,
+   "reported": {
+    "kcal_min": 290,
+    "kcal_max": 300,
+    "note": "2025 PH menu listing shows 300 kcal"
+   },
+   "reference_id": "usda:170320"
+  },
+  {
+   "id": "resto:mcdo-ph-mcchicken",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "McChicken",
+   "local_name": "",
+   "aliases": [
+    "mcchicken",
+    "mc chicken",
+    "mcdo mcchicken",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 340,
+    "sodium_mg": 700
+   },
+   "serving_label": "1 sandwich",
+   "servings": [
+    {
+     "label": "1 sandwich",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false,
+   "reported": {
+    "kcal_min": 330,
+    "kcal_max": 340,
+    "note": "2025 PH menu listing shows 330 kcal"
+   },
+   "reference_id": "usda:173305"
+  },
+  {
+   "id": "resto:mcdo-ph-filet-o-fish",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Filet-O-Fish",
+   "local_name": "",
+   "aliases": [
+    "filet o fish",
+    "fish fillet",
+    "mcdo fish",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 340,
+    "sodium_mg": 740
+   },
+   "serving_label": "1 sandwich",
+   "servings": [
+    {
+     "label": "1 sandwich",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false,
+   "reference_id": "usda:170319"
+  },
+  {
+   "id": "resto:mcdo-ph-crispy-chicken-fillet-with-rice",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Crispy Chicken Fillet with Rice",
+   "local_name": "",
+   "aliases": [
+    "chicken fillet",
+    "crispy chicken fillet",
+    "chicken fillet with rice",
+    "mcdo chicken fillet",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 450,
+    "sodium_mg": 750
+   },
+   "serving_label": "1 meal",
+   "servings": [
+    {
+     "label": "1 meal",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false
+  },
+  {
+   "id": "resto:mcdo-ph-6-pc-chicken-mcnuggets",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "6-pc Chicken McNuggets",
+   "local_name": "",
+   "aliases": [
+    "chicken mcnuggets",
+    "mcnuggets",
+    "6 pc mcnuggets",
+    "nuggets",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 320,
+    "sodium_mg": 770
+   },
+   "serving_label": "6 pieces",
+   "servings": [
+    {
+     "label": "6 pieces",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": true,
+   "reference_id": "usda:173297"
+  },
+  {
+   "id": "resto:mcdo-ph-chicken-mcdo--1-pc--without-rice",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Chicken McDo (1 pc, without rice)",
+   "local_name": "",
+   "aliases": [
+    "chicken mcdo",
+    "mcdo chicken",
+    "mcdo fried chicken",
+    "chicken mcdo 1 pc",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 310,
+    "sodium_mg": 700
+   },
+   "serving_label": "1 piece",
+   "servings": [
+    {
+     "label": "1 piece",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": true,
+   "reported": {
+    "kcal_min": 310,
+    "kcal_max": 390,
+    "note": "with rice, other sites report 332-389 kcal"
+   }
+  },
+  {
+   "id": "resto:mcdo-ph-mcspaghetti",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "McSpaghetti",
+   "local_name": "",
+   "aliases": [
+    "mcspaghetti",
+    "mc spaghetti",
+    "mcdo spaghetti",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 270,
+    "sodium_mg": 730
+   },
+   "serving_label": "1 serving",
+   "servings": [
+    {
+     "label": "1 serving",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": true
+  },
+  {
+   "id": "resto:mcdo-ph-2-pc-hotcakes-with-sausage--butter---syrup",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "2-pc Hotcakes with Sausage (butter & syrup)",
+   "local_name": "",
+   "aliases": [
+    "hotcakes with sausage",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 520,
+    "sodium_mg": 1080
+   },
+   "serving_label": "1 order",
+   "servings": [
+    {
+     "label": "1 order",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false
+  },
+  {
+   "id": "resto:mcdo-ph-big-breakfast",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Big Breakfast",
+   "local_name": "",
+   "aliases": [
+    "big breakfast",
+    "mcdo breakfast",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 480,
+    "sodium_mg": 1110
+   },
+   "serving_label": "1 order",
+   "servings": [
+    {
+     "label": "1 order",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false,
+   "reference_id": "usda:172064"
+  },
+  {
+   "id": "resto:mcdo-ph-sausage-egg-mcmuffin",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Sausage Egg McMuffin",
+   "local_name": "",
+   "aliases": [
+    "sausage egg muffin",
+    "egg mcmuffin",
+    "sausage mcmuffin with egg",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 390,
+    "sodium_mg": 1210
+   },
+   "serving_label": "1 muffin",
+   "servings": [
+    {
+     "label": "1 muffin",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false,
+   "reference_id": "usda:172068"
+  },
+  {
+   "id": "resto:mcdo-ph-sausage-mcmuffin",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Sausage McMuffin",
+   "local_name": "",
+   "aliases": [
+    "sausage muffin",
+    "sausage mcmuffin",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 320,
+    "sodium_mg": 1150
+   },
+   "serving_label": "1 muffin",
+   "servings": [
+    {
+     "label": "1 muffin",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false,
+   "reference_id": "usda:173308"
+  },
+  {
+   "id": "resto:mcdo-ph-plain-muffin",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Plain Muffin",
+   "local_name": "",
+   "aliases": [
+    "plain muffin",
+    "mcdo muffin",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 160,
+    "sodium_mg": 300
+   },
+   "serving_label": "1 muffin",
+   "servings": [
+    {
+     "label": "1 muffin",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false
+  },
+  {
+   "id": "resto:mcdo-ph-hamdesal",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Hamdesal",
+   "local_name": "",
+   "aliases": [
+    "hamdesal",
+    "ham pandesal",
+    "mcdo hamdesal",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 230,
+    "sodium_mg": 580
+   },
+   "serving_label": "1 pandesal sandwich",
+   "servings": [
+    {
+     "label": "1 pandesal sandwich",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false
+  },
+  {
+   "id": "resto:mcdo-ph-hamdesal-with-cheese",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Hamdesal with Cheese",
+   "local_name": "",
+   "aliases": [
+    "hamdesal with cheese",
+    "cheesy hamdesal",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 280,
+    "sodium_mg": 830
+   },
+   "serving_label": "1 pandesal sandwich",
+   "servings": [
+    {
+     "label": "1 pandesal sandwich",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false
+  },
+  {
+   "id": "resto:mcdo-ph-2-pc-hotcakes--butter---syrup",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "2-pc Hotcakes (butter & syrup)",
+   "local_name": "",
+   "aliases": [
+    "hotcakes",
+    "mcdo hotcakes",
+    "pancake",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 410,
+    "sodium_mg": 470
+   },
+   "serving_label": "1 order",
+   "servings": [
+    {
+     "label": "1 order",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false,
+   "reference_id": "usda:173311"
+  },
+  {
+   "id": "resto:mcdo-ph-hash-browns",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Hash Browns",
+   "local_name": "",
+   "aliases": [
+    "hash brown",
+    "hashbrown",
+    "mcdo hash browns",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 320,
+    "sodium_mg": 580
+   },
+   "serving_label": "1 piece",
+   "servings": [
+    {
+     "label": "1 piece",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false,
+   "reference_id": "usda:173298"
+  },
+  {
+   "id": "resto:mcdo-ph-mcflurry-oreo",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "McFlurry Oreo",
+   "local_name": "",
+   "aliases": [
+    "mcflurry",
+    "oreo mcflurry",
+    "mcflurry oreo",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 370,
+    "sodium_mg": 190
+   },
+   "serving_label": "1 regular",
+   "servings": [
+    {
+     "label": "1 regular",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": true,
+   "reference_id": "usda:173304"
+  },
+  {
+   "id": "resto:mcdo-ph-hot-fudge---caramel-sundae",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Hot Fudge / Caramel Sundae",
+   "local_name": "",
+   "aliases": [
+    "sundae",
+    "hot fudge sundae",
+    "caramel sundae",
+    "mcdo sundae",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 270,
+    "sodium_mg": 130
+   },
+   "serving_label": "1 sundae",
+   "servings": [
+    {
+     "label": "1 sundae",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false,
+   "reference_id": "usda:173302"
+  },
+  {
+   "id": "resto:mcdo-ph-mini-apple-pie",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Mini Apple Pie",
+   "local_name": "",
+   "aliases": [
+    "apple pie",
+    "mcdo apple pie",
+    "mini apple pie",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 170,
+    "sodium_mg": 125
+   },
+   "serving_label": "1 pie",
+   "servings": [
+    {
+     "label": "1 pie",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false
+  },
+  {
+   "id": "resto:mcdo-ph-plain-sundae",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Plain Sundae",
+   "local_name": "",
+   "aliases": [
+    "plain sundae",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 170,
+    "sodium_mg": 75
+   },
+   "serving_label": "1 sundae",
+   "servings": [
+    {
+     "label": "1 sundae",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false
+  },
+  {
+   "id": "resto:mcdo-ph-vanilla-cone",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Vanilla Cone",
+   "local_name": "",
+   "aliases": [
+    "vanilla cone",
+    "ice cream cone",
+    "mcdo cone",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 110,
+    "sodium_mg": 55
+   },
+   "serving_label": "1 cone",
+   "servings": [
+    {
+     "label": "1 cone",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false,
+   "reference_id": "usda:172061"
+  },
+  {
+   "id": "resto:mcdo-ph-regular-fries",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Regular Fries",
+   "local_name": "",
+   "aliases": [
+    "mcdo fries",
+    "regular fries",
+    "mcdo french fries",
+    "small fries",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 210,
+    "sodium_mg": 190
+   },
+   "serving_label": "1 regular serving",
+   "servings": [
+    {
+     "label": "1 regular serving",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": true,
+   "reference_id": "usda:170721"
+  },
+  {
+   "id": "resto:mcdo-ph-medium-fries",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Medium Fries",
+   "local_name": "",
+   "aliases": [
+    "medium fries",
+    "mcdo medium fries",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 310,
+    "sodium_mg": 290
+   },
+   "serving_label": "1 medium serving",
+   "servings": [
+    {
+     "label": "1 medium serving",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false,
+   "reference_id": "usda:170721"
+  },
+  {
+   "id": "resto:mcdo-ph-large-fries",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Large Fries",
+   "local_name": "",
+   "aliases": [
+    "large fries",
+    "mcdo large fries",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 490,
+    "sodium_mg": 450
+   },
+   "serving_label": "1 large serving",
+   "servings": [
+    {
+     "label": "1 large serving",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false,
+   "reference_id": "usda:170721"
+  },
+  {
+   "id": "resto:mcdo-ph-coke---sprite--regular",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Coke / Sprite (regular)",
+   "local_name": "",
+   "aliases": [
+    "mcdo coke",
+    "mcdo sprite",
+    "coke regular",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 140
+   },
+   "serving_label": "1 regular cup",
+   "servings": [
+    {
+     "label": "1 regular cup",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false
+  },
+  {
+   "id": "resto:mcdo-ph-coke--medium",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Coke (medium)",
+   "local_name": "",
+   "aliases": [
+    "medium coke",
+    "mcdo coke medium",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 190
+   },
+   "serving_label": "1 medium cup",
+   "servings": [
+    {
+     "label": "1 medium cup",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false
+  },
+  {
+   "id": "resto:mcdo-ph-sprite--medium",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Sprite (medium)",
+   "local_name": "",
+   "aliases": [
+    "medium sprite",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 200
+   },
+   "serving_label": "1 medium cup",
+   "servings": [
+    {
+     "label": "1 medium cup",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false
+  },
+  {
+   "id": "resto:mcdo-ph-coke---sprite--large",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Coke / Sprite (large)",
+   "local_name": "",
+   "aliases": [
+    "large coke",
+    "large sprite",
+    "mcdo large coke",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 260
+   },
+   "serving_label": "1 large cup",
+   "servings": [
+    {
+     "label": "1 large cup",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false
+  },
+  {
+   "id": "resto:mcdo-ph-nestea-lemon-iced-tea--regular",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Nestea Lemon Iced Tea (regular)",
+   "local_name": "",
+   "aliases": [
+    "nestea",
+    "mcdo iced tea",
+    "iced tea",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 150
+   },
+   "serving_label": "1 regular cup",
+   "servings": [
+    {
+     "label": "1 regular cup",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false
+  },
+  {
+   "id": "resto:mcdo-ph-del-monte-pineapple-juice",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Del Monte Pineapple Juice",
+   "local_name": "",
+   "aliases": [
+    "mcdo pineapple juice",
+    "pineapple juice",
+    "mcdo",
+    "mcdonalds",
+    "mcdonald's philippines"
+   ],
+   "brand": "McDonald's",
+   "category": "Fast Food - McDonald's Philippines",
+   "per_serving": {
+    "kcal": 130
+   },
+   "serving_label": "1 cup",
+   "servings": [
+    {
+     "label": "1 cup",
+     "grams": null
+    }
+   ],
+   "quality": "official_published",
+   "region": "PH",
+   "source_ref": "https://runningpinoy.com/2011/09/12/mcdonalds-ph-nutrition-facts/",
+   "notes": "McDonald's Philippines nutrition flyer (data as of March 2010, kcal & sodium only; reproduced by runningpinoy.com). Recipes and portions may have changed.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-chickenjoy-drumstick--1-pc",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Chickenjoy Drumstick (1 pc)",
+   "local_name": "",
+   "aliases": [
+    "chickenjoy drumstick",
+    "chicken joy drumstick",
+    "jollibee drumstick",
+    "jollibee fried chicken drumstick",
+    "chickenjoy",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 220,
+    "fat_g": 14,
+    "carbs_g": 3,
+    "protein_g": 20,
+    "sodium_mg": 270
+   },
+   "serving_label": "1 drumstick",
+   "servings": [
+    {
+     "label": "1 drumstick",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": true
+  },
+  {
+   "id": "resto:jollibee-us-chickenjoy-thigh--1-pc",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Chickenjoy Thigh (1 pc)",
+   "local_name": "",
+   "aliases": [
+    "chickenjoy thigh",
+    "chicken joy thigh",
+    "jollibee thigh",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 380,
+    "fat_g": 28,
+    "carbs_g": 5,
+    "protein_g": 27,
+    "sodium_mg": 400
+   },
+   "serving_label": "1 thigh",
+   "servings": [
+    {
+     "label": "1 thigh",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-spicy-chickenjoy-drumstick--1-pc",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Spicy Chickenjoy Drumstick (1 pc)",
+   "local_name": "",
+   "aliases": [
+    "spicy chickenjoy",
+    "spicy chickenjoy drumstick",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 200,
+    "fat_g": 10,
+    "carbs_g": 10,
+    "protein_g": 17,
+    "sodium_mg": 480
+   },
+   "serving_label": "1 drumstick",
+   "servings": [
+    {
+     "label": "1 drumstick",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-spicy-chickenjoy-thigh--1-pc",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Spicy Chickenjoy Thigh (1 pc)",
+   "local_name": "",
+   "aliases": [
+    "spicy chickenjoy thigh",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 370,
+    "fat_g": 21,
+    "carbs_g": 18,
+    "protein_g": 23,
+    "sodium_mg": 720
+   },
+   "serving_label": "1 thigh",
+   "servings": [
+    {
+     "label": "1 thigh",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-chicken-tender--1-pc",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Chicken Tender (1 pc)",
+   "local_name": "",
+   "aliases": [
+    "chicken tender",
+    "jollibee chicken tender",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 180,
+    "fat_g": 11,
+    "carbs_g": 13,
+    "protein_g": 9,
+    "sodium_mg": 420
+   },
+   "serving_label": "1 piece",
+   "servings": [
+    {
+     "label": "1 piece",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-jolly-spaghetti--us-serving",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Jolly Spaghetti (US serving)",
+   "local_name": "",
+   "aliases": [
+    "jolly spaghetti",
+    "jollibee spaghetti",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 610,
+    "fat_g": 23,
+    "carbs_g": 76,
+    "protein_g": 23,
+    "sodium_mg": 1340
+   },
+   "serving_label": "1 serving",
+   "servings": [
+    {
+     "label": "1 serving",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-palabok-fiesta",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Palabok Fiesta",
+   "local_name": "",
+   "aliases": [
+    "palabok fiesta",
+    "jollibee palabok",
+    "palabok",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 660,
+    "fat_g": 28,
+    "carbs_g": 57,
+    "protein_g": 41,
+    "sodium_mg": 1600
+   },
+   "serving_label": "1 serving",
+   "servings": [
+    {
+     "label": "1 serving",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": true
+  },
+  {
+   "id": "resto:jollibee-us-2-burger-steaks-with-steamed-rice",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "2 Burger Steaks with Steamed Rice",
+   "local_name": "",
+   "aliases": [
+    "burger steak",
+    "burgersteak",
+    "jollibee burger steak",
+    "burger steak with rice",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 570,
+    "fat_g": 28,
+    "carbs_g": 56,
+    "protein_g": 24,
+    "sodium_mg": 1010
+   },
+   "serving_label": "1 meal",
+   "servings": [
+    {
+     "label": "1 meal",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": true
+  },
+  {
+   "id": "resto:jollibee-us-yum-burger--us",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Yum Burger (US)",
+   "local_name": "",
+   "aliases": [
+    "yum burger",
+    "yumburger",
+    "jollibee yumburger",
+    "yum",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 360,
+    "fat_g": 21,
+    "carbs_g": 30,
+    "protein_g": 13,
+    "sodium_mg": 630
+   },
+   "serving_label": "1 burger",
+   "servings": [
+    {
+     "label": "1 burger",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-yum-with-cheese--us",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Yum with Cheese (US)",
+   "local_name": "",
+   "aliases": [
+    "yum with cheese",
+    "cheesy yumburger",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 410,
+    "fat_g": 25,
+    "carbs_g": 30,
+    "protein_g": 16,
+    "sodium_mg": 880
+   },
+   "serving_label": "1 burger",
+   "servings": [
+    {
+     "label": "1 burger",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-big-yum--us",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Big Yum (US)",
+   "local_name": "",
+   "aliases": [
+    "big yum",
+    "jollibee big yum",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 670,
+    "fat_g": 47,
+    "carbs_g": 39,
+    "protein_g": 27,
+    "sodium_mg": 1350
+   },
+   "serving_label": "1 burger",
+   "servings": [
+    {
+     "label": "1 burger",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-jolly-crispy-fries--regular",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Jolly Crispy Fries (regular)",
+   "local_name": "",
+   "aliases": [
+    "jollibee fries",
+    "jolly crispy fries",
+    "jollibee french fries",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 340,
+    "fat_g": 18,
+    "carbs_g": 41,
+    "protein_g": 4,
+    "sodium_mg": 560
+   },
+   "serving_label": "1 regular",
+   "servings": [
+    {
+     "label": "1 regular",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-steamed-rice--1-serving",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Steamed Rice (1 serving)",
+   "local_name": "",
+   "aliases": [
+    "jollibee rice",
+    "steamed rice jollibee",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 190,
+    "fat_g": 0,
+    "carbs_g": 44,
+    "protein_g": 4,
+    "sodium_mg": 0
+   },
+   "serving_label": "1 serving",
+   "servings": [
+    {
+     "label": "1 serving",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-adobo-rice",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Adobo Rice",
+   "local_name": "",
+   "aliases": [
+    "adobo rice",
+    "jollibee adobo rice",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 230,
+    "fat_g": 4.5,
+    "carbs_g": 54,
+    "protein_g": 8,
+    "sodium_mg": 630
+   },
+   "serving_label": "1 serving",
+   "servings": [
+    {
+     "label": "1 serving",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-mashed-potato-with-gravy--regular",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Mashed Potato with Gravy (regular)",
+   "local_name": "",
+   "aliases": [
+    "mashed potato",
+    "jollibee mashed potato",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 170,
+    "fat_g": 4.5,
+    "carbs_g": 33,
+    "protein_g": 3,
+    "sodium_mg": 730
+   },
+   "serving_label": "1 regular",
+   "servings": [
+    {
+     "label": "1 regular",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-gravy--small",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Gravy (small)",
+   "local_name": "",
+   "aliases": [
+    "jollibee gravy",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 25,
+    "fat_g": 0,
+    "carbs_g": 5,
+    "protein_g": 1,
+    "sodium_mg": 380
+   },
+   "serving_label": "1 small cup",
+   "servings": [
+    {
+     "label": "1 small cup",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-chickenjoy-breakfast--1-drumstick-with-gravy",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Chickenjoy Breakfast (1 drumstick with gravy)",
+   "local_name": "",
+   "aliases": [
+    "chickenjoy breakfast",
+    "jollibee breakfast",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 590,
+    "fat_g": 25,
+    "carbs_g": 58,
+    "protein_g": 31,
+    "sodium_mg": 2880
+   },
+   "serving_label": "1 meal",
+   "servings": [
+    {
+     "label": "1 meal",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-longganisa-breakfast",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Longganisa Breakfast",
+   "local_name": "",
+   "aliases": [
+    "longganisa breakfast",
+    "longsilog jollibee",
+    "jollibee longganisa",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 720,
+    "fat_g": 47,
+    "carbs_g": 60,
+    "protein_g": 26,
+    "sodium_mg": 2910
+   },
+   "serving_label": "1 meal",
+   "servings": [
+    {
+     "label": "1 meal",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-tapa-breakfast",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Tapa Breakfast",
+   "local_name": "",
+   "aliases": [
+    "tapa breakfast",
+    "tapsilog jollibee",
+    "jollibee tapa",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 710,
+    "fat_g": 35,
+    "carbs_g": 60,
+    "protein_g": 34,
+    "sodium_mg": 3090
+   },
+   "serving_label": "1 meal",
+   "servings": [
+    {
+     "label": "1 meal",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-tocino-breakfast",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Tocino Breakfast",
+   "local_name": "",
+   "aliases": [
+    "tocino breakfast",
+    "tosilog jollibee",
+    "jollibee tocino",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 610,
+    "fat_g": 22,
+    "carbs_g": 69,
+    "protein_g": 33,
+    "sodium_mg": 3460
+   },
+   "serving_label": "1 meal",
+   "servings": [
+    {
+     "label": "1 meal",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-corned-beef-breakfast",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Corned Beef Breakfast",
+   "local_name": "",
+   "aliases": [
+    "corned beef breakfast",
+    "cornsilog jollibee",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 650,
+    "fat_g": 33,
+    "carbs_g": 51,
+    "protein_g": 35,
+    "sodium_mg": 3260
+   },
+   "serving_label": "1 meal",
+   "servings": [
+    {
+     "label": "1 meal",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-peach-mango-pie",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Peach Mango Pie",
+   "local_name": "",
+   "aliases": [
+    "peach mango pie",
+    "pmp",
+    "jollibee pie",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 270,
+    "fat_g": 11,
+    "carbs_g": 40,
+    "protein_g": 3
+   },
+   "serving_label": "1 pie",
+   "servings": [
+    {
+     "label": "1 pie",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": true
+  },
+  {
+   "id": "resto:jollibee-us-ube-pie",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Ube Pie",
+   "local_name": "",
+   "aliases": [
+    "ube pie",
+    "jollibee ube pie",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 310,
+    "fat_g": 14,
+    "carbs_g": 44,
+    "protein_g": 4
+   },
+   "serving_label": "1 pie",
+   "servings": [
+    {
+     "label": "1 pie",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-us-halo-halo",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Halo-Halo",
+   "local_name": "",
+   "aliases": [
+    "jollibee halo halo",
+    "halo-halo jollibee",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 490,
+    "fat_g": 9,
+    "carbs_g": 93,
+    "protein_g": 10
+   },
+   "serving_label": "1 serving",
+   "servings": [
+    {
+     "label": "1 serving",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "US",
+   "source_ref": "https://nutritionandingredients.com/jollibee/",
+   "notes": "Jollibee USA nutrition guide values reproduced by nutritionandingredients.com (2026). US portions are often larger than Philippine ones - treat as an upper reference for the PH menu.",
+   "featured": false
+  },
+  {
+   "id": "resto:jollibee-ph-jolly-spaghetti--ph-solo",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Jolly Spaghetti (PH solo)",
+   "local_name": "",
+   "aliases": [
+    "jolly spaghetti",
+    "jollibee spaghetti",
+    "jolly spag",
+    "jabee spaghetti",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 430
+   },
+   "serving_label": "1 solo serving",
+   "servings": [
+    {
+     "label": "1 solo serving",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "PH",
+   "source_ref": "https://jollibeemenuupdates.com/jollibee-under-650-calories-menu/",
+   "featured": true,
+   "notes": "Jollibee does not publish nutrition facts on its PH website (only inside its app). Calories shown are the value listed on a 2026 Philippine menu blog; blogs disagree with each other, so check the in-store/app label.",
+   "reported": {
+    "kcal_min": 270,
+    "kcal_max": 610,
+    "note": "PH solo listing 430; other sites 270-560; US serving 610"
+   }
+  },
+  {
+   "id": "resto:jollibee-ph-yumburger--ph-solo",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Yumburger (PH solo)",
+   "local_name": "",
+   "aliases": [
+    "yumburger",
+    "yum burger",
+    "jollibee yumburger",
+    "jollibee burger",
+    "yum",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 310
+   },
+   "serving_label": "1 burger",
+   "servings": [
+    {
+     "label": "1 burger",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "PH",
+   "source_ref": "https://jollibeemenuupdates.com/jollibee-under-650-calories-menu/",
+   "featured": true,
+   "notes": "Jollibee does not publish nutrition facts on its PH website (only inside its app). Calories shown are the value listed on a 2026 Philippine menu blog; blogs disagree with each other, so check the in-store/app label.",
+   "reported": {
+    "kcal_min": 250,
+    "kcal_max": 360,
+    "note": "PH listings 250-310; US 'Yum' 360"
+   }
+  },
+  {
+   "id": "resto:jollibee-ph-burger-steak--ph-solo",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Burger Steak (PH solo)",
+   "local_name": "",
+   "aliases": [
+    "burger steak",
+    "burgersteak",
+    "jollibee burger steak",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 530
+   },
+   "serving_label": "1 solo serving",
+   "servings": [
+    {
+     "label": "1 solo serving",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "PH",
+   "source_ref": "https://jollibeemenuupdates.com/jollibee-under-650-calories-menu/",
+   "featured": true,
+   "notes": "Jollibee does not publish nutrition facts on its PH website (only inside its app). Calories shown are the value listed on a 2026 Philippine menu blog; blogs disagree with each other, so check the in-store/app label.",
+   "reported": {
+    "kcal_min": 350,
+    "kcal_max": 570,
+    "note": "PH listing 530; other sites 350-520; US meal w/ rice 570"
+   }
+  },
+  {
+   "id": "resto:jollibee-ph-chicken-nuggets--6-pc",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Chicken Nuggets (6 pc)",
+   "local_name": "",
+   "aliases": [
+    "jollibee nuggets",
+    "chicken nuggets jollibee",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 270
+   },
+   "serving_label": "6 pieces",
+   "servings": [
+    {
+     "label": "6 pieces",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "PH",
+   "source_ref": "https://jollibeemenuupdates.com/jollibee-under-650-calories-menu/",
+   "featured": false,
+   "notes": "Jollibee does not publish nutrition facts on its PH website (only inside its app). Calories shown are the value listed on a 2026 Philippine menu blog; blogs disagree with each other, so check the in-store/app label."
+  },
+  {
+   "id": "resto:jollibee-ph-regular-fries--ph",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Regular Fries (PH)",
+   "local_name": "",
+   "aliases": [
+    "jollibee fries",
+    "jollibee regular fries",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 290
+   },
+   "serving_label": "1 regular",
+   "servings": [
+    {
+     "label": "1 regular",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "PH",
+   "source_ref": "https://jollibeemenuupdates.com/jollibee-under-650-calories-menu/",
+   "featured": false,
+   "notes": "Jollibee does not publish nutrition facts on its PH website (only inside its app). Calories shown are the value listed on a 2026 Philippine menu blog; blogs disagree with each other, so check the in-store/app label.",
+   "reported": {
+    "kcal_min": 290,
+    "kcal_max": 340,
+    "note": "US regular fries 340"
+   }
+  },
+  {
+   "id": "resto:jollibee-ph-peach-mango-pie--ph",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Peach Mango Pie (PH)",
+   "local_name": "",
+   "aliases": [
+    "peach mango pie",
+    "pmp",
+    "jollibee pie",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 240
+   },
+   "serving_label": "1 pie",
+   "servings": [
+    {
+     "label": "1 pie",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "PH",
+   "source_ref": "https://jollibeemenuupdates.com/jollibee-under-650-calories-menu/",
+   "featured": false,
+   "notes": "Jollibee does not publish nutrition facts on its PH website (only inside its app). Calories shown are the value listed on a 2026 Philippine menu blog; blogs disagree with each other, so check the in-store/app label.",
+   "reported": {
+    "kcal_min": 240,
+    "kcal_max": 270,
+    "note": "US guide 270"
+   }
+  },
+  {
+   "id": "resto:jollibee-ph-chickenjoy--1-pc--average-of-drumstick---thigh",
+   "source": "restaurant",
+   "type": "restaurant",
+   "name": "Chickenjoy (1 pc, average of drumstick & thigh)",
+   "local_name": "",
+   "aliases": [
+    "chickenjoy",
+    "chicken joy",
+    "jollibee chicken",
+    "jollibee fried chicken",
+    "jabee chickenjoy",
+    "1 pc chickenjoy",
+    "jollibee",
+    "jabee"
+   ],
+   "brand": "Jollibee",
+   "category": "Fast Food - Jollibee",
+   "per_serving": {
+    "kcal": 300
+   },
+   "serving_label": "1 piece",
+   "servings": [
+    {
+     "label": "1 piece",
+     "grams": null
+    }
+   ],
+   "quality": "reported_secondary",
+   "region": "PH",
+   "source_ref": "https://jollibeemenuupdates.com/jollibee-under-650-calories-menu/",
+   "featured": true,
+   "notes": "Jollibee does not publish nutrition facts on its PH website (only inside its app). Calories shown are the value listed on a 2026 Philippine menu blog; blogs disagree with each other, so check the in-store/app label.",
+   "reported": {
+    "kcal_min": 200,
+    "kcal_max": 380,
+    "note": "drumstick ~220, thigh ~380 kcal (Jollibee USA guide); menu blogs list 200-380"
+   },
+   "reference_id": "usda:2706023"
+  }
+ ]
+}

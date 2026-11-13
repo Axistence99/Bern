@@ -1,0 +1,5388 @@
+{
+  "wfp": {
+    "source": "HDX UN WFP Philippines Food Prices (PSA/DA-BAS)",
+    "license": "CC BY-IGO",
+    "total_rows": 244835,
+    "date_range": [
+      "2000-01-15",
+      "2026-09-15"
+    ],
+    "snapshot_date": "2026-09-15",
+    "commodity_count": 59,
+    "commodities": {
+      "Anchovies": {
+        "unit": "KG",
+        "national_median": 164.27,
+        "national_min": 45.0,
+        "national_max": 320.0,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 108.57,
+            "min": 45.0,
+            "max": 178.75,
+            "markets": 5
+          },
+          "National Capital region": {
+            "median": 221.45,
+            "min": 221.45,
+            "max": 221.45,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 191.25,
+            "min": 157.5,
+            "max": 225.0,
+            "markets": 2
+          },
+          "Region II": {
+            "median": 304.0,
+            "min": 192.86,
+            "max": 311.67,
+            "markets": 3
+          },
+          "Region III": {
+            "median": 205.95,
+            "min": 150.0,
+            "max": 251.25,
+            "markets": 6
+          },
+          "Region IV-A": {
+            "median": 188.12,
+            "min": 139.38,
+            "max": 226.67,
+            "markets": 4
+          },
+          "Region IV-B": {
+            "median": 115.0,
+            "min": 91.67,
+            "max": 172.5,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 140.0,
+            "min": 131.67,
+            "max": 180.0,
+            "markets": 3
+          },
+          "Region V": {
+            "median": 136.88,
+            "min": 120.0,
+            "max": 320.0,
+            "markets": 6
+          },
+          "Region VI": {
+            "median": 157.5,
+            "min": 120.0,
+            "max": 248.75,
+            "markets": 4
+          },
+          "Region VII": {
+            "median": 180.36,
+            "min": 173.75,
+            "max": 195.0,
+            "markets": 4
+          },
+          "Region VIII": {
+            "median": 153.75,
+            "min": 111.25,
+            "max": 183.33,
+            "markets": 5
+          },
+          "Region X": {
+            "median": 159.27,
+            "min": 112.0,
+            "max": 185.42,
+            "markets": 4
+          },
+          "Region XI": {
+            "median": 167.5,
+            "min": 136.67,
+            "max": 215.0,
+            "markets": 5
+          },
+          "Region XII": {
+            "median": 176.0,
+            "min": 124.75,
+            "max": 178.75,
+            "markets": 3
+          },
+          "Region XIII": {
+            "median": 167.92,
+            "min": 123.33,
+            "max": 190.0,
+            "markets": 4
+          }
+        }
+      },
+      "Bananas (lakatan)": {
+        "unit": "KG",
+        "national_median": 92.75,
+        "national_min": 45.63,
+        "national_max": 127.0,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 64.88,
+            "min": 52.5,
+            "max": 72.5,
+            "markets": 3
+          },
+          "Cordillera Administrative region": {
+            "median": 116.88,
+            "min": 102.86,
+            "max": 127.0,
+            "markets": 4
+          },
+          "National Capital region": {
+            "median": 100.07,
+            "min": 100.07,
+            "max": 100.07,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 98.75,
+            "min": 88.75,
+            "max": 108.75,
+            "markets": 3
+          },
+          "Region II": {
+            "median": 86.88,
+            "min": 80.0,
+            "max": 98.75,
+            "markets": 4
+          },
+          "Region III": {
+            "median": 105.63,
+            "min": 88.75,
+            "max": 116.0,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 104.5,
+            "min": 91.25,
+            "max": 116.88,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 98.33,
+            "min": 83.75,
+            "max": 112.5,
+            "markets": 3
+          },
+          "Region IX": {
+            "median": 69.69,
+            "min": 60.0,
+            "max": 85.58,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 104.25,
+            "min": 98.5,
+            "max": 121.25,
+            "markets": 5
+          },
+          "Region VI": {
+            "median": 112.31,
+            "min": 96.67,
+            "max": 126.25,
+            "markets": 4
+          },
+          "Region VII": {
+            "median": 91.5,
+            "min": 90.0,
+            "max": 93.0,
+            "markets": 2
+          },
+          "Region VIII": {
+            "median": 97.5,
+            "min": 90.0,
+            "max": 112.0,
+            "markets": 5
+          },
+          "Region X": {
+            "median": 63.75,
+            "min": 53.75,
+            "max": 76.88,
+            "markets": 3
+          },
+          "Region XI": {
+            "median": 61.25,
+            "min": 51.88,
+            "max": 85.75,
+            "markets": 5
+          },
+          "Region XII": {
+            "median": 47.69,
+            "min": 45.63,
+            "max": 52.5,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 69.38,
+            "min": 54.38,
+            "max": 78.75,
+            "markets": 4
+          }
+        }
+      },
+      "Bananas (latundan)": {
+        "unit": "KG",
+        "national_median": 55.0,
+        "national_min": 25.63,
+        "national_max": 103.75,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 47.09,
+            "min": 39.17,
+            "max": 55.0,
+            "markets": 2
+          },
+          "Cordillera Administrative region": {
+            "median": 75.41,
+            "min": 43.5,
+            "max": 101.25,
+            "markets": 4
+          },
+          "Region I": {
+            "median": 84.38,
+            "min": 65.0,
+            "max": 103.75,
+            "markets": 2
+          },
+          "Region II": {
+            "median": 59.38,
+            "min": 59.38,
+            "max": 59.38,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 76.25,
+            "min": 65.0,
+            "max": 84.38,
+            "markets": 5
+          },
+          "Region IV-A": {
+            "median": 75.63,
+            "min": 60.63,
+            "max": 80.63,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 57.5,
+            "min": 45.0,
+            "max": 71.25,
+            "markets": 3
+          },
+          "Region IX": {
+            "median": 41.25,
+            "min": 32.5,
+            "max": 47.17,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 86.75,
+            "min": 71.25,
+            "max": 98.75,
+            "markets": 5
+          },
+          "Region VI": {
+            "median": 59.38,
+            "min": 50.0,
+            "max": 79.38,
+            "markets": 3
+          },
+          "Region VII": {
+            "median": 59.69,
+            "min": 56.88,
+            "max": 62.5,
+            "markets": 2
+          },
+          "Region VIII": {
+            "median": 52.91,
+            "min": 52.5,
+            "max": 53.33,
+            "markets": 2
+          },
+          "Region X": {
+            "median": 39.69,
+            "min": 26.67,
+            "max": 48.13,
+            "markets": 4
+          },
+          "Region XI": {
+            "median": 39.38,
+            "min": 25.63,
+            "max": 51.17,
+            "markets": 5
+          },
+          "Region XII": {
+            "median": 43.75,
+            "min": 34.38,
+            "max": 45.0,
+            "markets": 3
+          },
+          "Region XIII": {
+            "median": 36.88,
+            "min": 32.5,
+            "max": 41.88,
+            "markets": 5
+          }
+        }
+      },
+      "Bananas (saba)": {
+        "unit": "KG",
+        "national_median": 50.0,
+        "national_min": 27.5,
+        "national_max": 78.75,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 33.5,
+            "min": 33.5,
+            "max": 33.5,
+            "markets": 1
+          },
+          "Cordillera Administrative region": {
+            "median": 78.75,
+            "min": 78.75,
+            "max": 78.75,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 58.25,
+            "min": 55.0,
+            "max": 76.25,
+            "markets": 3
+          },
+          "Region III": {
+            "median": 58.75,
+            "min": 56.88,
+            "max": 62.25,
+            "markets": 3
+          },
+          "Region IV-A": {
+            "median": 53.12,
+            "min": 50.0,
+            "max": 56.25,
+            "markets": 2
+          },
+          "Region IV-B": {
+            "median": 42.19,
+            "min": 37.5,
+            "max": 46.88,
+            "markets": 2
+          },
+          "Region V": {
+            "median": 53.63,
+            "min": 46.25,
+            "max": 70.5,
+            "markets": 3
+          },
+          "Region VI": {
+            "median": 42.38,
+            "min": 41.38,
+            "max": 60.0,
+            "markets": 5
+          },
+          "Region VII": {
+            "median": 76.25,
+            "min": 76.25,
+            "max": 76.25,
+            "markets": 1
+          },
+          "Region X": {
+            "median": 30.94,
+            "min": 27.5,
+            "max": 34.38,
+            "markets": 2
+          },
+          "Region XI": {
+            "median": 30.0,
+            "min": 30.0,
+            "max": 30.0,
+            "markets": 1
+          },
+          "Region XII": {
+            "median": 33.63,
+            "min": 33.63,
+            "max": 33.63,
+            "markets": 1
+          }
+        }
+      },
+      "Beans (green, fresh)": {
+        "unit": "KG",
+        "national_median": 146.25,
+        "national_min": 80.0,
+        "national_max": 210.71,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 155.71,
+            "min": 155.71,
+            "max": 155.71,
+            "markets": 1
+          },
+          "Cordillera Administrative region": {
+            "median": 118.12,
+            "min": 104.29,
+            "max": 146.25,
+            "markets": 4
+          },
+          "National Capital region": {
+            "median": 184.03,
+            "min": 184.03,
+            "max": 184.03,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 189.38,
+            "min": 176.25,
+            "max": 202.5,
+            "markets": 2
+          },
+          "Region II": {
+            "median": 130.62,
+            "min": 122.5,
+            "max": 138.75,
+            "markets": 2
+          },
+          "Region III": {
+            "median": 168.13,
+            "min": 163.75,
+            "max": 186.25,
+            "markets": 4
+          },
+          "Region IV-A": {
+            "median": 171.06,
+            "min": 166.63,
+            "max": 175.0,
+            "markets": 4
+          },
+          "Region IV-B": {
+            "median": 184.38,
+            "min": 172.5,
+            "max": 196.25,
+            "markets": 2
+          },
+          "Region V": {
+            "median": 185.5,
+            "min": 109.75,
+            "max": 210.71,
+            "markets": 3
+          },
+          "Region VI": {
+            "median": 120.41,
+            "min": 111.33,
+            "max": 129.5,
+            "markets": 2
+          },
+          "Region VII": {
+            "median": 91.88,
+            "min": 80.0,
+            "max": 103.75,
+            "markets": 2
+          },
+          "Region VIII": {
+            "median": 167.12,
+            "min": 150.0,
+            "max": 184.25,
+            "markets": 2
+          },
+          "Region X": {
+            "median": 120.88,
+            "min": 115.0,
+            "max": 126.75,
+            "markets": 2
+          },
+          "Region XII": {
+            "median": 119.38,
+            "min": 112.5,
+            "max": 126.25,
+            "markets": 2
+          },
+          "Region XIII": {
+            "median": 134.38,
+            "min": 127.5,
+            "max": 140.0,
+            "markets": 4
+          }
+        }
+      },
+      "Beans (mung)": {
+        "unit": "KG",
+        "national_median": 123.75,
+        "national_min": 87.14,
+        "national_max": 158.75,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 114.78,
+            "min": 100.25,
+            "max": 121.25,
+            "markets": 4
+          },
+          "Cordillera Administrative region": {
+            "median": 110.0,
+            "min": 87.14,
+            "max": 127.5,
+            "markets": 3
+          },
+          "National Capital region": {
+            "median": 151.99,
+            "min": 151.99,
+            "max": 151.99,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 114.5,
+            "min": 110.0,
+            "max": 120.0,
+            "markets": 3
+          },
+          "Region II": {
+            "median": 143.75,
+            "min": 143.75,
+            "max": 143.75,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 136.19,
+            "min": 131.25,
+            "max": 150.0,
+            "markets": 6
+          },
+          "Region IV-B": {
+            "median": 129.25,
+            "min": 105.0,
+            "max": 137.5,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 121.67,
+            "min": 121.0,
+            "max": 137.5,
+            "markets": 3
+          },
+          "Region V": {
+            "median": 140.0,
+            "min": 108.75,
+            "max": 158.75,
+            "markets": 5
+          },
+          "Region VI": {
+            "median": 127.5,
+            "min": 127.5,
+            "max": 127.5,
+            "markets": 1
+          },
+          "Region VII": {
+            "median": 105.0,
+            "min": 103.75,
+            "max": 106.25,
+            "markets": 2
+          },
+          "Region VIII": {
+            "median": 121.12,
+            "min": 103.25,
+            "max": 142.5,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 134.38,
+            "min": 91.25,
+            "max": 155.0,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 123.5,
+            "min": 118.75,
+            "max": 139.5,
+            "markets": 4
+          },
+          "Region XII": {
+            "median": 106.13,
+            "min": 103.75,
+            "max": 108.13,
+            "markets": 3
+          },
+          "Region XIII": {
+            "median": 117.81,
+            "min": 116.88,
+            "max": 118.75,
+            "markets": 2
+          }
+        }
+      },
+      "Beans (string)": {
+        "unit": "KG",
+        "national_median": 99.16,
+        "national_min": 50.0,
+        "national_max": 222.5,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 117.07,
+            "min": 92.14,
+            "max": 142.0,
+            "markets": 2
+          },
+          "Cordillera Administrative region": {
+            "median": 98.75,
+            "min": 82.0,
+            "max": 167.5,
+            "markets": 5
+          },
+          "Region I": {
+            "median": 146.25,
+            "min": 111.88,
+            "max": 162.5,
+            "markets": 3
+          },
+          "Region II": {
+            "median": 104.38,
+            "min": 83.75,
+            "max": 125.0,
+            "markets": 2
+          },
+          "Region III": {
+            "median": 185.5,
+            "min": 146.25,
+            "max": 222.5,
+            "markets": 5
+          },
+          "Region IV-A": {
+            "median": 150.0,
+            "min": 97.5,
+            "max": 161.54,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 69.38,
+            "min": 61.25,
+            "max": 78.08,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 104.75,
+            "min": 92.25,
+            "max": 168.75,
+            "markets": 4
+          },
+          "Region VI": {
+            "median": 82.5,
+            "min": 75.0,
+            "max": 89.25,
+            "markets": 3
+          },
+          "Region VII": {
+            "median": 106.25,
+            "min": 71.25,
+            "max": 112.25,
+            "markets": 3
+          },
+          "Region VIII": {
+            "median": 94.16,
+            "min": 67.5,
+            "max": 105.5,
+            "markets": 4
+          },
+          "Region X": {
+            "median": 75.63,
+            "min": 50.0,
+            "max": 105.0,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 71.25,
+            "min": 57.5,
+            "max": 106.67,
+            "markets": 5
+          },
+          "Region XII": {
+            "median": 57.07,
+            "min": 57.07,
+            "max": 57.07,
+            "markets": 1
+          },
+          "Region XIII": {
+            "median": 85.0,
+            "min": 62.5,
+            "max": 108.75,
+            "markets": 5
+          }
+        }
+      },
+      "Bitter melon": {
+        "unit": "KG",
+        "national_median": 112.38,
+        "national_min": 69.38,
+        "national_max": 195.0,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 102.0,
+            "min": 83.13,
+            "max": 148.75,
+            "markets": 5
+          },
+          "Cordillera Administrative region": {
+            "median": 118.31,
+            "min": 72.5,
+            "max": 153.75,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 182.94,
+            "min": 182.94,
+            "max": 182.94,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 158.38,
+            "min": 141.25,
+            "max": 175.5,
+            "markets": 2
+          },
+          "Region II": {
+            "median": 113.12,
+            "min": 108.75,
+            "max": 117.5,
+            "markets": 2
+          },
+          "Region III": {
+            "median": 166.25,
+            "min": 137.5,
+            "max": 195.0,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 151.88,
+            "min": 133.75,
+            "max": 183.5,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 116.67,
+            "min": 98.75,
+            "max": 177.5,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 95.0,
+            "min": 88.13,
+            "max": 102.25,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 124.38,
+            "min": 105.0,
+            "max": 167.5,
+            "markets": 5
+          },
+          "Region VI": {
+            "median": 108.13,
+            "min": 78.33,
+            "max": 136.75,
+            "markets": 5
+          },
+          "Region VII": {
+            "median": 111.25,
+            "min": 82.5,
+            "max": 119.5,
+            "markets": 4
+          },
+          "Region VIII": {
+            "median": 106.67,
+            "min": 85.0,
+            "max": 125.0,
+            "markets": 5
+          },
+          "Region X": {
+            "median": 97.5,
+            "min": 69.38,
+            "max": 120.0,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 88.13,
+            "min": 78.38,
+            "max": 125.67,
+            "markets": 6
+          },
+          "Region XII": {
+            "median": 84.31,
+            "min": 73.75,
+            "max": 95.63,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 105.0,
+            "min": 92.5,
+            "max": 118.75,
+            "markets": 5
+          }
+        }
+      },
+      "Bottle gourd": {
+        "unit": "KG",
+        "national_median": 48.12,
+        "national_min": 35.5,
+        "national_max": 69.67,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 39.38,
+            "min": 39.38,
+            "max": 39.38,
+            "markets": 1
+          },
+          "Cordillera Administrative region": {
+            "median": 65.0,
+            "min": 65.0,
+            "max": 65.0,
+            "markets": 1
+          },
+          "National Capital region": {
+            "median": 66.24,
+            "min": 66.24,
+            "max": 66.24,
+            "markets": 1
+          },
+          "Region II": {
+            "median": 44.38,
+            "min": 44.38,
+            "max": 44.38,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 63.0,
+            "min": 47.5,
+            "max": 65.0,
+            "markets": 3
+          },
+          "Region IV-A": {
+            "median": 51.31,
+            "min": 43.75,
+            "max": 65.38,
+            "markets": 4
+          },
+          "Region IV-B": {
+            "median": 44.17,
+            "min": 43.25,
+            "max": 59.38,
+            "markets": 3
+          },
+          "Region V": {
+            "median": 42.81,
+            "min": 35.5,
+            "max": 50.13,
+            "markets": 2
+          },
+          "Region VI": {
+            "median": 53.38,
+            "min": 53.38,
+            "max": 53.38,
+            "markets": 1
+          },
+          "Region VIII": {
+            "median": 61.2,
+            "min": 60.0,
+            "max": 62.4,
+            "markets": 2
+          },
+          "Region X": {
+            "median": 43.57,
+            "min": 43.57,
+            "max": 43.57,
+            "markets": 1
+          },
+          "Region XI": {
+            "median": 46.88,
+            "min": 44.88,
+            "max": 69.67,
+            "markets": 3
+          },
+          "Region XII": {
+            "median": 43.75,
+            "min": 35.5,
+            "max": 48.75,
+            "markets": 3
+          },
+          "Region XIII": {
+            "median": 48.12,
+            "min": 45.0,
+            "max": 51.25,
+            "markets": 2
+          }
+        }
+      },
+      "Cabbage": {
+        "unit": "KG",
+        "national_median": 125.0,
+        "national_min": 51.88,
+        "national_max": 190.0,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 128.57,
+            "min": 69.38,
+            "max": 160.0,
+            "markets": 5
+          },
+          "Cordillera Administrative region": {
+            "median": 74.06,
+            "min": 51.88,
+            "max": 95.0,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 185.26,
+            "min": 185.26,
+            "max": 185.26,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 115.62,
+            "min": 101.25,
+            "max": 130.0,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 106.25,
+            "min": 101.25,
+            "max": 106.25,
+            "markets": 3
+          },
+          "Region III": {
+            "median": 124.62,
+            "min": 63.13,
+            "max": 147.5,
+            "markets": 6
+          },
+          "Region IV-A": {
+            "median": 139.38,
+            "min": 117.88,
+            "max": 161.0,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 146.25,
+            "min": 123.33,
+            "max": 187.5,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 116.25,
+            "min": 100.0,
+            "max": 133.92,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 148.75,
+            "min": 121.25,
+            "max": 154.88,
+            "markets": 5
+          },
+          "Region VI": {
+            "median": 153.34,
+            "min": 116.67,
+            "max": 190.0,
+            "markets": 2
+          },
+          "Region VII": {
+            "median": 147.12,
+            "min": 133.75,
+            "max": 151.88,
+            "markets": 4
+          },
+          "Region VIII": {
+            "median": 143.68,
+            "min": 133.75,
+            "max": 172.0,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 108.75,
+            "min": 84.38,
+            "max": 152.5,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 111.88,
+            "min": 105.0,
+            "max": 136.33,
+            "markets": 6
+          },
+          "Region XII": {
+            "median": 123.44,
+            "min": 112.38,
+            "max": 127.5,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 133.75,
+            "min": 113.75,
+            "max": 150.0,
+            "markets": 5
+          }
+        }
+      },
+      "Cabbage (chinese)": {
+        "unit": "KG",
+        "national_median": 123.75,
+        "national_min": 36.88,
+        "national_max": 237.5,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 71.88,
+            "min": 56.25,
+            "max": 105.0,
+            "markets": 3
+          },
+          "Cordillera Administrative region": {
+            "median": 36.88,
+            "min": 36.88,
+            "max": 36.88,
+            "markets": 1
+          },
+          "National Capital region": {
+            "median": 192.09,
+            "min": 192.09,
+            "max": 192.09,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 127.5,
+            "min": 127.5,
+            "max": 127.5,
+            "markets": 1
+          },
+          "Region II": {
+            "median": 83.75,
+            "min": 83.75,
+            "max": 83.75,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 157.5,
+            "min": 125.0,
+            "max": 237.5,
+            "markets": 5
+          },
+          "Region IV-A": {
+            "median": 151.0,
+            "min": 123.75,
+            "max": 197.5,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 114.96,
+            "min": 95.0,
+            "max": 136.25,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 165.1,
+            "min": 117.71,
+            "max": 212.5,
+            "markets": 2
+          },
+          "Region VI": {
+            "median": 96.67,
+            "min": 96.67,
+            "max": 96.67,
+            "markets": 1
+          },
+          "Region VII": {
+            "median": 119.94,
+            "min": 112.38,
+            "max": 127.5,
+            "markets": 2
+          },
+          "Region VIII": {
+            "median": 125.62,
+            "min": 120.0,
+            "max": 153.75,
+            "markets": 4
+          },
+          "Region X": {
+            "median": 105.0,
+            "min": 76.25,
+            "max": 130.63,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 112.5,
+            "min": 98.75,
+            "max": 133.5,
+            "markets": 3
+          },
+          "Region XII": {
+            "median": 102.45,
+            "min": 81.15,
+            "max": 123.75,
+            "markets": 2
+          },
+          "Region XIII": {
+            "median": 135.0,
+            "min": 118.75,
+            "max": 175.0,
+            "markets": 5
+          }
+        }
+      },
+      "Calamansi": {
+        "unit": "KG",
+        "national_median": 90.0,
+        "national_min": 34.88,
+        "national_max": 160.29,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 81.67,
+            "min": 51.88,
+            "max": 114.0,
+            "markets": 5
+          },
+          "Cordillera Administrative region": {
+            "median": 124.6,
+            "min": 93.75,
+            "max": 160.29,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 102.53,
+            "min": 102.53,
+            "max": 102.53,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 87.5,
+            "min": 82.5,
+            "max": 92.51,
+            "markets": 3
+          },
+          "Region II": {
+            "median": 85.0,
+            "min": 85.0,
+            "max": 85.0,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 90.0,
+            "min": 63.13,
+            "max": 103.25,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 103.75,
+            "min": 71.63,
+            "max": 117.88,
+            "markets": 3
+          },
+          "Region IV-B": {
+            "median": 93.75,
+            "min": 90.0,
+            "max": 97.5,
+            "markets": 2
+          },
+          "Region IX": {
+            "median": 51.88,
+            "min": 47.17,
+            "max": 57.5,
+            "markets": 3
+          },
+          "Region V": {
+            "median": 107.5,
+            "min": 92.57,
+            "max": 117.5,
+            "markets": 5
+          },
+          "Region VI": {
+            "median": 82.41,
+            "min": 73.33,
+            "max": 91.5,
+            "markets": 2
+          },
+          "Region VII": {
+            "median": 101.25,
+            "min": 91.88,
+            "max": 107.5,
+            "markets": 3
+          },
+          "Region VIII": {
+            "median": 98.96,
+            "min": 95.0,
+            "max": 110.0,
+            "markets": 4
+          },
+          "Region X": {
+            "median": 77.69,
+            "min": 50.38,
+            "max": 105.0,
+            "markets": 2
+          },
+          "Region XI": {
+            "median": 56.08,
+            "min": 42.0,
+            "max": 58.88,
+            "markets": 5
+          },
+          "Region XII": {
+            "median": 44.12,
+            "min": 34.88,
+            "max": 65.63,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 76.25,
+            "min": 61.25,
+            "max": 98.75,
+            "markets": 5
+          }
+        }
+      },
+      "Carrots": {
+        "unit": "KG",
+        "national_median": 127.06,
+        "national_min": 62.5,
+        "national_max": 252.0,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 143.97,
+            "min": 105.63,
+            "max": 252.0,
+            "markets": 4
+          },
+          "Cordillera Administrative region": {
+            "median": 91.07,
+            "min": 62.5,
+            "max": 110.0,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 126.63,
+            "min": 126.63,
+            "max": 126.63,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 122.38,
+            "min": 108.75,
+            "max": 131.25,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 113.75,
+            "min": 90.0,
+            "max": 116.25,
+            "markets": 3
+          },
+          "Region III": {
+            "median": 114.38,
+            "min": 93.75,
+            "max": 135.0,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 120.0,
+            "min": 102.0,
+            "max": 131.25,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 168.75,
+            "min": 150.0,
+            "max": 186.25,
+            "markets": 4
+          },
+          "Region IX": {
+            "median": 132.94,
+            "min": 121.88,
+            "max": 146.5,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 145.63,
+            "min": 124.75,
+            "max": 173.75,
+            "markets": 5
+          },
+          "Region VI": {
+            "median": 165.0,
+            "min": 110.0,
+            "max": 171.0,
+            "markets": 5
+          },
+          "Region VII": {
+            "median": 142.88,
+            "min": 127.5,
+            "max": 153.13,
+            "markets": 4
+          },
+          "Region VIII": {
+            "median": 173.12,
+            "min": 128.75,
+            "max": 181.0,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 128.63,
+            "min": 70.63,
+            "max": 143.75,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 111.88,
+            "min": 98.75,
+            "max": 149.0,
+            "markets": 6
+          },
+          "Region XII": {
+            "median": 140.0,
+            "min": 123.63,
+            "max": 151.25,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 126.25,
+            "min": 83.75,
+            "max": 140.0,
+            "markets": 5
+          }
+        }
+      },
+      "Choko": {
+        "unit": "KG",
+        "national_median": 69.63,
+        "national_min": 28.63,
+        "national_max": 113.15,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 35.75,
+            "min": 33.75,
+            "max": 37.75,
+            "markets": 2
+          },
+          "Cordillera Administrative region": {
+            "median": 54.29,
+            "min": 41.25,
+            "max": 55.5,
+            "markets": 3
+          },
+          "National Capital region": {
+            "median": 113.15,
+            "min": 113.15,
+            "max": 113.15,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 91.5,
+            "min": 79.25,
+            "max": 103.75,
+            "markets": 2
+          },
+          "Region II": {
+            "median": 80.0,
+            "min": 76.25,
+            "max": 84.38,
+            "markets": 4
+          },
+          "Region III": {
+            "median": 95.16,
+            "min": 88.13,
+            "max": 97.63,
+            "markets": 6
+          },
+          "Region IV-A": {
+            "median": 82.5,
+            "min": 69.63,
+            "max": 102.25,
+            "markets": 3
+          },
+          "Region IV-B": {
+            "median": 105.0,
+            "min": 81.25,
+            "max": 109.38,
+            "markets": 3
+          },
+          "Region IX": {
+            "median": 33.94,
+            "min": 31.25,
+            "max": 36.63,
+            "markets": 2
+          },
+          "Region V": {
+            "median": 86.25,
+            "min": 84.25,
+            "max": 102.5,
+            "markets": 5
+          },
+          "Region VI": {
+            "median": 76.25,
+            "min": 71.25,
+            "max": 81.25,
+            "markets": 2
+          },
+          "Region VII": {
+            "median": 48.13,
+            "min": 43.14,
+            "max": 64.38,
+            "markets": 3
+          },
+          "Region VIII": {
+            "median": 54.63,
+            "min": 45.0,
+            "max": 61.25,
+            "markets": 3
+          },
+          "Region X": {
+            "median": 49.06,
+            "min": 28.63,
+            "max": 56.63,
+            "markets": 4
+          },
+          "Region XI": {
+            "median": 37.56,
+            "min": 37.56,
+            "max": 37.56,
+            "markets": 1
+          },
+          "Region XII": {
+            "median": 40.63,
+            "min": 31.75,
+            "max": 44.38,
+            "markets": 3
+          },
+          "Region XIII": {
+            "median": 39.0,
+            "min": 36.25,
+            "max": 46.67,
+            "markets": 4
+          }
+        }
+      },
+      "Coconut": {
+        "unit": "KG",
+        "national_median": 33.13,
+        "national_min": 12.75,
+        "national_max": 61.88,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 21.71,
+            "min": 12.75,
+            "max": 33.13,
+            "markets": 5
+          },
+          "Cordillera Administrative region": {
+            "median": 53.33,
+            "min": 19.63,
+            "max": 61.88,
+            "markets": 5
+          },
+          "National Capital region": {
+            "median": 42.5,
+            "min": 42.5,
+            "max": 42.5,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 51.25,
+            "min": 47.5,
+            "max": 57.5,
+            "markets": 3
+          },
+          "Region II": {
+            "median": 40.53,
+            "min": 39.17,
+            "max": 41.88,
+            "markets": 2
+          },
+          "Region III": {
+            "median": 45.56,
+            "min": 20.0,
+            "max": 56.25,
+            "markets": 6
+          },
+          "Region IV-A": {
+            "median": 39.38,
+            "min": 31.88,
+            "max": 45.0,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 28.13,
+            "min": 23.33,
+            "max": 35.0,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 30.62,
+            "min": 22.5,
+            "max": 35.33,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 34.38,
+            "min": 26.67,
+            "max": 45.63,
+            "markets": 6
+          },
+          "Region VI": {
+            "median": 29.48,
+            "min": 25.83,
+            "max": 37.5,
+            "markets": 6
+          },
+          "Region VII": {
+            "median": 30.94,
+            "min": 23.75,
+            "max": 33.13,
+            "markets": 4
+          },
+          "Region VIII": {
+            "median": 32.29,
+            "min": 29.38,
+            "max": 35.83,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 27.5,
+            "min": 26.25,
+            "max": 42.5,
+            "markets": 3
+          },
+          "Region XI": {
+            "median": 35.31,
+            "min": 31.88,
+            "max": 36.75,
+            "markets": 4
+          },
+          "Region XII": {
+            "median": 28.5,
+            "min": 26.88,
+            "max": 31.67,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 31.67,
+            "min": 28.88,
+            "max": 38.75,
+            "markets": 3
+          }
+        }
+      },
+      "Crab": {
+        "unit": "KG",
+        "national_median": 371.88,
+        "national_min": 170.92,
+        "national_max": 687.5,
+        "regions": {
+          "Cordillera Administrative region": {
+            "median": 450.0,
+            "min": 450.0,
+            "max": 450.0,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 452.5,
+            "min": 430.0,
+            "max": 616.25,
+            "markets": 3
+          },
+          "Region II": {
+            "median": 476.67,
+            "min": 395.71,
+            "max": 687.5,
+            "markets": 3
+          },
+          "Region III": {
+            "median": 330.0,
+            "min": 300.0,
+            "max": 535.43,
+            "markets": 5
+          },
+          "Region IV-A": {
+            "median": 522.5,
+            "min": 506.25,
+            "max": 558.75,
+            "markets": 3
+          },
+          "Region IV-B": {
+            "median": 356.67,
+            "min": 242.5,
+            "max": 462.5,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 370.0,
+            "min": 258.0,
+            "max": 565.92,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 306.25,
+            "min": 258.33,
+            "max": 383.5,
+            "markets": 3
+          },
+          "Region VI": {
+            "median": 358.75,
+            "min": 330.0,
+            "max": 471.25,
+            "markets": 6
+          },
+          "Region VII": {
+            "median": 424.12,
+            "min": 388.75,
+            "max": 459.5,
+            "markets": 2
+          },
+          "Region VIII": {
+            "median": 363.75,
+            "min": 256.25,
+            "max": 466.67,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 246.4,
+            "min": 170.92,
+            "max": 321.88,
+            "markets": 2
+          },
+          "Region XI": {
+            "median": 426.67,
+            "min": 426.67,
+            "max": 426.67,
+            "markets": 1
+          },
+          "Region XII": {
+            "median": 475.76,
+            "min": 466.67,
+            "max": 484.86,
+            "markets": 2
+          },
+          "Region XIII": {
+            "median": 305.62,
+            "min": 220.0,
+            "max": 344.0,
+            "markets": 4
+          }
+        }
+      },
+      "Eggplants": {
+        "unit": "KG",
+        "national_median": 100.0,
+        "national_min": 46.25,
+        "national_max": 182.5,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 75.63,
+            "min": 46.25,
+            "max": 98.0,
+            "markets": 5
+          },
+          "Cordillera Administrative region": {
+            "median": 113.22,
+            "min": 56.25,
+            "max": 162.5,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 156.24,
+            "min": 156.24,
+            "max": 156.24,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 131.88,
+            "min": 98.75,
+            "max": 162.25,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 93.75,
+            "min": 77.5,
+            "max": 117.5,
+            "markets": 4
+          },
+          "Region III": {
+            "median": 142.5,
+            "min": 121.25,
+            "max": 173.25,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 135.38,
+            "min": 116.25,
+            "max": 182.5,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 117.5,
+            "min": 100.0,
+            "max": 173.75,
+            "markets": 4
+          },
+          "Region IX": {
+            "median": 65.19,
+            "min": 61.5,
+            "max": 81.25,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 109.19,
+            "min": 90.83,
+            "max": 157.5,
+            "markets": 6
+          },
+          "Region VI": {
+            "median": 127.19,
+            "min": 76.67,
+            "max": 133.75,
+            "markets": 5
+          },
+          "Region VII": {
+            "median": 94.38,
+            "min": 82.5,
+            "max": 107.25,
+            "markets": 4
+          },
+          "Region VIII": {
+            "median": 95.62,
+            "min": 61.25,
+            "max": 104.0,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 82.5,
+            "min": 58.13,
+            "max": 105.0,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 74.69,
+            "min": 68.13,
+            "max": 101.08,
+            "markets": 6
+          },
+          "Region XII": {
+            "median": 68.12,
+            "min": 60.0,
+            "max": 76.38,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 82.5,
+            "min": 66.25,
+            "max": 120.0,
+            "markets": 5
+          }
+        }
+      },
+      "Eggs": {
+        "unit": "Unit",
+        "national_median": 9.0,
+        "national_min": 7.16,
+        "national_max": 11.13,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 11.0,
+            "min": 10.71,
+            "max": 11.13,
+            "markets": 3
+          },
+          "Cordillera Administrative region": {
+            "median": 9.33,
+            "min": 8.88,
+            "max": 10.25,
+            "markets": 5
+          },
+          "National Capital region": {
+            "median": 8.51,
+            "min": 8.51,
+            "max": 8.51,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 8.41,
+            "min": 8.06,
+            "max": 8.66,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 8.91,
+            "min": 8.56,
+            "max": 9.25,
+            "markets": 4
+          },
+          "Region III": {
+            "median": 8.63,
+            "min": 7.88,
+            "max": 9.28,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 8.24,
+            "min": 8.1,
+            "max": 8.29,
+            "markets": 4
+          },
+          "Region IV-B": {
+            "median": 9.16,
+            "min": 8.28,
+            "max": 9.5,
+            "markets": 4
+          },
+          "Region IX": {
+            "median": 9.41,
+            "min": 8.49,
+            "max": 10.14,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 9.16,
+            "min": 8.69,
+            "max": 9.22,
+            "markets": 3
+          },
+          "Region VI": {
+            "median": 9.19,
+            "min": 8.65,
+            "max": 10.22,
+            "markets": 5
+          },
+          "Region VII": {
+            "median": 9.9,
+            "min": 9.63,
+            "max": 10.17,
+            "markets": 2
+          },
+          "Region VIII": {
+            "median": 10.14,
+            "min": 9.0,
+            "max": 11.13,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 8.6,
+            "min": 8.4,
+            "max": 9.69,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 8.74,
+            "min": 7.63,
+            "max": 9.06,
+            "markets": 5
+          },
+          "Region XII": {
+            "median": 8.19,
+            "min": 7.16,
+            "max": 8.78,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 9.25,
+            "min": 8.33,
+            "max": 9.67,
+            "markets": 5
+          }
+        }
+      },
+      "Eggs (duck)": {
+        "unit": "Unit",
+        "national_median": 11.7,
+        "national_min": 8.67,
+        "national_max": 15.0,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 12.24,
+            "min": 12.24,
+            "max": 12.24,
+            "markets": 1
+          },
+          "Region II": {
+            "median": 12.16,
+            "min": 11.56,
+            "max": 12.75,
+            "markets": 2
+          },
+          "Region III": {
+            "median": 10.01,
+            "min": 9.88,
+            "max": 10.13,
+            "markets": 2
+          },
+          "Region IV-A": {
+            "median": 15.0,
+            "min": 15.0,
+            "max": 15.0,
+            "markets": 1
+          },
+          "Region IV-B": {
+            "median": 10.25,
+            "min": 8.67,
+            "max": 11.83,
+            "markets": 2
+          },
+          "Region VI": {
+            "median": 11.93,
+            "min": 10.67,
+            "max": 13.41,
+            "markets": 4
+          }
+        }
+      },
+      "Fish (frigate tuna)": {
+        "unit": "KG",
+        "national_median": 223.75,
+        "national_min": 121.25,
+        "national_max": 320.0,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 165.0,
+            "min": 121.25,
+            "max": 208.75,
+            "markets": 2
+          },
+          "National Capital region": {
+            "median": 303.17,
+            "min": 303.17,
+            "max": 303.17,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 316.75,
+            "min": 313.5,
+            "max": 320.0,
+            "markets": 2
+          },
+          "Region IV-B": {
+            "median": 153.33,
+            "min": 153.33,
+            "max": 153.33,
+            "markets": 1
+          },
+          "Region XI": {
+            "median": 223.75,
+            "min": 223.75,
+            "max": 223.75,
+            "markets": 1
+          }
+        }
+      },
+      "Fish (mackerel, fresh)": {
+        "unit": "KG",
+        "national_median": 262.5,
+        "national_min": 163.33,
+        "national_max": 384.94,
+        "regions": {
+          "National Capital region": {
+            "median": 384.94,
+            "min": 384.94,
+            "max": 384.94,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 305.0,
+            "min": 305.0,
+            "max": 305.0,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 321.0,
+            "min": 321.0,
+            "max": 321.0,
+            "markets": 1
+          },
+          "Region IV-B": {
+            "median": 163.33,
+            "min": 163.33,
+            "max": 163.33,
+            "markets": 1
+          },
+          "Region VI": {
+            "median": 247.08,
+            "min": 215.0,
+            "max": 267.5,
+            "markets": 4
+          },
+          "Region VIII": {
+            "median": 267.09,
+            "min": 256.67,
+            "max": 277.5,
+            "markets": 2
+          }
+        }
+      },
+      "Fish (milkfish)": {
+        "unit": "KG",
+        "national_median": 238.54,
+        "national_min": 173.33,
+        "national_max": 287.14,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 225.31,
+            "min": 223.75,
+            "max": 226.88,
+            "markets": 2
+          },
+          "Cordillera Administrative region": {
+            "median": 250.69,
+            "min": 215.0,
+            "max": 287.14,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 266.39,
+            "min": 266.39,
+            "max": 266.39,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 237.56,
+            "min": 220.0,
+            "max": 258.75,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 266.56,
+            "min": 231.25,
+            "max": 278.75,
+            "markets": 4
+          },
+          "Region III": {
+            "median": 253.75,
+            "min": 225.0,
+            "max": 282.5,
+            "markets": 6
+          },
+          "Region IV-A": {
+            "median": 272.0,
+            "min": 242.5,
+            "max": 278.75,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 268.34,
+            "min": 242.5,
+            "max": 276.25,
+            "markets": 4
+          },
+          "Region IX": {
+            "median": 186.83,
+            "min": 173.33,
+            "max": 191.25,
+            "markets": 3
+          },
+          "Region V": {
+            "median": 251.25,
+            "min": 238.33,
+            "max": 276.0,
+            "markets": 5
+          },
+          "Region VI": {
+            "median": 232.5,
+            "min": 221.67,
+            "max": 248.33,
+            "markets": 6
+          },
+          "Region VII": {
+            "median": 228.75,
+            "min": 197.5,
+            "max": 248.33,
+            "markets": 4
+          },
+          "Region VIII": {
+            "median": 246.04,
+            "min": 225.0,
+            "max": 265.0,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 203.75,
+            "min": 193.75,
+            "max": 243.75,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 226.88,
+            "min": 220.0,
+            "max": 238.75,
+            "markets": 6
+          },
+          "Region XII": {
+            "median": 223.75,
+            "min": 201.5,
+            "max": 240.0,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 221.25,
+            "min": 216.25,
+            "max": 228.75,
+            "markets": 5
+          }
+        }
+      },
+      "Fish (redbelly yellowtail fusilier)": {
+        "unit": "KG",
+        "national_median": 335.66,
+        "national_min": 173.33,
+        "national_max": 425.0,
+        "regions": {
+          "Cordillera Administrative region": {
+            "median": 326.67,
+            "min": 251.67,
+            "max": 335.33,
+            "markets": 3
+          },
+          "National Capital region": {
+            "median": 349.11,
+            "min": 349.11,
+            "max": 349.11,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 333.75,
+            "min": 333.75,
+            "max": 333.75,
+            "markets": 1
+          },
+          "Region II": {
+            "median": 425.0,
+            "min": 425.0,
+            "max": 425.0,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 340.0,
+            "min": 280.0,
+            "max": 412.25,
+            "markets": 5
+          },
+          "Region IV-A": {
+            "median": 391.0,
+            "min": 391.0,
+            "max": 391.0,
+            "markets": 1
+          },
+          "Region IV-B": {
+            "median": 228.75,
+            "min": 173.33,
+            "max": 312.5,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 300.0,
+            "min": 300.0,
+            "max": 300.0,
+            "markets": 1
+          },
+          "Region VI": {
+            "median": 271.67,
+            "min": 271.67,
+            "max": 271.67,
+            "markets": 1
+          },
+          "Region VII": {
+            "median": 340.0,
+            "min": 340.0,
+            "max": 340.0,
+            "markets": 1
+          },
+          "Region XII": {
+            "median": 352.0,
+            "min": 339.0,
+            "max": 365.0,
+            "markets": 2
+          },
+          "Region XIII": {
+            "median": 367.14,
+            "min": 367.14,
+            "max": 367.14,
+            "markets": 1
+          }
+        }
+      },
+      "Fish (roundscad)": {
+        "unit": "KG",
+        "national_median": 238.75,
+        "national_min": 105.71,
+        "national_max": 349.0,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 152.31,
+            "min": 105.71,
+            "max": 212.5,
+            "markets": 4
+          },
+          "Cordillera Administrative region": {
+            "median": 246.52,
+            "min": 213.13,
+            "max": 285.0,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 307.69,
+            "min": 307.69,
+            "max": 307.69,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 257.5,
+            "min": 252.5,
+            "max": 266.25,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 276.25,
+            "min": 240.0,
+            "max": 313.75,
+            "markets": 4
+          },
+          "Region III": {
+            "median": 298.75,
+            "min": 216.67,
+            "max": 343.5,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 301.63,
+            "min": 246.25,
+            "max": 349.0,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 196.25,
+            "min": 170.0,
+            "max": 297.5,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 190.62,
+            "min": 153.33,
+            "max": 209.17,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 241.25,
+            "min": 211.67,
+            "max": 272.25,
+            "markets": 4
+          },
+          "Region VI": {
+            "median": 237.5,
+            "min": 221.67,
+            "max": 252.5,
+            "markets": 5
+          },
+          "Region VII": {
+            "median": 221.67,
+            "min": 205.0,
+            "max": 290.0,
+            "markets": 3
+          },
+          "Region VIII": {
+            "median": 238.12,
+            "min": 196.67,
+            "max": 281.67,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 227.5,
+            "min": 194.29,
+            "max": 239.38,
+            "markets": 3
+          },
+          "Region XI": {
+            "median": 236.67,
+            "min": 228.75,
+            "max": 278.75,
+            "markets": 4
+          },
+          "Region XII": {
+            "median": 258.75,
+            "min": 238.75,
+            "max": 278.75,
+            "markets": 2
+          },
+          "Region XIII": {
+            "median": 217.5,
+            "min": 210.0,
+            "max": 231.67,
+            "markets": 4
+          }
+        }
+      },
+      "Fish (slipmouth)": {
+        "unit": "KG",
+        "national_median": 197.86,
+        "national_min": 136.67,
+        "national_max": 480.0,
+        "regions": {
+          "National Capital region": {
+            "median": 426.91,
+            "min": 426.91,
+            "max": 426.91,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 250.77,
+            "min": 205.71,
+            "max": 295.83,
+            "markets": 2
+          },
+          "Region IV-A": {
+            "median": 445.62,
+            "min": 411.25,
+            "max": 480.0,
+            "markets": 2
+          },
+          "Region IV-B": {
+            "median": 156.67,
+            "min": 136.67,
+            "max": 180.0,
+            "markets": 3
+          },
+          "Region IX": {
+            "median": 145.0,
+            "min": 136.67,
+            "max": 153.33,
+            "markets": 2
+          },
+          "Region V": {
+            "median": 172.5,
+            "min": 172.5,
+            "max": 172.5,
+            "markets": 1
+          },
+          "Region VI": {
+            "median": 230.0,
+            "min": 158.33,
+            "max": 305.0,
+            "markets": 5
+          },
+          "Region VIII": {
+            "median": 190.0,
+            "min": 156.67,
+            "max": 190.0,
+            "markets": 3
+          },
+          "Region XII": {
+            "median": 407.5,
+            "min": 407.5,
+            "max": 407.5,
+            "markets": 1
+          }
+        }
+      },
+      "Fish (threadfin bream)": {
+        "unit": "KG",
+        "national_median": 312.91,
+        "national_min": 221.67,
+        "national_max": 450.0,
+        "regions": {
+          "National Capital region": {
+            "median": 423.29,
+            "min": 423.29,
+            "max": 423.29,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 292.5,
+            "min": 292.5,
+            "max": 292.5,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 330.0,
+            "min": 280.0,
+            "max": 450.0,
+            "markets": 3
+          },
+          "Region IV-A": {
+            "median": 420.0,
+            "min": 396.0,
+            "max": 424.5,
+            "markets": 3
+          },
+          "Region IV-B": {
+            "median": 272.08,
+            "min": 221.67,
+            "max": 322.5,
+            "markets": 2
+          },
+          "Region V": {
+            "median": 242.5,
+            "min": 242.5,
+            "max": 242.5,
+            "markets": 1
+          },
+          "Region VI": {
+            "median": 296.67,
+            "min": 272.5,
+            "max": 338.75,
+            "markets": 5
+          }
+        }
+      },
+      "Fish (tilapia)": {
+        "unit": "KG",
+        "national_median": 181.25,
+        "national_min": 128.75,
+        "national_max": 262.0,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 190.52,
+            "min": 161.67,
+            "max": 219.38,
+            "markets": 2
+          },
+          "Cordillera Administrative region": {
+            "median": 180.94,
+            "min": 164.38,
+            "max": 190.0,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 162.28,
+            "min": 162.28,
+            "max": 162.28,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 165.62,
+            "min": 158.75,
+            "max": 173.75,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 169.38,
+            "min": 163.75,
+            "max": 172.5,
+            "markets": 4
+          },
+          "Region III": {
+            "median": 150.0,
+            "min": 128.75,
+            "max": 181.88,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 158.75,
+            "min": 141.25,
+            "max": 167.0,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 178.75,
+            "min": 162.5,
+            "max": 181.25,
+            "markets": 3
+          },
+          "Region IX": {
+            "median": 166.67,
+            "min": 153.33,
+            "max": 191.25,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 189.38,
+            "min": 180.0,
+            "max": 208.75,
+            "markets": 6
+          },
+          "Region VI": {
+            "median": 181.25,
+            "min": 160.0,
+            "max": 213.33,
+            "markets": 4
+          },
+          "Region VII": {
+            "median": 191.88,
+            "min": 182.5,
+            "max": 201.25,
+            "markets": 2
+          },
+          "Region VIII": {
+            "median": 221.88,
+            "min": 196.67,
+            "max": 241.25,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 200.62,
+            "min": 154.8,
+            "max": 211.0,
+            "markets": 4
+          },
+          "Region XI": {
+            "median": 221.25,
+            "min": 211.25,
+            "max": 262.0,
+            "markets": 5
+          },
+          "Region XII": {
+            "median": 196.88,
+            "min": 160.0,
+            "max": 201.88,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 187.5,
+            "min": 185.0,
+            "max": 190.0,
+            "markets": 2
+          }
+        }
+      },
+      "Garlic": {
+        "unit": "KG",
+        "national_median": 163.0,
+        "national_min": 124.38,
+        "national_max": 320.13,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 148.75,
+            "min": 124.38,
+            "max": 180.0,
+            "markets": 3
+          },
+          "Cordillera Administrative region": {
+            "median": 168.57,
+            "min": 137.5,
+            "max": 200.25,
+            "markets": 3
+          },
+          "National Capital region": {
+            "median": 320.13,
+            "min": 320.13,
+            "max": 320.13,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 162.33,
+            "min": 143.75,
+            "max": 232.5,
+            "markets": 3
+          },
+          "Region II": {
+            "median": 171.25,
+            "min": 171.25,
+            "max": 171.25,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 182.18,
+            "min": 137.5,
+            "max": 266.67,
+            "markets": 4
+          },
+          "Region IV-A": {
+            "median": 142.5,
+            "min": 136.25,
+            "max": 170.0,
+            "markets": 3
+          },
+          "Region IV-B": {
+            "median": 163.33,
+            "min": 160.0,
+            "max": 166.67,
+            "markets": 2
+          },
+          "Region IX": {
+            "median": 161.43,
+            "min": 161.43,
+            "max": 161.43,
+            "markets": 1
+          },
+          "Region V": {
+            "median": 169.67,
+            "min": 157.5,
+            "max": 178.25,
+            "markets": 3
+          },
+          "Region VI": {
+            "median": 159.88,
+            "min": 130.0,
+            "max": 163.88,
+            "markets": 4
+          },
+          "Region VII": {
+            "median": 143.62,
+            "min": 136.0,
+            "max": 151.25,
+            "markets": 2
+          },
+          "Region VIII": {
+            "median": 175.31,
+            "min": 162.0,
+            "max": 191.5,
+            "markets": 4
+          },
+          "Region X": {
+            "median": 165.53,
+            "min": 162.5,
+            "max": 168.57,
+            "markets": 2
+          },
+          "Region XI": {
+            "median": 167.79,
+            "min": 145.75,
+            "max": 189.83,
+            "markets": 2
+          },
+          "Region XII": {
+            "median": 129.71,
+            "min": 129.71,
+            "max": 129.71,
+            "markets": 1
+          },
+          "Region XIII": {
+            "median": 167.5,
+            "min": 167.5,
+            "max": 167.5,
+            "markets": 1
+          }
+        }
+      },
+      "Ginger": {
+        "unit": "KG",
+        "national_median": 151.88,
+        "national_min": 33.0,
+        "national_max": 226.5,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 140.0,
+            "min": 128.75,
+            "max": 154.29,
+            "markets": 3
+          },
+          "Cordillera Administrative region": {
+            "median": 136.13,
+            "min": 107.5,
+            "max": 211.41,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 184.28,
+            "min": 184.28,
+            "max": 184.28,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 147.5,
+            "min": 114.0,
+            "max": 152.5,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 112.5,
+            "min": 112.5,
+            "max": 112.5,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 178.75,
+            "min": 128.75,
+            "max": 200.0,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 181.38,
+            "min": 175.0,
+            "max": 183.75,
+            "markets": 3
+          },
+          "Region IV-B": {
+            "median": 140.0,
+            "min": 115.63,
+            "max": 164.38,
+            "markets": 2
+          },
+          "Region IX": {
+            "median": 137.5,
+            "min": 100.5,
+            "max": 152.75,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 172.44,
+            "min": 162.5,
+            "max": 226.5,
+            "markets": 4
+          },
+          "Region VI": {
+            "median": 156.12,
+            "min": 136.67,
+            "max": 186.0,
+            "markets": 4
+          },
+          "Region VII": {
+            "median": 151.25,
+            "min": 149.5,
+            "max": 161.25,
+            "markets": 3
+          },
+          "Region VIII": {
+            "median": 163.75,
+            "min": 128.75,
+            "max": 183.75,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 134.81,
+            "min": 106.0,
+            "max": 156.25,
+            "markets": 4
+          },
+          "Region XI": {
+            "median": 135.0,
+            "min": 33.0,
+            "max": 159.67,
+            "markets": 5
+          },
+          "Region XII": {
+            "median": 125.62,
+            "min": 116.88,
+            "max": 163.75,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 143.75,
+            "min": 138.75,
+            "max": 156.25,
+            "markets": 5
+          }
+        }
+      },
+      "Groundnuts (shelled)": {
+        "unit": "KG",
+        "national_median": 125.0,
+        "national_min": 60.0,
+        "national_max": 260.0,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 97.5,
+            "min": 60.0,
+            "max": 141.67,
+            "markets": 3
+          },
+          "Cordillera Administrative region": {
+            "median": 145.71,
+            "min": 125.0,
+            "max": 260.0,
+            "markets": 3
+          },
+          "National Capital region": {
+            "median": 139.63,
+            "min": 139.63,
+            "max": 139.63,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 103.25,
+            "min": 95.25,
+            "max": 111.25,
+            "markets": 2
+          },
+          "Region II": {
+            "median": 123.75,
+            "min": 115.0,
+            "max": 138.13,
+            "markets": 3
+          },
+          "Region III": {
+            "median": 125.72,
+            "min": 121.43,
+            "max": 130.0,
+            "markets": 2
+          },
+          "Region IV-A": {
+            "median": 105.78,
+            "min": 101.88,
+            "max": 109.67,
+            "markets": 2
+          },
+          "Region IV-B": {
+            "median": 127.5,
+            "min": 101.25,
+            "max": 147.38,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 113.13,
+            "min": 111.88,
+            "max": 114.38,
+            "markets": 2
+          },
+          "Region V": {
+            "median": 129.2,
+            "min": 110.0,
+            "max": 157.75,
+            "markets": 5
+          },
+          "Region VII": {
+            "median": 136.25,
+            "min": 116.25,
+            "max": 243.75,
+            "markets": 3
+          },
+          "Region VIII": {
+            "median": 130.46,
+            "min": 106.25,
+            "max": 147.5,
+            "markets": 4
+          },
+          "Region XI": {
+            "median": 141.25,
+            "min": 134.0,
+            "max": 142.8,
+            "markets": 4
+          },
+          "Region XII": {
+            "median": 109.88,
+            "min": 92.5,
+            "max": 114.17,
+            "markets": 3
+          },
+          "Region XIII": {
+            "median": 116.25,
+            "min": 116.25,
+            "max": 116.25,
+            "markets": 1
+          }
+        }
+      },
+      "Groundnuts (unshelled)": {
+        "unit": "KG",
+        "national_median": 112.43,
+        "national_min": 79.61,
+        "national_max": 149.29,
+        "regions": {
+          "Region II": {
+            "median": 97.72,
+            "min": 79.61,
+            "max": 111.67,
+            "markets": 4
+          },
+          "Region III": {
+            "median": 133.75,
+            "min": 133.75,
+            "max": 133.75,
+            "markets": 1
+          },
+          "Region IV-A": {
+            "median": 149.29,
+            "min": 149.29,
+            "max": 149.29,
+            "markets": 1
+          },
+          "Region V": {
+            "median": 112.43,
+            "min": 112.0,
+            "max": 133.13,
+            "markets": 3
+          },
+          "Region VI": {
+            "median": 127.5,
+            "min": 127.5,
+            "max": 127.5,
+            "markets": 1
+          },
+          "Region VIII": {
+            "median": 111.17,
+            "min": 111.17,
+            "max": 111.17,
+            "markets": 1
+          },
+          "Region XI": {
+            "median": 122.5,
+            "min": 122.5,
+            "max": 122.5,
+            "markets": 1
+          },
+          "Region XIII": {
+            "median": 127.5,
+            "min": 127.5,
+            "max": 127.5,
+            "markets": 1
+          }
+        }
+      },
+      "Maize (yellow)": {
+        "unit": "KG",
+        "national_median": 37.5,
+        "national_min": 16.8,
+        "national_max": 76.25,
+        "regions": {
+          "Cordillera Administrative region": {
+            "median": 28.71,
+            "min": 28.71,
+            "max": 28.71,
+            "markets": 1
+          },
+          "Region II": {
+            "median": 28.07,
+            "min": 16.8,
+            "max": 32.13,
+            "markets": 3
+          },
+          "Region IV-A": {
+            "median": 63.33,
+            "min": 50.8,
+            "max": 74.0,
+            "markets": 3
+          },
+          "Region IV-B": {
+            "median": 58.25,
+            "min": 40.25,
+            "max": 76.25,
+            "markets": 2
+          },
+          "Region VI": {
+            "median": 37.5,
+            "min": 37.5,
+            "max": 37.5,
+            "markets": 1
+          },
+          "Region X": {
+            "median": 36.25,
+            "min": 36.25,
+            "max": 36.25,
+            "markets": 1
+          },
+          "Region XI": {
+            "median": 28.12,
+            "min": 17.25,
+            "max": 39.0,
+            "markets": 2
+          }
+        }
+      },
+      "Mandarins": {
+        "unit": "KG",
+        "national_median": 78.33,
+        "national_min": 55.31,
+        "national_max": 103.33,
+        "regions": {
+          "Region II": {
+            "median": 64.29,
+            "min": 55.31,
+            "max": 66.25,
+            "markets": 3
+          },
+          "Region III": {
+            "median": 95.0,
+            "min": 65.0,
+            "max": 103.33,
+            "markets": 3
+          },
+          "Region IV-A": {
+            "median": 80.5,
+            "min": 60.0,
+            "max": 101.0,
+            "markets": 2
+          },
+          "Region IV-B": {
+            "median": 83.85,
+            "min": 78.33,
+            "max": 89.38,
+            "markets": 2
+          },
+          "Region VIII": {
+            "median": 83.75,
+            "min": 83.75,
+            "max": 83.75,
+            "markets": 1
+          }
+        }
+      },
+      "Mangoes (carabao)": {
+        "unit": "KG",
+        "national_median": 166.88,
+        "national_min": 100.63,
+        "national_max": 247.5,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 175.71,
+            "min": 175.71,
+            "max": 175.71,
+            "markets": 1
+          },
+          "Cordillera Administrative region": {
+            "median": 134.38,
+            "min": 105.0,
+            "max": 163.75,
+            "markets": 2
+          },
+          "National Capital region": {
+            "median": 229.75,
+            "min": 229.75,
+            "max": 229.75,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 166.25,
+            "min": 166.25,
+            "max": 166.25,
+            "markets": 1
+          },
+          "Region II": {
+            "median": 143.33,
+            "min": 130.0,
+            "max": 156.67,
+            "markets": 2
+          },
+          "Region III": {
+            "median": 198.12,
+            "min": 143.13,
+            "max": 228.0,
+            "markets": 6
+          },
+          "Region IV-A": {
+            "median": 218.75,
+            "min": 138.75,
+            "max": 247.5,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 141.67,
+            "min": 128.33,
+            "max": 155.0,
+            "markets": 2
+          },
+          "Region IX": {
+            "median": 143.13,
+            "min": 100.63,
+            "max": 149.17,
+            "markets": 3
+          },
+          "Region V": {
+            "median": 192.5,
+            "min": 148.75,
+            "max": 201.25,
+            "markets": 5
+          },
+          "Region VI": {
+            "median": 193.12,
+            "min": 183.33,
+            "max": 202.25,
+            "markets": 4
+          },
+          "Region VII": {
+            "median": 161.25,
+            "min": 155.0,
+            "max": 163.75,
+            "markets": 3
+          },
+          "Region VIII": {
+            "median": 152.5,
+            "min": 135.63,
+            "max": 183.5,
+            "markets": 5
+          },
+          "Region X": {
+            "median": 160.38,
+            "min": 152.5,
+            "max": 168.25,
+            "markets": 2
+          },
+          "Region XI": {
+            "median": 167.67,
+            "min": 142.33,
+            "max": 193.0,
+            "markets": 2
+          },
+          "Region XIII": {
+            "median": 162.21,
+            "min": 142.5,
+            "max": 189.38,
+            "markets": 4
+          }
+        }
+      },
+      "Mangoes (piko)": {
+        "unit": "KG",
+        "national_median": 131.88,
+        "national_min": 89.38,
+        "national_max": 167.25,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 89.38,
+            "min": 89.38,
+            "max": 89.38,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 167.25,
+            "min": 167.25,
+            "max": 167.25,
+            "markets": 1
+          },
+          "Region IV-A": {
+            "median": 148.75,
+            "min": 148.75,
+            "max": 148.75,
+            "markets": 1
+          },
+          "Region IV-B": {
+            "median": 115.0,
+            "min": 115.0,
+            "max": 115.0,
+            "markets": 1
+          }
+        }
+      },
+      "Meat (beef)": {
+        "unit": "KG",
+        "national_median": 452.5,
+        "national_min": 342.5,
+        "national_max": 595.81,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 435.62,
+            "min": 371.25,
+            "max": 500.0,
+            "markets": 2
+          },
+          "Cordillera Administrative region": {
+            "median": 399.38,
+            "min": 342.5,
+            "max": 447.0,
+            "markets": 4
+          },
+          "National Capital region": {
+            "median": 595.81,
+            "min": 595.81,
+            "max": 595.81,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 403.0,
+            "min": 387.5,
+            "max": 432.75,
+            "markets": 3
+          },
+          "Region II": {
+            "median": 395.62,
+            "min": 393.75,
+            "max": 397.5,
+            "markets": 2
+          },
+          "Region III": {
+            "median": 473.74,
+            "min": 402.86,
+            "max": 540.0,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 441.25,
+            "min": 425.71,
+            "max": 475.0,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 435.0,
+            "min": 373.75,
+            "max": 468.75,
+            "markets": 3
+          },
+          "Region IX": {
+            "median": 460.75,
+            "min": 455.5,
+            "max": 512.83,
+            "markets": 3
+          },
+          "Region V": {
+            "median": 454.5,
+            "min": 445.0,
+            "max": 480.75,
+            "markets": 4
+          },
+          "Region VI": {
+            "median": 415.38,
+            "min": 397.5,
+            "max": 438.5,
+            "markets": 4
+          },
+          "Region VII": {
+            "median": 433.75,
+            "min": 406.25,
+            "max": 473.75,
+            "markets": 4
+          },
+          "Region VIII": {
+            "median": 459.6,
+            "min": 428.75,
+            "max": 509.33,
+            "markets": 3
+          },
+          "Region X": {
+            "median": 477.5,
+            "min": 422.5,
+            "max": 512.25,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 480.84,
+            "min": 452.5,
+            "max": 492.5,
+            "markets": 6
+          },
+          "Region XII": {
+            "median": 390.5,
+            "min": 386.0,
+            "max": 395.0,
+            "markets": 2
+          },
+          "Region XIII": {
+            "median": 524.62,
+            "min": 490.0,
+            "max": 542.5,
+            "markets": 4
+          }
+        }
+      },
+      "Meat (beef, chops with bones)": {
+        "unit": "KG",
+        "national_median": 380.31,
+        "national_min": 275.63,
+        "national_max": 446.25,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 336.25,
+            "min": 275.63,
+            "max": 418.57,
+            "markets": 4
+          },
+          "Cordillera Administrative region": {
+            "median": 378.44,
+            "min": 325.0,
+            "max": 441.75,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 440.92,
+            "min": 440.92,
+            "max": 440.92,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 364.25,
+            "min": 298.75,
+            "max": 386.25,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 336.25,
+            "min": 323.75,
+            "max": 396.25,
+            "markets": 4
+          },
+          "Region III": {
+            "median": 412.5,
+            "min": 352.86,
+            "max": 446.25,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 380.63,
+            "min": 377.14,
+            "max": 397.5,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 397.5,
+            "min": 333.75,
+            "max": 410.0,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 341.75,
+            "min": 330.83,
+            "max": 387.0,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 380.0,
+            "min": 335.0,
+            "max": 428.75,
+            "markets": 5
+          },
+          "Region VI": {
+            "median": 381.0,
+            "min": 353.75,
+            "max": 406.25,
+            "markets": 5
+          },
+          "Region VII": {
+            "median": 407.5,
+            "min": 407.5,
+            "max": 407.5,
+            "markets": 1
+          },
+          "Region VIII": {
+            "median": 391.8,
+            "min": 330.0,
+            "max": 426.25,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 343.75,
+            "min": 320.0,
+            "max": 346.0,
+            "markets": 3
+          },
+          "Region XI": {
+            "median": 393.77,
+            "min": 366.25,
+            "max": 427.5,
+            "markets": 6
+          },
+          "Region XII": {
+            "median": 346.25,
+            "min": 332.13,
+            "max": 402.5,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 411.0,
+            "min": 371.25,
+            "max": 426.25,
+            "markets": 4
+          }
+        }
+      },
+      "Meat (chicken, whole)": {
+        "unit": "KG",
+        "national_median": 213.71,
+        "national_min": 180.0,
+        "national_max": 250.0,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 219.62,
+            "min": 207.14,
+            "max": 232.1,
+            "markets": 2
+          },
+          "Cordillera Administrative region": {
+            "median": 228.44,
+            "min": 199.75,
+            "max": 250.0,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 200.07,
+            "min": 200.07,
+            "max": 200.07,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 236.25,
+            "min": 198.75,
+            "max": 242.86,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 209.75,
+            "min": 197.5,
+            "max": 230.0,
+            "markets": 4
+          },
+          "Region III": {
+            "median": 202.5,
+            "min": 180.0,
+            "max": 227.5,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 212.5,
+            "min": 202.0,
+            "max": 233.75,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 226.25,
+            "min": 220.0,
+            "max": 242.5,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 203.75,
+            "min": 203.75,
+            "max": 217.25,
+            "markets": 3
+          },
+          "Region V": {
+            "median": 206.25,
+            "min": 206.25,
+            "max": 206.25,
+            "markets": 1
+          },
+          "Region VI": {
+            "median": 207.25,
+            "min": 191.67,
+            "max": 218.13,
+            "markets": 5
+          },
+          "Region VII": {
+            "median": 220.25,
+            "min": 219.0,
+            "max": 221.5,
+            "markets": 2
+          },
+          "Region VIII": {
+            "median": 213.75,
+            "min": 191.25,
+            "max": 218.75,
+            "markets": 5
+          },
+          "Region X": {
+            "median": 223.75,
+            "min": 201.25,
+            "max": 241.25,
+            "markets": 4
+          },
+          "Region XI": {
+            "median": 196.5,
+            "min": 184.29,
+            "max": 213.67,
+            "markets": 4
+          },
+          "Region XII": {
+            "median": 200.0,
+            "min": 200.0,
+            "max": 211.25,
+            "markets": 3
+          },
+          "Region XIII": {
+            "median": 222.57,
+            "min": 205.5,
+            "max": 223.33,
+            "markets": 3
+          }
+        }
+      },
+      "Meat (pork)": {
+        "unit": "KG",
+        "national_median": 323.12,
+        "national_min": 241.43,
+        "national_max": 390.0,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 290.0,
+            "min": 290.0,
+            "max": 290.0,
+            "markets": 1
+          },
+          "Cordillera Administrative region": {
+            "median": 323.96,
+            "min": 318.75,
+            "max": 350.25,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 336.42,
+            "min": 336.42,
+            "max": 336.42,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 328.12,
+            "min": 306.25,
+            "max": 353.75,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 295.5,
+            "min": 266.25,
+            "max": 305.71,
+            "markets": 4
+          },
+          "Region III": {
+            "median": 349.75,
+            "min": 334.11,
+            "max": 386.25,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 321.25,
+            "min": 306.0,
+            "max": 390.0,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 351.25,
+            "min": 327.5,
+            "max": 390.0,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 312.12,
+            "min": 306.25,
+            "max": 325.67,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 291.75,
+            "min": 274.75,
+            "max": 355.25,
+            "markets": 6
+          },
+          "Region VI": {
+            "median": 286.88,
+            "min": 270.0,
+            "max": 323.75,
+            "markets": 6
+          },
+          "Region VII": {
+            "median": 335.62,
+            "min": 290.0,
+            "max": 346.25,
+            "markets": 4
+          },
+          "Region VIII": {
+            "median": 342.75,
+            "min": 329.25,
+            "max": 359.0,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 330.0,
+            "min": 300.0,
+            "max": 358.75,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 313.75,
+            "min": 290.0,
+            "max": 322.5,
+            "markets": 5
+          },
+          "Region XII": {
+            "median": 264.79,
+            "min": 241.43,
+            "max": 311.63,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 335.71,
+            "min": 282.5,
+            "max": 353.75,
+            "markets": 5
+          }
+        }
+      },
+      "Meat (pork, hock)": {
+        "unit": "KG",
+        "national_median": 265.62,
+        "national_min": 254.88,
+        "national_max": 311.25,
+        "regions": {
+          "Region III": {
+            "median": 311.25,
+            "min": 311.25,
+            "max": 311.25,
+            "markets": 1
+          },
+          "Region VI": {
+            "median": 256.25,
+            "min": 256.25,
+            "max": 256.25,
+            "markets": 1
+          },
+          "Region VIII": {
+            "median": 254.88,
+            "min": 254.88,
+            "max": 254.88,
+            "markets": 1
+          },
+          "Region X": {
+            "median": 275.0,
+            "min": 275.0,
+            "max": 275.0,
+            "markets": 1
+          }
+        }
+      },
+      "Meat (pork, with bones)": {
+        "unit": "KG",
+        "national_median": 292.75,
+        "national_min": 231.88,
+        "national_max": 378.33,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 266.67,
+            "min": 266.67,
+            "max": 266.67,
+            "markets": 1
+          },
+          "Cordillera Administrative region": {
+            "median": 320.21,
+            "min": 283.75,
+            "max": 345.0,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 314.29,
+            "min": 314.29,
+            "max": 314.29,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 300.62,
+            "min": 270.0,
+            "max": 321.25,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 273.75,
+            "min": 268.75,
+            "max": 301.88,
+            "markets": 4
+          },
+          "Region III": {
+            "median": 317.5,
+            "min": 287.5,
+            "max": 345.0,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 308.75,
+            "min": 293.75,
+            "max": 330.63,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 323.75,
+            "min": 287.5,
+            "max": 378.33,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 264.38,
+            "min": 253.33,
+            "max": 285.75,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 283.63,
+            "min": 245.5,
+            "max": 308.75,
+            "markets": 5
+          },
+          "Region VI": {
+            "median": 270.0,
+            "min": 261.67,
+            "max": 321.25,
+            "markets": 5
+          },
+          "Region VII": {
+            "median": 301.25,
+            "min": 293.75,
+            "max": 338.75,
+            "markets": 3
+          },
+          "Region VIII": {
+            "median": 287.75,
+            "min": 270.0,
+            "max": 333.25,
+            "markets": 5
+          },
+          "Region X": {
+            "median": 265.0,
+            "min": 231.88,
+            "max": 359.58,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 267.12,
+            "min": 248.25,
+            "max": 303.75,
+            "markets": 6
+          },
+          "Region XII": {
+            "median": 241.56,
+            "min": 233.75,
+            "max": 249.38,
+            "markets": 2
+          },
+          "Region XIII": {
+            "median": 318.13,
+            "min": 253.75,
+            "max": 321.25,
+            "markets": 5
+          }
+        }
+      },
+      "Onions (red)": {
+        "unit": "KG",
+        "national_median": 131.0,
+        "national_min": 89.38,
+        "national_max": 192.0,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 150.0,
+            "min": 141.43,
+            "max": 157.5,
+            "markets": 3
+          },
+          "Cordillera Administrative region": {
+            "median": 134.38,
+            "min": 115.0,
+            "max": 167.14,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 122.32,
+            "min": 122.32,
+            "max": 122.32,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 118.75,
+            "min": 113.25,
+            "max": 120.0,
+            "markets": 3
+          },
+          "Region II": {
+            "median": 126.25,
+            "min": 112.5,
+            "max": 126.25,
+            "markets": 3
+          },
+          "Region III": {
+            "median": 119.88,
+            "min": 89.38,
+            "max": 123.75,
+            "markets": 6
+          },
+          "Region IV-A": {
+            "median": 111.43,
+            "min": 108.75,
+            "max": 116.25,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 135.62,
+            "min": 101.25,
+            "max": 165.63,
+            "markets": 4
+          },
+          "Region IX": {
+            "median": 156.88,
+            "min": 115.58,
+            "max": 179.5,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 137.5,
+            "min": 119.88,
+            "max": 180.0,
+            "markets": 5
+          },
+          "Region VI": {
+            "median": 128.5,
+            "min": 111.67,
+            "max": 169.82,
+            "markets": 5
+          },
+          "Region VII": {
+            "median": 139.38,
+            "min": 131.25,
+            "max": 147.5,
+            "markets": 2
+          },
+          "Region VIII": {
+            "median": 157.73,
+            "min": 127.5,
+            "max": 172.5,
+            "markets": 4
+          },
+          "Region X": {
+            "median": 150.62,
+            "min": 120.63,
+            "max": 177.78,
+            "markets": 4
+          },
+          "Region XI": {
+            "median": 138.25,
+            "min": 117.13,
+            "max": 190.0,
+            "markets": 5
+          },
+          "Region XII": {
+            "median": 148.75,
+            "min": 116.38,
+            "max": 192.0,
+            "markets": 3
+          },
+          "Region XIII": {
+            "median": 133.25,
+            "min": 127.5,
+            "max": 148.75,
+            "markets": 4
+          }
+        }
+      },
+      "Onions (white)": {
+        "unit": "KG",
+        "national_median": 140.5,
+        "national_min": 111.25,
+        "national_max": 188.57,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 188.57,
+            "min": 188.57,
+            "max": 188.57,
+            "markets": 1
+          },
+          "National Capital region": {
+            "median": 143.0,
+            "min": 143.0,
+            "max": 143.0,
+            "markets": 1
+          },
+          "Region II": {
+            "median": 122.5,
+            "min": 122.5,
+            "max": 122.5,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 111.25,
+            "min": 111.25,
+            "max": 111.25,
+            "markets": 1
+          },
+          "Region V": {
+            "median": 138.0,
+            "min": 138.0,
+            "max": 138.0,
+            "markets": 1
+          },
+          "Region VIII": {
+            "median": 163.75,
+            "min": 163.75,
+            "max": 163.75,
+            "markets": 1
+          }
+        }
+      },
+      "Papaya": {
+        "unit": "KG",
+        "national_median": 47.26,
+        "national_min": 28.83,
+        "national_max": 52.5,
+        "regions": {
+          "Region X": {
+            "median": 48.13,
+            "min": 28.83,
+            "max": 52.5,
+            "markets": 3
+          },
+          "Region XII": {
+            "median": 46.38,
+            "min": 46.38,
+            "max": 46.38,
+            "markets": 1
+          }
+        }
+      },
+      "Pineapples": {
+        "unit": "KG",
+        "national_median": 85.38,
+        "national_min": 49.29,
+        "national_max": 122.5,
+        "regions": {
+          "Cordillera Administrative region": {
+            "median": 72.77,
+            "min": 49.29,
+            "max": 96.25,
+            "markets": 2
+          },
+          "Region II": {
+            "median": 50.0,
+            "min": 50.0,
+            "max": 50.0,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 122.5,
+            "min": 122.5,
+            "max": 122.5,
+            "markets": 1
+          },
+          "Region IV-A": {
+            "median": 95.0,
+            "min": 95.0,
+            "max": 95.0,
+            "markets": 1
+          },
+          "Region IV-B": {
+            "median": 77.91,
+            "min": 68.33,
+            "max": 87.5,
+            "markets": 2
+          },
+          "Region IX": {
+            "median": 72.5,
+            "min": 62.5,
+            "max": 73.75,
+            "markets": 3
+          },
+          "Region VI": {
+            "median": 85.38,
+            "min": 85.38,
+            "max": 85.38,
+            "markets": 1
+          },
+          "Region VIII": {
+            "median": 92.5,
+            "min": 92.5,
+            "max": 92.5,
+            "markets": 1
+          },
+          "Region X": {
+            "median": 93.75,
+            "min": 93.75,
+            "max": 93.75,
+            "markets": 1
+          }
+        }
+      },
+      "Potatoes (Irish)": {
+        "unit": "KG",
+        "national_median": 149.5,
+        "national_min": 98.13,
+        "national_max": 192.5,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 139.38,
+            "min": 115.0,
+            "max": 164.29,
+            "markets": 4
+          },
+          "Cordillera Administrative region": {
+            "median": 120.0,
+            "min": 98.13,
+            "max": 126.25,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 152.41,
+            "min": 152.41,
+            "max": 152.41,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 123.12,
+            "min": 114.13,
+            "max": 135.0,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 137.5,
+            "min": 136.25,
+            "max": 142.5,
+            "markets": 3
+          },
+          "Region III": {
+            "median": 152.88,
+            "min": 113.75,
+            "max": 167.88,
+            "markets": 5
+          },
+          "Region IV-A": {
+            "median": 146.13,
+            "min": 127.13,
+            "max": 161.0,
+            "markets": 4
+          },
+          "Region IV-B": {
+            "median": 160.0,
+            "min": 148.75,
+            "max": 172.5,
+            "markets": 4
+          },
+          "Region IX": {
+            "median": 153.25,
+            "min": 142.5,
+            "max": 160.0,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 150.5,
+            "min": 120.25,
+            "max": 185.0,
+            "markets": 6
+          },
+          "Region VI": {
+            "median": 159.88,
+            "min": 125.0,
+            "max": 192.5,
+            "markets": 6
+          },
+          "Region VII": {
+            "median": 150.81,
+            "min": 141.25,
+            "max": 157.5,
+            "markets": 4
+          },
+          "Region VIII": {
+            "median": 178.12,
+            "min": 150.0,
+            "max": 185.75,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 137.5,
+            "min": 115.0,
+            "max": 170.0,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 147.88,
+            "min": 135.0,
+            "max": 181.17,
+            "markets": 5
+          },
+          "Region XII": {
+            "median": 143.75,
+            "min": 138.63,
+            "max": 168.88,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 156.25,
+            "min": 143.13,
+            "max": 161.25,
+            "markets": 5
+          }
+        }
+      },
+      "Rice (regular, milled)": {
+        "unit": "KG",
+        "national_median": 50.17,
+        "national_min": 41.49,
+        "national_max": 59.03,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 52.22,
+            "min": 46.88,
+            "max": 57.95,
+            "markets": 4
+          },
+          "Cordillera Administrative region": {
+            "median": 48.49,
+            "min": 46.37,
+            "max": 55.75,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 46.58,
+            "min": 46.58,
+            "max": 46.58,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 46.86,
+            "min": 41.5,
+            "max": 49.48,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 44.7,
+            "min": 42.95,
+            "max": 45.88,
+            "markets": 4
+          },
+          "Region III": {
+            "median": 47.7,
+            "min": 45.01,
+            "max": 52.76,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 49.04,
+            "min": 47.05,
+            "max": 50.88,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 48.03,
+            "min": 41.49,
+            "max": 53.99,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 50.81,
+            "min": 48.85,
+            "max": 51.68,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 50.8,
+            "min": 49.46,
+            "max": 53.05,
+            "markets": 6
+          },
+          "Region VI": {
+            "median": 50.78,
+            "min": 49.33,
+            "max": 53.5,
+            "markets": 6
+          },
+          "Region VII": {
+            "median": 52.16,
+            "min": 49.33,
+            "max": 55.99,
+            "markets": 4
+          },
+          "Region VIII": {
+            "median": 51.85,
+            "min": 46.24,
+            "max": 53.97,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 51.16,
+            "min": 45.2,
+            "max": 54.77,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 51.63,
+            "min": 48.88,
+            "max": 59.03,
+            "markets": 6
+          },
+          "Region XII": {
+            "median": 49.31,
+            "min": 44.44,
+            "max": 54.25,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 51.67,
+            "min": 47.2,
+            "max": 57.88,
+            "markets": 5
+          }
+        }
+      },
+      "Rice (special)": {
+        "unit": "KG",
+        "national_median": 60.95,
+        "national_min": 52.04,
+        "national_max": 89.0,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 62.76,
+            "min": 58.88,
+            "max": 70.09,
+            "markets": 5
+          },
+          "Cordillera Administrative region": {
+            "median": 64.75,
+            "min": 55.38,
+            "max": 69.33,
+            "markets": 5
+          },
+          "National Capital region": {
+            "median": 60.18,
+            "min": 60.18,
+            "max": 60.18,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 61.94,
+            "min": 57.35,
+            "max": 67.5,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 58.21,
+            "min": 56.64,
+            "max": 60.63,
+            "markets": 4
+          },
+          "Region III": {
+            "median": 62.94,
+            "min": 57.45,
+            "max": 70.57,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 58.14,
+            "min": 57.25,
+            "max": 60.53,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 61.17,
+            "min": 60.01,
+            "max": 72.25,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 59.15,
+            "min": 58.79,
+            "max": 62.4,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 60.89,
+            "min": 58.77,
+            "max": 63.29,
+            "markets": 6
+          },
+          "Region VI": {
+            "median": 63.11,
+            "min": 55.89,
+            "max": 64.42,
+            "markets": 6
+          },
+          "Region VII": {
+            "median": 67.98,
+            "min": 59.65,
+            "max": 89.0,
+            "markets": 4
+          },
+          "Region VIII": {
+            "median": 60.67,
+            "min": 59.28,
+            "max": 65.19,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 61.15,
+            "min": 57.63,
+            "max": 73.4,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 61.89,
+            "min": 57.9,
+            "max": 66.71,
+            "markets": 4
+          },
+          "Region XII": {
+            "median": 55.43,
+            "min": 52.04,
+            "max": 62.09,
+            "markets": 3
+          },
+          "Region XIII": {
+            "median": 59.13,
+            "min": 57.2,
+            "max": 64.75,
+            "markets": 5
+          }
+        }
+      },
+      "Rice (well milled)": {
+        "unit": "KG",
+        "national_median": 54.88,
+        "national_min": 47.68,
+        "national_max": 64.29,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 58.79,
+            "min": 54.88,
+            "max": 64.29,
+            "markets": 4
+          },
+          "Cordillera Administrative region": {
+            "median": 52.27,
+            "min": 47.68,
+            "max": 58.75,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 52.66,
+            "min": 52.66,
+            "max": 52.66,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 51.78,
+            "min": 49.65,
+            "max": 54.19,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 50.77,
+            "min": 48.47,
+            "max": 52.55,
+            "markets": 4
+          },
+          "Region III": {
+            "median": 52.41,
+            "min": 48.78,
+            "max": 55.68,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 53.38,
+            "min": 52.36,
+            "max": 56.08,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 53.29,
+            "min": 50.93,
+            "max": 56.89,
+            "markets": 5
+          },
+          "Region IX": {
+            "median": 55.16,
+            "min": 54.5,
+            "max": 58.58,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 54.36,
+            "min": 53.35,
+            "max": 59.77,
+            "markets": 6
+          },
+          "Region VI": {
+            "median": 55.01,
+            "min": 52.3,
+            "max": 60.33,
+            "markets": 6
+          },
+          "Region VII": {
+            "median": 56.94,
+            "min": 55.73,
+            "max": 59.79,
+            "markets": 4
+          },
+          "Region VIII": {
+            "median": 57.0,
+            "min": 54.0,
+            "max": 61.11,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 54.78,
+            "min": 51.73,
+            "max": 61.44,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 58.32,
+            "min": 56.75,
+            "max": 62.06,
+            "markets": 5
+          },
+          "Region XII": {
+            "median": 53.83,
+            "min": 51.64,
+            "max": 57.33,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 56.21,
+            "min": 53.58,
+            "max": 59.98,
+            "markets": 5
+          }
+        }
+      },
+      "Semolina (white)": {
+        "unit": "KG",
+        "national_median": 48.5,
+        "national_min": 38.0,
+        "national_max": 63.33,
+        "regions": {
+          "Region IX": {
+            "median": 50.25,
+            "min": 44.33,
+            "max": 51.25,
+            "markets": 3
+          },
+          "Region V": {
+            "median": 48.5,
+            "min": 48.5,
+            "max": 48.5,
+            "markets": 1
+          },
+          "Region VII": {
+            "median": 61.0,
+            "min": 61.0,
+            "max": 61.0,
+            "markets": 1
+          },
+          "Region VIII": {
+            "median": 54.91,
+            "min": 46.5,
+            "max": 63.33,
+            "markets": 2
+          },
+          "Region X": {
+            "median": 40.86,
+            "min": 40.86,
+            "max": 40.86,
+            "markets": 1
+          },
+          "Region XII": {
+            "median": 38.0,
+            "min": 38.0,
+            "max": 38.0,
+            "markets": 1
+          },
+          "Region XIII": {
+            "median": 46.84,
+            "min": 43.43,
+            "max": 50.25,
+            "markets": 2
+          }
+        }
+      },
+      "Semolina (yellow)": {
+        "unit": "KG",
+        "national_median": 39.04,
+        "national_min": 24.5,
+        "national_max": 54.5,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 24.5,
+            "min": 24.5,
+            "max": 24.5,
+            "markets": 1
+          },
+          "Region II": {
+            "median": 36.89,
+            "min": 35.5,
+            "max": 38.28,
+            "markets": 2
+          },
+          "Region IV-A": {
+            "median": 54.5,
+            "min": 54.5,
+            "max": 54.5,
+            "markets": 1
+          },
+          "Region IV-B": {
+            "median": 39.83,
+            "min": 39.83,
+            "max": 39.83,
+            "markets": 1
+          },
+          "Region IX": {
+            "median": 40.19,
+            "min": 39.8,
+            "max": 40.57,
+            "markets": 2
+          },
+          "Region VI": {
+            "median": 36.17,
+            "min": 34.88,
+            "max": 42.13,
+            "markets": 3
+          }
+        }
+      },
+      "Shrimp (endeavor)": {
+        "unit": "KG",
+        "national_median": 425.0,
+        "national_min": 275.0,
+        "national_max": 641.25,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 326.0,
+            "min": 326.0,
+            "max": 326.0,
+            "markets": 1
+          },
+          "National Capital region": {
+            "median": 505.38,
+            "min": 505.38,
+            "max": 505.38,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 562.5,
+            "min": 562.5,
+            "max": 562.5,
+            "markets": 1
+          },
+          "Region II": {
+            "median": 581.25,
+            "min": 581.25,
+            "max": 581.25,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 490.0,
+            "min": 425.0,
+            "max": 641.25,
+            "markets": 3
+          },
+          "Region IV-A": {
+            "median": 499.38,
+            "min": 462.5,
+            "max": 536.25,
+            "markets": 2
+          },
+          "Region IX": {
+            "median": 362.0,
+            "min": 351.75,
+            "max": 386.67,
+            "markets": 3
+          },
+          "Region V": {
+            "median": 472.08,
+            "min": 372.5,
+            "max": 571.67,
+            "markets": 2
+          },
+          "Region X": {
+            "median": 345.0,
+            "min": 345.0,
+            "max": 345.0,
+            "markets": 1
+          },
+          "Region XII": {
+            "median": 275.0,
+            "min": 275.0,
+            "max": 275.0,
+            "markets": 1
+          },
+          "Region XIII": {
+            "median": 355.0,
+            "min": 355.0,
+            "max": 355.0,
+            "markets": 1
+          }
+        }
+      },
+      "Shrimp (tiger)": {
+        "unit": "KG",
+        "national_median": 569.38,
+        "national_min": 323.33,
+        "national_max": 1100.0,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 530.0,
+            "min": 530.0,
+            "max": 530.0,
+            "markets": 1
+          },
+          "Cordillera Administrative region": {
+            "median": 559.75,
+            "min": 519.5,
+            "max": 600.0,
+            "markets": 2
+          },
+          "National Capital region": {
+            "median": 830.15,
+            "min": 830.15,
+            "max": 830.15,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 562.5,
+            "min": 562.5,
+            "max": 562.5,
+            "markets": 1
+          },
+          "Region II": {
+            "median": 701.25,
+            "min": 701.25,
+            "max": 701.25,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 961.46,
+            "min": 775.0,
+            "max": 1100.0,
+            "markets": 6
+          },
+          "Region IV-A": {
+            "median": 641.25,
+            "min": 483.75,
+            "max": 781.25,
+            "markets": 3
+          },
+          "Region IV-B": {
+            "median": 762.5,
+            "min": 575.0,
+            "max": 842.5,
+            "markets": 4
+          },
+          "Region IX": {
+            "median": 447.0,
+            "min": 382.0,
+            "max": 520.08,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 606.25,
+            "min": 593.33,
+            "max": 818.75,
+            "markets": 5
+          },
+          "Region VI": {
+            "median": 527.98,
+            "min": 411.25,
+            "max": 681.25,
+            "markets": 6
+          },
+          "Region VII": {
+            "median": 445.0,
+            "min": 445.0,
+            "max": 445.0,
+            "markets": 1
+          },
+          "Region VIII": {
+            "median": 507.29,
+            "min": 393.33,
+            "max": 570.0,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 428.09,
+            "min": 419.5,
+            "max": 436.67,
+            "markets": 2
+          },
+          "Region XI": {
+            "median": 412.5,
+            "min": 375.0,
+            "max": 770.0,
+            "markets": 4
+          },
+          "Region XII": {
+            "median": 590.8,
+            "min": 323.33,
+            "max": 946.67,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 568.77,
+            "min": 363.33,
+            "max": 887.5,
+            "markets": 5
+          }
+        }
+      },
+      "Squashes": {
+        "unit": "KG",
+        "national_median": 49.88,
+        "national_min": 17.88,
+        "national_max": 87.5,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 41.67,
+            "min": 18.63,
+            "max": 57.14,
+            "markets": 5
+          },
+          "Cordillera Administrative region": {
+            "median": 58.75,
+            "min": 44.29,
+            "max": 78.13,
+            "markets": 5
+          },
+          "National Capital region": {
+            "median": 64.88,
+            "min": 64.88,
+            "max": 64.88,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 53.75,
+            "min": 53.75,
+            "max": 58.75,
+            "markets": 3
+          },
+          "Region II": {
+            "median": 51.25,
+            "min": 46.25,
+            "max": 53.13,
+            "markets": 3
+          },
+          "Region III": {
+            "median": 61.31,
+            "min": 57.5,
+            "max": 65.13,
+            "markets": 2
+          },
+          "Region IV-A": {
+            "median": 60.83,
+            "min": 57.5,
+            "max": 87.5,
+            "markets": 3
+          },
+          "Region IV-B": {
+            "median": 59.28,
+            "min": 52.5,
+            "max": 80.0,
+            "markets": 4
+          },
+          "Region IX": {
+            "median": 30.33,
+            "min": 29.38,
+            "max": 49.13,
+            "markets": 3
+          },
+          "Region V": {
+            "median": 54.56,
+            "min": 49.75,
+            "max": 69.75,
+            "markets": 6
+          },
+          "Region VI": {
+            "median": 36.88,
+            "min": 34.17,
+            "max": 54.25,
+            "markets": 3
+          },
+          "Region VII": {
+            "median": 45.06,
+            "min": 38.13,
+            "max": 56.25,
+            "markets": 4
+          },
+          "Region VIII": {
+            "median": 52.19,
+            "min": 44.38,
+            "max": 61.38,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 42.5,
+            "min": 28.75,
+            "max": 60.0,
+            "markets": 4
+          },
+          "Region XI": {
+            "median": 39.5,
+            "min": 29.38,
+            "max": 50.83,
+            "markets": 5
+          },
+          "Region XII": {
+            "median": 29.69,
+            "min": 17.88,
+            "max": 40.63,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 43.75,
+            "min": 39.38,
+            "max": 49.17,
+            "markets": 5
+          }
+        }
+      },
+      "Sweet Potato leaves": {
+        "unit": "KG",
+        "national_median": 66.0,
+        "national_min": 36.67,
+        "national_max": 74.5,
+        "regions": {
+          "Region II": {
+            "median": 53.75,
+            "min": 53.75,
+            "max": 53.75,
+            "markets": 1
+          },
+          "Region III": {
+            "median": 68.93,
+            "min": 68.93,
+            "max": 68.93,
+            "markets": 1
+          },
+          "Region IX": {
+            "median": 68.75,
+            "min": 57.5,
+            "max": 74.5,
+            "markets": 3
+          },
+          "Region VI": {
+            "median": 36.67,
+            "min": 36.67,
+            "max": 36.67,
+            "markets": 1
+          },
+          "Region VII": {
+            "median": 65.0,
+            "min": 65.0,
+            "max": 65.0,
+            "markets": 1
+          },
+          "Region X": {
+            "median": 53.5,
+            "min": 40.0,
+            "max": 67.0,
+            "markets": 2
+          },
+          "Region XII": {
+            "median": 69.25,
+            "min": 69.25,
+            "max": 69.25,
+            "markets": 1
+          }
+        }
+      },
+      "Sweet potatoes": {
+        "unit": "KG",
+        "national_median": 80.0,
+        "national_min": 49.17,
+        "national_max": 103.83,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 64.78,
+            "min": 61.43,
+            "max": 68.13,
+            "markets": 2
+          },
+          "Cordillera Administrative region": {
+            "median": 80.0,
+            "min": 60.63,
+            "max": 93.75,
+            "markets": 5
+          },
+          "National Capital region": {
+            "median": 103.83,
+            "min": 103.83,
+            "max": 103.83,
+            "markets": 1
+          },
+          "Region IV-A": {
+            "median": 102.5,
+            "min": 102.5,
+            "max": 102.5,
+            "markets": 1
+          },
+          "Region V": {
+            "median": 84.25,
+            "min": 84.25,
+            "max": 84.25,
+            "markets": 1
+          },
+          "Region XI": {
+            "median": 49.17,
+            "min": 49.17,
+            "max": 49.17,
+            "markets": 1
+          }
+        }
+      },
+      "Taro": {
+        "unit": "KG",
+        "national_median": 57.86,
+        "national_min": 51.0,
+        "national_max": 95.0,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 57.86,
+            "min": 57.86,
+            "max": 57.86,
+            "markets": 1
+          },
+          "Region IV-A": {
+            "median": 95.0,
+            "min": 95.0,
+            "max": 95.0,
+            "markets": 1
+          },
+          "Region V": {
+            "median": 87.25,
+            "min": 87.25,
+            "max": 87.25,
+            "markets": 1
+          },
+          "Region VII": {
+            "median": 84.29,
+            "min": 84.29,
+            "max": 84.29,
+            "markets": 1
+          },
+          "Region XI": {
+            "median": 51.0,
+            "min": 51.0,
+            "max": 51.0,
+            "markets": 1
+          },
+          "Region XIII": {
+            "median": 55.0,
+            "min": 55.0,
+            "max": 55.0,
+            "markets": 2
+          }
+        }
+      },
+      "Tomatoes": {
+        "unit": "KG",
+        "national_median": 106.25,
+        "national_min": 56.0,
+        "national_max": 139.63,
+        "regions": {
+          "Autonomous region in Muslim Mindanao": {
+            "median": 110.81,
+            "min": 71.88,
+            "max": 128.57,
+            "markets": 4
+          },
+          "Cordillera Administrative region": {
+            "median": 81.34,
+            "min": 60.0,
+            "max": 98.75,
+            "markets": 6
+          },
+          "National Capital region": {
+            "median": 122.53,
+            "min": 122.53,
+            "max": 122.53,
+            "markets": 1
+          },
+          "Region I": {
+            "median": 90.62,
+            "min": 75.0,
+            "max": 95.0,
+            "markets": 4
+          },
+          "Region II": {
+            "median": 87.5,
+            "min": 86.88,
+            "max": 88.13,
+            "markets": 2
+          },
+          "Region III": {
+            "median": 107.88,
+            "min": 73.75,
+            "max": 122.5,
+            "markets": 7
+          },
+          "Region IV-A": {
+            "median": 100.25,
+            "min": 97.5,
+            "max": 130.0,
+            "markets": 5
+          },
+          "Region IV-B": {
+            "median": 128.75,
+            "min": 97.5,
+            "max": 130.0,
+            "markets": 3
+          },
+          "Region IX": {
+            "median": 104.69,
+            "min": 69.67,
+            "max": 121.88,
+            "markets": 4
+          },
+          "Region V": {
+            "median": 113.12,
+            "min": 107.38,
+            "max": 130.63,
+            "markets": 6
+          },
+          "Region VI": {
+            "median": 127.5,
+            "min": 101.67,
+            "max": 137.5,
+            "markets": 5
+          },
+          "Region VII": {
+            "median": 131.25,
+            "min": 112.5,
+            "max": 139.63,
+            "markets": 4
+          },
+          "Region VIII": {
+            "median": 129.0,
+            "min": 105.0,
+            "max": 131.25,
+            "markets": 6
+          },
+          "Region X": {
+            "median": 108.75,
+            "min": 103.13,
+            "max": 127.5,
+            "markets": 5
+          },
+          "Region XI": {
+            "median": 88.75,
+            "min": 75.75,
+            "max": 102.63,
+            "markets": 5
+          },
+          "Region XII": {
+            "median": 70.94,
+            "min": 56.0,
+            "max": 113.75,
+            "markets": 4
+          },
+          "Region XIII": {
+            "median": 105.0,
+            "min": 93.75,
+            "max": 126.25,
+            "markets": 5
+          }
+        }
+      },
+      "Water spinach": {
+        "unit": "KG",
+        "national_median": 44.17,
+        "national_min": 38.0,
+        "national_max": 106.88,
+        "regions": {
+          "National Capital region": {
+            "median": 96.51,
+            "min": 96.51,
+            "max": 96.51,
+            "markets": 1
+          },
+          "Region IX": {
+            "median": 51.67,
+            "min": 43.75,
+            "max": 90.67,
+            "markets": 3
+          },
+          "Region V": {
+            "median": 38.0,
+            "min": 38.0,
+            "max": 38.0,
+            "markets": 1
+          },
+          "Region VI": {
+            "median": 38.33,
+            "min": 38.33,
+            "max": 38.33,
+            "markets": 1
+          },
+          "Region VII": {
+            "median": 106.88,
+            "min": 106.88,
+            "max": 106.88,
+            "markets": 1
+          },
+          "Region VIII": {
+            "median": 42.5,
+            "min": 42.5,
+            "max": 42.5,
+            "markets": 1
+          },
+          "Region XII": {
+            "median": 44.17,
+            "min": 44.17,
+            "max": 44.17,
+            "markets": 1
+          }
+        }
+      }
+    }
+  },
+  "da_latest": {
+    "source": "Philippine Department of Agriculture Daily Price Index",
+    "total_rows": 30600,
+    "date_range": [
+      "2025-03-01",
+      "2026-11-10"
+    ],
+    "latest_date": "2026-11-10",
+    "items": [
+      {
+        "group": "Basic Goods",
+        "commodity": "Brown Sugar",
+        "unit": "kg",
+        "price_prevailing": 71.76
+      },
+      {
+        "group": "Basic Goods",
+        "commodity": "Chicken Egg (Medium White)",
+        "unit": "piece",
+        "price_prevailing": 8.24
+      },
+      {
+        "group": "Basic Goods",
+        "commodity": "Cooking Oil (Coconut)",
+        "unit": "bottle (1L)",
+        "price_prevailing": 152.28
+      },
+      {
+        "group": "Basic Goods",
+        "commodity": "Cooking Oil (Palm)",
+        "unit": "bottle (1L)",
+        "price_prevailing": 102.65
+      },
+      {
+        "group": "Basic Goods",
+        "commodity": "Iodized Salt",
+        "unit": "kg",
+        "price_prevailing": 42.15
+      },
+      {
+        "group": "Basic Goods",
+        "commodity": "Refined Sugar",
+        "unit": "kg",
+        "price_prevailing": 80.82
+      },
+      {
+        "group": "Basic Goods",
+        "commodity": "Rock Salt",
+        "unit": "kg",
+        "price_prevailing": 22.77
+      },
+      {
+        "group": "Basic Goods",
+        "commodity": "Washed Sugar",
+        "unit": "kg",
+        "price_prevailing": 74.7
+      },
+      {
+        "group": "Fish",
+        "commodity": "Bangus (Large)",
+        "unit": "kg",
+        "price_prevailing": 273.46
+      },
+      {
+        "group": "Fish",
+        "commodity": "Bangus (Medium)",
+        "unit": "kg",
+        "price_prevailing": 248.27
+      },
+      {
+        "group": "Fish",
+        "commodity": "Galunggong (Local)",
+        "unit": "kg",
+        "price_prevailing": 306.76
+      },
+      {
+        "group": "Fish",
+        "commodity": "Sardines (Tamban)",
+        "unit": "kg",
+        "price_prevailing": 237.0
+      },
+      {
+        "group": "Fish",
+        "commodity": "Tilapia",
+        "unit": "kg",
+        "price_prevailing": 158.74
+      },
+      {
+        "group": "Fruits",
+        "commodity": "Avocado",
+        "unit": "kg",
+        "price_prevailing": 460.0
+      },
+      {
+        "group": "Fruits",
+        "commodity": "Banana (Lakatan)",
+        "unit": "kg",
+        "price_prevailing": 95.59
+      },
+      {
+        "group": "Fruits",
+        "commodity": "Banana (Latundan)",
+        "unit": "kg",
+        "price_prevailing": 78.65
+      },
+      {
+        "group": "Fruits",
+        "commodity": "Banana (Saba)",
+        "unit": "kg",
+        "price_prevailing": 66.54
+      },
+      {
+        "group": "Fruits",
+        "commodity": "Mango (Carabao)",
+        "unit": "kg",
+        "price_prevailing": 262.66
+      },
+      {
+        "group": "Fruits",
+        "commodity": "Melon",
+        "unit": "kg",
+        "price_prevailing": 104.81
+      },
+      {
+        "group": "Fruits",
+        "commodity": "Papaya",
+        "unit": "kg",
+        "price_prevailing": 81.74
+      },
+      {
+        "group": "Fruits",
+        "commodity": "Pomelo",
+        "unit": "kg",
+        "price_prevailing": 183.16
+      },
+      {
+        "group": "Fruits",
+        "commodity": "Watermelon",
+        "unit": "kg",
+        "price_prevailing": 79.21
+      },
+      {
+        "group": "Meat and Poultry",
+        "commodity": "Beef Brisket",
+        "unit": "kg",
+        "price_prevailing": 449.48
+      },
+      {
+        "group": "Meat and Poultry",
+        "commodity": "Beef Rump",
+        "unit": "kg",
+        "price_prevailing": 505.0
+      },
+      {
+        "group": "Meat and Poultry",
+        "commodity": "Pork Belly (Liempo)",
+        "unit": "kg",
+        "price_prevailing": 366.73
+      },
+      {
+        "group": "Meat and Poultry",
+        "commodity": "Pork Kasim (Picnic Shoulder)",
+        "unit": "kg",
+        "price_prevailing": 309.77
+      },
+      {
+        "group": "Meat and Poultry",
+        "commodity": "Pork Pigue (Hind Leg / Ham)",
+        "unit": "kg",
+        "price_prevailing": 309.31
+      },
+      {
+        "group": "Meat and Poultry",
+        "commodity": "Whole Chicken",
+        "unit": "kg",
+        "price_prevailing": 203.22
+      },
+      {
+        "group": "Rice",
+        "commodity": "Premium Rice",
+        "unit": "kg",
+        "price_prevailing": 54.11
+      },
+      {
+        "group": "Rice",
+        "commodity": "Regular Milled Rice",
+        "unit": "kg",
+        "price_prevailing": 45.46
+      },
+      {
+        "group": "Rice",
+        "commodity": "Well Milled Rice",
+        "unit": "kg",
+        "price_prevailing": 49.03
+      },
+      {
+        "group": "Spices and Condiments",
+        "commodity": "Calamansi",
+        "unit": "kg",
+        "price_prevailing": 111.2
+      },
+      {
+        "group": "Spices and Condiments",
+        "commodity": "Garlic (Imported)",
+        "unit": "kg",
+        "price_prevailing": 149.84
+      },
+      {
+        "group": "Spices and Condiments",
+        "commodity": "Garlic (Native)",
+        "unit": "kg",
+        "price_prevailing": 396.67
+      },
+      {
+        "group": "Spices and Condiments",
+        "commodity": "Ginger",
+        "unit": "kg",
+        "price_prevailing": 189.47
+      },
+      {
+        "group": "Spices and Condiments",
+        "commodity": "Red Onion",
+        "unit": "kg",
+        "price_prevailing": 126.84
+      },
+      {
+        "group": "Vegetables",
+        "commodity": "Ampalaya (Bitter Gourd)",
+        "unit": "kg",
+        "price_prevailing": 112.04
+      },
+      {
+        "group": "Vegetables",
+        "commodity": "Bell Pepper (Green)",
+        "unit": "kg",
+        "price_prevailing": 252.2
+      },
+      {
+        "group": "Vegetables",
+        "commodity": "Bell Pepper (Red)",
+        "unit": "kg",
+        "price_prevailing": 234.03
+      },
+      {
+        "group": "Vegetables",
+        "commodity": "Cabbage (Rare Ball)",
+        "unit": "kg",
+        "price_prevailing": 164.43
+      },
+      {
+        "group": "Vegetables",
+        "commodity": "Cabbage (Scorpio)",
+        "unit": "kg",
+        "price_prevailing": 156.43
+      },
+      {
+        "group": "Vegetables",
+        "commodity": "Cabbage (Wonder Ball)",
+        "unit": "kg",
+        "price_prevailing": 164.75
+      },
+      {
+        "group": "Vegetables",
+        "commodity": "Carrots",
+        "unit": "kg",
+        "price_prevailing": 159.91
+      },
+      {
+        "group": "Vegetables",
+        "commodity": "Eggplant",
+        "unit": "kg",
+        "price_prevailing": 127.37
+      },
+      {
+        "group": "Vegetables",
+        "commodity": "Native Pechay",
+        "unit": "bundle",
+        "price_prevailing": 92.36
+      },
+      {
+        "group": "Vegetables",
+        "commodity": "Squash",
+        "unit": "kg",
+        "price_prevailing": 61.3
+      },
+      {
+        "group": "Vegetables",
+        "commodity": "Tomato",
+        "unit": "kg",
+        "price_prevailing": 131.26
+      },
+      {
+        "group": "Vegetables",
+        "commodity": "White Corn",
+        "unit": "kg",
+        "price_prevailing": 104.19
+      },
+      {
+        "group": "Vegetables",
+        "commodity": "White Potato",
+        "unit": "kg",
+        "price_prevailing": 172.13
+      },
+      {
+        "group": "Vegetables",
+        "commodity": "Yellow Corn",
+        "unit": "kg",
+        "price_prevailing": 96.36
+      }
+    ]
+  }
+}

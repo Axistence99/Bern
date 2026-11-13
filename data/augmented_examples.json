@@ -1,0 +1,1624 @@
+{
+ "description": "Template phrases generated from Bern's catalogs - used for training only, never for evaluation",
+ "seed": 7,
+ "built_at": "2026-11-11T02:18:08+00:00",
+ "counts": {
+  "ph_price_lookup": 140,
+  "ph_nutrition_lookup": 150,
+  "out_of_scope": 113
+ },
+ "examples": [
+  {
+   "text": "what's the price of king cup sardines",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "current price of cooking oil",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much does tomato sauce pouch / can cost",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "cost of eggs",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "cowhead price",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "cost of cheezee",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much is canned pork & beans",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much does 1 flat eggs cost",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "what's the price of kangkong",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "current price of tasty",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "what's the price of chicken egg",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much does tali ng kangkong cost",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much is cabbage",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much is bakery bread",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "baboy liempo price today",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "egg price",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "current price of 3-in-1",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "repolyo price",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "what's the price of bread roll",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "fiesta fruit cocktail price today",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "price of lpg",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much is powdered milk",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "current price of carrots",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "current price of pitso",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "current price of detergent",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "what's the price of laundry detergent powder",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "what's the price of gas",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much is potato",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much is solane",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much does bitter melon cost",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "what's the price of bawang",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much is 5 kilo bigas",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "price of chicken fillet",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much does 5 kilos rice cost",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "what's the price of kape",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much does mini cup noodles cost",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "gatas price today",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "current price of galunggong",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "price of safeguard",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "what's the price of magnolia milk",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "current price of instant 3-in-1 coffee sachet",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "30 eggs price",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much is gasul",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "what's the price of oil",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "price of household lpg tank refill",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "cost of fruit cocktail",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much does purefoods beef cost",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "eden cheese price",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "cost of itlog per piece",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "gasoline price today",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "patis price today",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "what's the price of sabon panlaba",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much is palmolive shampoo",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "datu puti suka price",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "what's the price of isaw",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "3 in 1 coffee price today",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much does canned luncheon meat cost",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "pan de sal price",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "karot price today",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much does bitter gourd cost",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "tubig price today",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "current price of manok",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "tuna price today",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "cost of nissin cup noodles",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "instant noodles price",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "how much is shampoo",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "liver spread price",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "palm oil price",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "cost of calamansi",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "cost of karne ng baka",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano na ang well-milled rice ngayon",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano na ang patatas ngayon",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano na ang vinegar ngayon",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano po ang pancit canton",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ang lpg",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "presyo ng bigas",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ang galunggong",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "ano ang presyo ng instant mami",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano po ang pork & beans",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "ano ang presyo ng sabon panlaba",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano po ang carrot",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano na ang milk ngayon",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ba ang highlands corned beef",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "ano ang presyo ng mini cup noodles",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "presyo ng argentina corned beef",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "green cross soap magkano",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ang tubig",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "presyo ng lucky 7 sardines",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "purefoods corned beef magkano",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano po ang shampoo",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "presyo ng sack 5kg",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "ano ang presyo ng lakatan",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "papa ketchup magkano",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ang patis",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ba ang reno",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "fish sauce magkano",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano po ang purefoods beef",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "ano ang presyo ng del monte tomato sauce",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ba ang household lpg tank refill",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ang garlic",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "ano ang presyo ng bawang",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ba ang native garlic",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano po ang karne ng baka",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "itlog per piece magkano",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano po ang sardinas",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "presyo ng laundry soap",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano po ang beef brisket",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ba ang bread roll",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "presyo ng cheezee",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "bakery bread magkano",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "dressed chicken magkano",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ba ang sayote",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "condensed milk magkano",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano po ang tray of eggs",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "ano ang presyo ng salt",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "presyo ng diesel",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "karot magkano",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ba ang beef brisket / bulalo cut",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ba ang regular milled rice",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ba ang 11kg lpg",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ba ang nestle fresh milk",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "presyo ng lucky me",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ba ang itlog",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "presyo ng kwek-kwek",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ba ang bottled water",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano na ang balut ngayon",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "ano ang presyo ng loaf bread",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ba ang datu puti patis",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "presyo ng del monte fruit cocktail",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "presyo ng red onion",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "sunsilk magkano",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano na ang ufc ketchup ngayon",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano po ang kasim",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "ano ang presyo ng asin",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ang krudo",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ang fiesta fruit cocktail",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano ba ang canned sardines",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano po ang powdered milk",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano na ang 1 flat eggs ngayon",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "magkano po ang ligo",
+   "intent": "ph_price_lookup"
+  },
+  {
+   "text": "macros of chicken leg/drumstick",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in kwek kwek",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrition facts of giniling na baka",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in hamburger sandwich, regular",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrition facts of galunggong",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in halu-halo, with ice",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in pork",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories in noodles, wheat, canton, dry",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal of pork lung",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrition facts of soybean cheese, soft curd",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories in luncheon meat, canned",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrition facts of adobong baboy",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrition facts of chicken thigh & leg",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrition facts of vinegar, coconut",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal of pork belly",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "adobong kangkong calories",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in munggo",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories in pinakbet",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "mcdonald's big mac nutrition",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in adobong manok",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in taho",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in potato",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal of carrot",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "mango calories",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in chicken wing",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories in ginataang kalabasa at sitaw",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how many calories does pineapple have",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how many calories does tapa have",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "protein in soy sauce",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories in sweet potato, white",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "garlic calories",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in pork adobo",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal of tuna",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in chopsuey",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories in ginger",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "mango, manila super, ripe calories",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal of garlic bulb",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "jollibee chickenjoy drumstick nutrition",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in swamp cabbage leaves",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in adobo",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how many calories does squash fruit have",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "protein in chicken adobo",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal of tortang talong",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in tomato",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in horseradish tree leaves",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal of mcdonald's mcflurry oreo",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in mcdonald's chicken mcdo",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how many calories does lumpiang shanghai have",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in kare-kare",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "protein in onion, garden shallot bulb",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how much fat is in giniling",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how many calories does eggplant omelette have",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal of pork heart",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrition facts of kawali",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "macros of tilapia",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "pork sisig calories",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "macros of tinolang manok",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal of bopis",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "mongo nutrition",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "bread calories",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how many calories does milk, powder, full cream have",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "macros of banana, saba",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nilaga calories",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how many calories does egg, duck, whole have",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "protein in pork boston butt",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "pandesal calories",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrition facts of rice, well-milled, boiled",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "bofe nutrition",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrition facts of beef",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "protein in ginataang kalabasa",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrition facts of palabok",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal of fish sauce",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "how many calories does milk, goat have",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "corned beef calories",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "macros of sardines, in tomato sauce, canned",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilang calories ang kangkong adobo",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories ng banana, saba",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrisyon ng bihon guisado",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilang calories ang corned beef, canned",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories ng tortang talong",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories ng longganisa",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrisyon ng sisig",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal ng sardines",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrisyon ng vinegar, coconut",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "gaano karaming protina ang kangkong",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories ng chicken thigh & leg",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrisyon ng egg",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilan ang calories sa sugar, brown",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "gaano karaming protina ang sweet potato, yellow",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal ng pork",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories ng mcdonald's mcspaghetti",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrisyon ng lumpia",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrisyon ng sinigang na baboy",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilang calories ang saging",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrisyon ng tocino",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilang calories ang pancit canton",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilang calories ang banana",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilang calories ang fish sauce",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal ng dinuguan",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "gaano karaming protina ang milk, powder, full cream",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "gaano karaming protina ang kwek-kwek",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories ng rice, well-milled, boiled",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "gaano karaming protina ang bitter melon/gourd fruit",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilan ang calories sa luncheon meat, canned",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories ng soybean cheese, soft curd",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilan ang calories sa potato",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilang calories ang egg, chicken, whole",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal ng egg, duck, whole",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal ng jollibee jolly spaghetti",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilan ang calories sa beef brisket",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal ng apritada",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilan ang calories sa horseradish tree leaves",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "gaano karaming protina ang tofu",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilan ang calories sa sardines, in tomato sauce, canned",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "gaano karaming protina ang shanghai",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrisyon ng swamp cabbage leaves",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal ng nilagang baka",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories ng pakbet",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories ng beef pares",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrisyon ng catsup, banana",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories ng sweet potato, white",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal ng milk, carabao",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal ng rice, undermilled",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal ng chicken afritada",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories ng kawali",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilan ang calories sa bread, pan de sal",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrisyon ng egg, chicken, whole, boiled",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilang calories ang chop suey",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories ng ginataang kalabasa",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilang calories ang lechon kawali",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilang calories ang caldereta",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal ng milk, recombined",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal ng hotdog",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrisyon ng giniling",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilan ang calories sa jollibee palabok fiesta",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories ng pork menudo",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilang calories ang kwek kwek",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilang calories ang rice, well-milled",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal ng giniling na baka",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilan ang calories sa mcdonald's burger mcdo",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "gaano karaming protina ang mango, manila super, ripe",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal ng egg, duck, fertilized, boiled",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrisyon ng pork boston butt",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "gaano karaming protina ang onion, bombay bulb",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories ng oil, coconut",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "kcal ng pinakbet",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "nutrisyon ng mcdonald's mcflurry oreo",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilang calories ang beef caldereta",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ilan ang calories sa rice",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "calories ng carrot",
+   "intent": "ph_nutrition_lookup"
+  },
+  {
+   "text": "ingredients for nilaga",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how long to cook caldereta",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how do i make shanghai",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "best way to cook pork adobo",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ingredients for beef caldereta",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how do i make ginataang gulay",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "recipe for mongo",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "best way to cook mcdonald's mcflurry oreo",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ingredients for munggo",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how long to cook afritada",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ingredients for adobong manok",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "recipe for pakbet",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how to cook kawali",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ingredients for ginataang kalabasa at sitaw",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how long to cook sinigang na baboy",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ingredients for potato",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how do i make bread, pan de sal",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ingredients for laing",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ingredients for bopis",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how long to cook tokneneng",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "recipe for kaldereta",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how long to cook eggplant omelette",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how long to cook tinola",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how long to cook rice, well-milled",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how to cook mcdonald's chicken mcdo",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ingredients for jollibee peach mango pie",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how long to cook bofe",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ingredients for kare-kare",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ingredients for bihon guisado",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ingredients for adobong kangkong",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ingredients for pares",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "recipe for mcdonald's 6-pc chicken mcnuggets",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how to cook giniling",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how to cook adobong baboy",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how to cook kwek-kwek",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "recipe for adobo",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ingredients for nilagang baka",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "best way to cook pancit palabok",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how to cook ginisang munggo",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how do i make dinuguan",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how do i make rice, well-milled, fried",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how long to cook sweet potato, white",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how to cook noodles, wheat, canton, dry",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ingredients for kwek kwek",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how to cook jollibee palabok fiesta",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "paano magluto ng afritada",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "paano lutuin ang soy pudding",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "paano magluto ng kare-kare",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "paano lutuin ang pork adobo",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "recipe ng menudo",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "recipe ng pancit bihon",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "recipe ng adobong manok",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "paano lutuin ang ginataang kalabasa",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "paano magluto ng apritada",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ano ang sangkap ng caldereta",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "paano magluto ng adobong kangkong",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ano ang sangkap ng mongo",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "recipe ng beef caldereta",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "paano magluto ng kwek-kwek",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "paano lutuin ang shanghai",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ano ang sangkap ng pancit",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "recipe ng chicken afritada",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "recipe ng tortang talong",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ano ang sangkap ng kwek kwek",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ano ang sangkap ng pancit canton",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ano ang sangkap ng chocolate meat",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "paano magluto ng sisig",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "paano lutuin ang dinuguan",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "recipe ng munggo",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "paano magluto ng tokneneng",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ano ang sangkap ng eggplant omelette",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "paano magluto ng tinolang manok",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "recipe ng ginataang gulay",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "ano ang sangkap ng laing",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "paano magluto ng karekare",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "what's the price of iphone 15",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how much does a samsung phone cost",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "a laptop price today",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "cost of a macbook",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "cost of a ps5",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how much is a tesla",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how much is a honda civic",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "a rolex price",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how much does a gold ring cost",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "current price of airpods",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "a smart tv price",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how much does an aircon cost",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how much is a motorcycle",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "current price of a bicycle",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "cost of a wedding ring",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "what's the price of a plane ticket to cebu",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "what's the price of a bus ticket to baguio",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "a condo in makati price today",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "price of a bitcoin",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "a share of ayala stock price",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "price of a movie ticket",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "what's the price of a concert ticket",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "what's the price of college tuition",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "a haircut price today",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "how much does a hotel room in boracay cost",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "a grab ride to bgc price",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "a pair of nike shoes price today",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "current price of a gaming pc",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "magkano na ang iphone ngayon",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "magkano po ang laptop",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "magkano ang motor",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "magkano ba ang bagong cellphone",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "magkano po ang tiket sa eroplano",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "magkano ang condo sa manila",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "magkano po ang sapatos na nike",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "magkano ba ang pamasahe sa grab",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "magkano po ang kuryente",
+   "intent": "out_of_scope"
+  },
+  {
+   "text": "magkano ba ang tuition fee",
+   "intent": "out_of_scope"
+  }
+ ]
+}

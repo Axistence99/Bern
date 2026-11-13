@@ -1,0 +1,1210 @@
+{
+  "currency": "PHP",
+  "symbol": "₱",
+  "last_updated": "2026-11-10",
+  "sources": [
+    "DTI Official BNPC SRP Bulletin (May 11, 2026)",
+    "DA Daily Price Index (Nov 10, 2026) & NCR Weekly Bantay Presyo (Nov 1, 2026)",
+    "UN WFP Philippines Food Prices via HDX (244,835 rows through Sep 15, 2026)",
+    "DOE Fuel & 11kg Household LPG Monitoring (Nov 2026)",
+    "Open Food Facts PH (ODbL), HF Retail Products PH (1,706 SKUs) & Sari-Sari 2026 Guide"
+  ],
+  "items": [
+    {
+      "id": "rice_regular",
+      "name": "Regular Milled Rice",
+      "aliases": [
+        "regular rice",
+        "bigas",
+        "rice",
+        "regular milled",
+        "mura na bigas",
+        "white rice"
+      ],
+      "category": "Rice & Bread",
+      "unit": "1 kg",
+      "palengke_min": 38,
+      "palengke_max": 50.0,
+      "supermarket_min": 42,
+      "supermarket_max": 53.6,
+      "typical": 45.46,
+      "notes": "DA Nov 10, 2026 national daily average: ₱45.46/kg; 5kg bags run ₱195–₱250."
+    },
+    {
+      "id": "rice_well_milled",
+      "name": "Well-Milled / Sinandomeng Rice",
+      "aliases": [
+        "well milled rice",
+        "well-milled rice",
+        "sinandomeng",
+        "jasmine rice",
+        "dinorado",
+        "premium rice",
+        "magandang bigas"
+      ],
+      "category": "Rice & Bread",
+      "unit": "1 kg",
+      "palengke_min": 41.7,
+      "palengke_max": 58,
+      "supermarket_min": 48,
+      "supermarket_max": 62,
+      "typical": 49.03,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱49.03/kg (Premium Rice ₱54.11/kg)."
+    },
+    {
+      "id": "rice_5kg",
+      "name": "White Rice (5kg Bag)",
+      "aliases": [
+        "5kg rice",
+        "5 kilos rice",
+        "5 kilo bigas",
+        "sack 5kg"
+      ],
+      "category": "Rice & Bread",
+      "unit": "5 kg bag",
+      "palengke_min": 195,
+      "palengke_max": 250,
+      "supermarket_min": 195,
+      "supermarket_max": 265,
+      "typical": 225,
+      "notes": "House/economy 5kg packs at Puregold or SM Bonus are typically ₱195–₱235."
+    },
+    {
+      "id": "pandesal",
+      "name": "Pandesal",
+      "aliases": [
+        "pandesal",
+        "bread roll",
+        "pan de sal",
+        "bakery bread"
+      ],
+      "category": "Rice & Bread",
+      "unit": "1 piece",
+      "palengke_min": 3,
+      "palengke_max": 5,
+      "supermarket_min": 4,
+      "supermarket_max": 6,
+      "typical": 4,
+      "notes": "Neighborhood bakeries usually sell at ₱3–₱5/pc (or ₱35–₱50 per 10-pc bag)."
+    },
+    {
+      "id": "loaf_bread",
+      "name": "Loaf Bread (Tasty / Pinoy Tasty)",
+      "aliases": [
+        "loaf bread",
+        "tasty",
+        "pinoy tasty",
+        "gardenia",
+        "sliced bread",
+        "tinapay"
+      ],
+      "category": "Rice & Bread",
+      "unit": "1 loaf (450g–600g)",
+      "palengke_min": 45,
+      "palengke_max": 65,
+      "supermarket_min": 58,
+      "supermarket_max": 88,
+      "typical": 68,
+      "notes": "DTI Pinoy Tasty is ~₱40–₱45; branded loaves (e.g., Gardenia 600g) run ₱78–₱88."
+    },
+    {
+      "id": "eggs_piece",
+      "name": "Chicken Egg (Medium, per piece)",
+      "aliases": [
+        "egg",
+        "eggs",
+        "itlog",
+        "itlog per piece",
+        "medium egg"
+      ],
+      "category": "Eggs & Dairy",
+      "unit": "1 piece",
+      "palengke_min": 7.0,
+      "palengke_max": 9.1,
+      "supermarket_min": 8,
+      "supermarket_max": 10,
+      "typical": 8.24,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱8.24/pc; sari-sari retail ₱8–₱10/pc."
+    },
+    {
+      "id": "eggs_tray",
+      "name": "Eggs (1 Tray / 30 pcs, Medium)",
+      "aliases": [
+        "egg tray",
+        "tray of eggs",
+        "1 flat eggs",
+        "30 eggs",
+        "isang tray ng itlog",
+        "flat of eggs"
+      ],
+      "category": "Eggs & Dairy",
+      "unit": "1 tray (30 pcs)",
+      "palengke_min": 220,
+      "palengke_max": 250,
+      "supermarket_min": 230,
+      "supermarket_max": 270,
+      "typical": 245,
+      "notes": "Large/XL trays cost ₱250–₱290 depending on farm supply."
+    },
+    {
+      "id": "milk_powder",
+      "name": "Powdered Milk (Bear Brand 300g)",
+      "aliases": [
+        "milk",
+        "powdered milk",
+        "bear brand",
+        "gatas",
+        "birch tree"
+      ],
+      "category": "Eggs & Dairy",
+      "unit": "300g pack",
+      "palengke_min": 130,
+      "palengke_max": 150,
+      "supermarket_min": 134,
+      "supermarket_max": 152,
+      "typical": 142,
+      "notes": "Single 33g sachets at sari-sari stores run ₱12–₱16 each."
+    },
+    {
+      "id": "fresh_milk",
+      "name": "Fresh Milk (1 Liter)",
+      "aliases": [
+        "fresh milk",
+        "magnolia milk",
+        "cowhead",
+        "nestle fresh milk",
+        "1l milk"
+      ],
+      "category": "Eggs & Dairy",
+      "unit": "1 Liter",
+      "palengke_min": 85,
+      "palengke_max": 95,
+      "supermarket_min": 85,
+      "supermarket_max": 110,
+      "typical": 92,
+      "notes": "Imported UHT brands may run ₱95–₱125/L."
+    },
+    {
+      "id": "evap_condensed_milk",
+      "name": "Evaporated / Condensed Milk (370ml–390g)",
+      "aliases": [
+        "evaporated milk",
+        "condensed milk",
+        "evap",
+        "alaska",
+        "angel evap",
+        "condensada"
+      ],
+      "category": "Eggs & Dairy",
+      "unit": "1 can",
+      "palengke_min": 42,
+      "palengke_max": 52,
+      "supermarket_min": 40,
+      "supermarket_max": 50,
+      "typical": 46,
+      "notes": "DTI SRP sets basic evap/condensed filled milk around ₱44.50–₱48.00."
+    },
+    {
+      "id": "cheese",
+      "name": "Processed Cheese (160g–165g)",
+      "aliases": [
+        "cheese",
+        "eden cheese",
+        "keso",
+        "cheezee",
+        "queso"
+      ],
+      "category": "Eggs & Dairy",
+      "unit": "160g box",
+      "palengke_min": 75,
+      "palengke_max": 92,
+      "supermarket_min": 72,
+      "supermarket_max": 90,
+      "typical": 82,
+      "notes": "Economy cheese bars run ₱55–₱68."
+    },
+    {
+      "id": "whole_chicken",
+      "name": "Whole Dressed Chicken",
+      "aliases": [
+        "chicken",
+        "whole chicken",
+        "manok",
+        "dressed chicken",
+        "karne ng manok"
+      ],
+      "category": "Meat & Seafood",
+      "unit": "1 kg",
+      "palengke_min": 160,
+      "palengke_max": 223.5,
+      "supermarket_min": 165,
+      "supermarket_max": 239.8,
+      "typical": 203.22,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱203.22/kg; palengke fresh cuts run ₱165–₱205/kg."
+    },
+    {
+      "id": "chicken_breast",
+      "name": "Chicken Breast / Fillet",
+      "aliases": [
+        "chicken breast",
+        "chicken fillet",
+        "pitso"
+      ],
+      "category": "Meat & Seafood",
+      "unit": "1 kg",
+      "palengke_min": 165,
+      "palengke_max": 215,
+      "supermarket_min": 175,
+      "supermarket_max": 235,
+      "typical": 195,
+      "notes": "Boneless fillet cuts in supermarkets sit at the higher end (₱210–₱240/kg)."
+    },
+    {
+      "id": "pork_liempo",
+      "name": "Pork Liempo (Pork Belly)",
+      "aliases": [
+        "pork liempo",
+        "liempo",
+        "pork belly",
+        "baboy liempo",
+        "pork"
+      ],
+      "category": "Meat & Seafood",
+      "unit": "1 kg",
+      "palengke_min": 311.7,
+      "palengke_max": 403.4,
+      "supermarket_min": 360,
+      "supermarket_max": 432.7,
+      "typical": 366.73,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱366.73/kg."
+    },
+    {
+      "id": "pork_kasim",
+      "name": "Pork Kasim / Shoulder",
+      "aliases": [
+        "pork kasim",
+        "kasim",
+        "pork shoulder",
+        "baboy",
+        "giniling",
+        "ground pork"
+      ],
+      "category": "Meat & Seafood",
+      "unit": "1 kg",
+      "palengke_min": 263.3,
+      "palengke_max": 350,
+      "supermarket_min": 300,
+      "supermarket_max": 370,
+      "typical": 309.77,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱309.77/kg."
+    },
+    {
+      "id": "bangus",
+      "name": "Bangus (Milkfish, Medium)",
+      "aliases": [
+        "bangus",
+        "milkfish",
+        "daing",
+        "isda bangus"
+      ],
+      "category": "Meat & Seafood",
+      "unit": "1 kg",
+      "palengke_min": 180,
+      "palengke_max": 273.1,
+      "supermarket_min": 200,
+      "supermarket_max": 293.0,
+      "typical": 248.27,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱248.27/kg (Large Bangus ₱273.46/kg)."
+    },
+    {
+      "id": "tilapia",
+      "name": "Tilapia",
+      "aliases": [
+        "tilapia",
+        "isda tilapia",
+        "live tilapia"
+      ],
+      "category": "Meat & Seafood",
+      "unit": "1 kg",
+      "palengke_min": 130,
+      "palengke_max": 180,
+      "supermarket_min": 150,
+      "supermarket_max": 200,
+      "typical": 158.74,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱158.74/kg."
+    },
+    {
+      "id": "galunggong",
+      "name": "Galunggong (Round Scad / GG)",
+      "aliases": [
+        "galunggong",
+        "gg",
+        "round scad",
+        "fish"
+      ],
+      "category": "Meat & Seafood",
+      "unit": "1 kg",
+      "palengke_min": 220,
+      "palengke_max": 337.4,
+      "supermarket_min": 240,
+      "supermarket_max": 362.0,
+      "typical": 306.76,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱306.76/kg."
+    },
+    {
+      "id": "cooking_oil",
+      "name": "Cooking Oil (1 Liter)",
+      "aliases": [
+        "cooking oil",
+        "oil",
+        "mantika",
+        "palm oil",
+        "minola",
+        "baguio oil"
+      ],
+      "category": "Cooking Essentials",
+      "unit": "1 Liter",
+      "palengke_min": 92,
+      "palengke_max": 110,
+      "supermarket_min": 98,
+      "supermarket_max": 125,
+      "typical": 105,
+      "notes": "Refill palm oil in palengke is ₱92–₱110/L; branded vegetable/corn oil is ₱130–₱185/L."
+    },
+    {
+      "id": "sugar",
+      "name": "Refined White Sugar",
+      "aliases": [
+        "sugar",
+        "white sugar",
+        "refined sugar",
+        "asukal",
+        "brown sugar"
+      ],
+      "category": "Cooking Essentials",
+      "unit": "1 kg",
+      "palengke_min": 68.7,
+      "palengke_max": 90,
+      "supermarket_min": 82,
+      "supermarket_max": 98,
+      "typical": 80.82,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱80.82/kg (Brown Sugar ₱71.76/kg, Washed ₱74.70/kg)."
+    },
+    {
+      "id": "salt",
+      "name": "Iodized Salt",
+      "aliases": [
+        "salt",
+        "iodized salt",
+        "asin"
+      ],
+      "category": "Cooking Essentials",
+      "unit": "1 kg",
+      "palengke_min": 20,
+      "palengke_max": 35,
+      "supermarket_min": 25,
+      "supermarket_max": 42,
+      "typical": 30,
+      "notes": "Small 250g packs run ₱10–₱15."
+    },
+    {
+      "id": "soy_sauce",
+      "name": "Soy Sauce (1 Liter)",
+      "aliases": [
+        "soy sauce",
+        "toyo",
+        "datu puti toyo",
+        "silver swan"
+      ],
+      "category": "Cooking Essentials",
+      "unit": "1 Liter",
+      "palengke_min": 55,
+      "palengke_max": 72,
+      "supermarket_min": 60,
+      "supermarket_max": 75,
+      "typical": 65,
+      "notes": "200ml sachets/pouches are ₱14–₱19."
+    },
+    {
+      "id": "vinegar",
+      "name": "Vinegar (1 Liter)",
+      "aliases": [
+        "vinegar",
+        "suka",
+        "datu puti suka"
+      ],
+      "category": "Cooking Essentials",
+      "unit": "1 Liter",
+      "palengke_min": 40,
+      "palengke_max": 55,
+      "supermarket_min": 45,
+      "supermarket_max": 60,
+      "typical": 50,
+      "notes": "200ml pouches are ₱11–₱15."
+    },
+    {
+      "id": "red_onion",
+      "name": "Red Onion (Sibuyas Pula)",
+      "aliases": [
+        "onion",
+        "red onion",
+        "sibuyas",
+        "sibuyas pula",
+        "onions"
+      ],
+      "category": "Cooking Essentials",
+      "unit": "1 kg",
+      "palengke_min": 100,
+      "palengke_max": 180,
+      "supermarket_min": 120,
+      "supermarket_max": 200,
+      "typical": 126.84,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱126.84/kg."
+    },
+    {
+      "id": "garlic",
+      "name": "Garlic (Bawang)",
+      "aliases": [
+        "garlic",
+        "bawang",
+        "native garlic",
+        "imported garlic"
+      ],
+      "category": "Cooking Essentials",
+      "unit": "1 kg",
+      "palengke_min": 120,
+      "palengke_max": 180,
+      "supermarket_min": 140,
+      "supermarket_max": 200,
+      "typical": 149.84,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱149.84/kg (Native Garlic ₱396.67/kg)."
+    },
+    {
+      "id": "tomatoes",
+      "name": "Tomatoes (Kamatis)",
+      "aliases": [
+        "tomato",
+        "tomatoes",
+        "kamatis"
+      ],
+      "category": "Vegetables & Fruits",
+      "unit": "1 kg",
+      "palengke_min": 50,
+      "palengke_max": 144.4,
+      "supermarket_min": 70,
+      "supermarket_max": 154.9,
+      "typical": 131.26,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱131.26/kg."
+    },
+    {
+      "id": "cabbage",
+      "name": "Cabbage (Repolyo)",
+      "aliases": [
+        "cabbage",
+        "repolyo"
+      ],
+      "category": "Vegetables & Fruits",
+      "unit": "1 kg",
+      "palengke_min": 65,
+      "palengke_max": 172.1,
+      "supermarket_min": 75,
+      "supermarket_max": 184.6,
+      "typical": 156.43,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱156.43/kg."
+    },
+    {
+      "id": "kangkong",
+      "name": "Kangkong (Water Spinach)",
+      "aliases": [
+        "kangkong",
+        "water spinach",
+        "tali ng kangkong"
+      ],
+      "category": "Vegetables & Fruits",
+      "unit": "1 bundle",
+      "palengke_min": 12,
+      "palengke_max": 25,
+      "supermarket_min": 18,
+      "supermarket_max": 30,
+      "typical": 18,
+      "notes": "Commonly ₱12–₱20 per bundle at palengke."
+    },
+    {
+      "id": "sayote",
+      "name": "Sayote (Chayote)",
+      "aliases": [
+        "sayote",
+        "chayote"
+      ],
+      "category": "Vegetables & Fruits",
+      "unit": "1 kg",
+      "palengke_min": 40,
+      "palengke_max": 70,
+      "supermarket_min": 50,
+      "supermarket_max": 80,
+      "typical": 55,
+      "notes": "Budget-friendly staple vegetable."
+    },
+    {
+      "id": "banana_lakatan",
+      "name": "Lakatan Banana",
+      "aliases": [
+        "banana",
+        "lakatan",
+        "saging",
+        "saging lakatan"
+      ],
+      "category": "Vegetables & Fruits",
+      "unit": "1 kg",
+      "palengke_min": 65,
+      "palengke_max": 105.1,
+      "supermarket_min": 75,
+      "supermarket_max": 112.8,
+      "typical": 95.59,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱95.59/kg (Latundan ₱78.65, Saba ₱66.54)."
+    },
+    {
+      "id": "calamansi",
+      "name": "Calamansi",
+      "aliases": [
+        "calamansi",
+        "kalamansi"
+      ],
+      "category": "Vegetables & Fruits",
+      "unit": "1 kg",
+      "palengke_min": 50,
+      "palengke_max": 122.3,
+      "supermarket_min": 60,
+      "supermarket_max": 131.2,
+      "typical": 111.2,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱111.20/kg."
+    },
+    {
+      "id": "sardines",
+      "name": "Canned Sardines (155g)",
+      "aliases": [
+        "sardines",
+        "sardinas",
+        "ligo",
+        "555 sardines",
+        "mega sardines"
+      ],
+      "category": "Canned & Instant",
+      "unit": "155g can",
+      "palengke_min": 25,
+      "palengke_max": 33,
+      "supermarket_min": 22,
+      "supermarket_max": 30,
+      "typical": 26,
+      "notes": "Sari-sari stores usually add ₱2–₱4 convenience markup over supermarket SRP."
+    },
+    {
+      "id": "century_tuna",
+      "name": "Canned Tuna Flakes (155g)",
+      "aliases": [
+        "tuna",
+        "century tuna",
+        "canned tuna"
+      ],
+      "category": "Canned & Instant",
+      "unit": "155g can",
+      "palengke_min": 42,
+      "palengke_max": 52,
+      "supermarket_min": 38,
+      "supermarket_max": 48,
+      "typical": 43,
+      "notes": "180g/420g family cans scale proportionally."
+    },
+    {
+      "id": "corned_beef",
+      "name": "Corned Beef (150g)",
+      "aliases": [
+        "corned beef",
+        "argentina corned beef",
+        "cdo karne norte",
+        "karne norte"
+      ],
+      "category": "Canned & Instant",
+      "unit": "150g can",
+      "palengke_min": 40,
+      "palengke_max": 55,
+      "supermarket_min": 36,
+      "supermarket_max": 50,
+      "typical": 42,
+      "notes": "Premium brands (Purefoods 150g) run ₱70–₱95."
+    },
+    {
+      "id": "pancit_canton",
+      "name": "Instant Pancit Canton / Noodles (Single)",
+      "aliases": [
+        "pancit canton",
+        "noodles",
+        "instant noodles",
+        "lucky me",
+        "mi goreng"
+      ],
+      "category": "Canned & Instant",
+      "unit": "1 pack (60g–80g)",
+      "palengke_min": 12,
+      "palengke_max": 15,
+      "supermarket_min": 9.5,
+      "supermarket_max": 12.5,
+      "typical": 11.5,
+      "notes": "10-pack multipacks in supermarkets run ₱92–₱108."
+    },
+    {
+      "id": "coffee_3in1",
+      "name": "Instant 3-in-1 Coffee Sachet",
+      "aliases": [
+        "coffee",
+        "3 in 1 coffee",
+        "3-in-1",
+        "kape",
+        "nescafe",
+        "kopiko",
+        "great taste"
+      ],
+      "category": "Canned & Instant",
+      "unit": "1 sachet",
+      "palengke_min": 8,
+      "palengke_max": 12,
+      "supermarket_min": 7,
+      "supermarket_max": 10,
+      "typical": 9,
+      "notes": "Twin-packs run ₱13–₱17; 10-packs run ₱70–₱95."
+    },
+    {
+      "id": "lpg_11kg",
+      "name": "Household LPG Tank Refill (11 kg)",
+      "aliases": [
+        "lpg",
+        "11kg lpg",
+        "gasul",
+        "solane",
+        "cooking gas",
+        "tangke ng gas",
+        "lpg refill"
+      ],
+      "category": "Fuel, LPG & Water",
+      "unit": "11 kg tank refill",
+      "palengke_min": 1150,
+      "palengke_max": 1550,
+      "supermarket_min": 1150,
+      "supermarket_max": 1550,
+      "typical": 1398,
+      "notes": "DOE Nov 2026 national benchmark average is ~₱1,398/tank (overall range ₱821–₱1,743 depending on brand & region)."
+    },
+    {
+      "id": "gasoline_91",
+      "name": "Gasoline (RON 91 Unleaded)",
+      "aliases": [
+        "gasoline",
+        "gas",
+        "unleaded",
+        "fuel",
+        "ron 91",
+        "petrol"
+      ],
+      "category": "Fuel, LPG & Water",
+      "unit": "1 Liter",
+      "palengke_min": 68,
+      "palengke_max": 78,
+      "supermarket_min": 68,
+      "supermarket_max": 78,
+      "typical": 72.3,
+      "notes": "Average pump price around ₱72.29/L (Nov 2026); Diesel averages ~₱90.54/L."
+    },
+    {
+      "id": "diesel",
+      "name": "Diesel Fuel",
+      "aliases": [
+        "diesel",
+        "krudo"
+      ],
+      "category": "Fuel, LPG & Water",
+      "unit": "1 Liter",
+      "palengke_min": 84,
+      "palengke_max": 96,
+      "supermarket_min": 84,
+      "supermarket_max": 96,
+      "typical": 90.5,
+      "notes": "Average pump price around ₱90.54/L (Nov 2026)."
+    },
+    {
+      "id": "water_500ml",
+      "name": "Bottled Drinking Water (500ml)",
+      "aliases": [
+        "water",
+        "bottled water",
+        "tubig",
+        "mineral water",
+        "500ml water"
+      ],
+      "category": "Fuel, LPG & Water",
+      "unit": "500ml bottle",
+      "palengke_min": 12,
+      "palengke_max": 20,
+      "supermarket_min": 10,
+      "supermarket_max": 18,
+      "typical": 15,
+      "notes": "5-gallon purified water refilling station jug costs ₱25–₱40."
+    },
+    {
+      "id": "laundry_detergent",
+      "name": "Laundry Detergent Powder (60g–70g Sachet / Bar)",
+      "aliases": [
+        "detergent",
+        "laundry soap",
+        "sabon panlaba",
+        "surf",
+        "ariel",
+        "tide",
+        "bar soap"
+      ],
+      "category": "Household",
+      "unit": "1 sachet / bar",
+      "palengke_min": 7,
+      "palengke_max": 28,
+      "supermarket_min": 7,
+      "supermarket_max": 26,
+      "typical": 12,
+      "notes": "Single powder sachets run ₱7–₱14; 380g–400g detergent bars run ₱22–₱32."
+    },
+    {
+      "id": "sardines_budget_srp",
+      "name": "Canned Sardines (DTI SRP Basic Brands, 155g)",
+      "aliases": [
+        "king cup sardines",
+        "saba sardines",
+        "lucky 7 sardines",
+        "atami sardines",
+        "mikado sardines",
+        "budget sardines",
+        "srp sardines",
+        "delata sardines"
+      ],
+      "category": "Canned & Instant",
+      "unit": "155g can",
+      "palengke_min": 20.0,
+      "palengke_max": 25.0,
+      "supermarket_min": 18.0,
+      "supermarket_max": 24.75,
+      "typical": 22.0,
+      "notes": "DTI May 2026 SRP Bulletin: King Cup ₱18.00, 555 Bonus Pack/Lucky 7 ₱20.50, Saba ₱21.50, Atami/Mikado ₱22.50–₱23.25, Sallenas ₱24.75."
+    },
+    {
+      "id": "san_marino_tuna",
+      "name": "San Marino Corned Tuna (150g)",
+      "aliases": [
+        "san marino",
+        "corned tuna",
+        "san marino corned tuna",
+        "tuna spanish style",
+        "555 tuna"
+      ],
+      "category": "Canned & Instant",
+      "unit": "150g can",
+      "palengke_min": 38.0,
+      "palengke_max": 45.0,
+      "supermarket_min": 35.0,
+      "supermarket_max": 43.0,
+      "typical": 40.0,
+      "notes": "85g–100g smaller cans run ₱26–₱33; 180g family/spanish style cans run ₱44–₱52."
+    },
+    {
+      "id": "purefoods_corned_beef",
+      "name": "Purefoods Corned Beef (150g)",
+      "aliases": [
+        "purefoods corned beef",
+        "purefoods beef",
+        "star corned beef",
+        "highlands corned beef",
+        "delimondo"
+      ],
+      "category": "Canned & Instant",
+      "unit": "150g can",
+      "palengke_min": 75.0,
+      "palengke_max": 92.0,
+      "supermarket_min": 72.0,
+      "supermarket_max": 89.0,
+      "typical": 79.0,
+      "notes": "210g Purefoods can runs ~₱118–₱125; budget Purefoods Star Corned Beef 150g has DTI SRP ₱34.00 (retail ₱36–₱42)."
+    },
+    {
+      "id": "meat_loaf",
+      "name": "Canned Meat Loaf / Beef Loaf (150g)",
+      "aliases": [
+        "meat loaf",
+        "beef loaf",
+        "argentina meat loaf",
+        "555 meat loaf",
+        "cdo meat loaf",
+        "argentina beef loaf",
+        "karne norte loaf"
+      ],
+      "category": "Canned & Instant",
+      "unit": "150g can",
+      "palengke_min": 21.0,
+      "palengke_max": 30.0,
+      "supermarket_min": 18.15,
+      "supermarket_max": 26.0,
+      "typical": 24.0,
+      "notes": "DTI May 2026 SRP: Purefoods Beef Loaf ₱18.15, 555 Meat/Beef Loaf ₱19.50, CDO ₱21.75, Argentina Meat Loaf ₱23.75 (sari-sari ₱26–₱30)."
+    },
+    {
+      "id": "luncheon_meat",
+      "name": "Canned Luncheon Meat (165g–397g)",
+      "aliases": [
+        "luncheon meat",
+        "spam",
+        "maling",
+        "purefoods luncheon meat",
+        "cdo luncheon meat",
+        "canned ham"
+      ],
+      "category": "Canned & Instant",
+      "unit": "1 can",
+      "palengke_min": 42.0,
+      "palengke_max": 225.0,
+      "supermarket_min": 40.0,
+      "supermarket_max": 215.0,
+      "typical": 115.0,
+      "notes": "DTI Chinese-style 165g (Purefoods/CDO) SRP is ₱40–₱41; Purefoods 165g regular ~₱88–₱105; Maling 397g ₱115–₱145; Spam 340g ₱195–₱225."
+    },
+    {
+      "id": "pork_and_beans",
+      "name": "Canned Pork & Beans (230g–390g)",
+      "aliases": [
+        "pork and beans",
+        "pork & beans",
+        "hunts pork and beans",
+        "hunt's",
+        "canned beans"
+      ],
+      "category": "Canned & Instant",
+      "unit": "1 can",
+      "palengke_min": 36.0,
+      "palengke_max": 68.0,
+      "supermarket_min": 34.0,
+      "supermarket_max": 64.0,
+      "typical": 42.0,
+      "notes": "230g medium cans average ₱36–₱42; 390g large cans run ₱54–₱65."
+    },
+    {
+      "id": "vienna_sausage",
+      "name": "Canned Vienna Sausage (70g–130g)",
+      "aliases": [
+        "vienna sausage",
+        "libbys vienna sausage",
+        "el rancho sausage",
+        "canned sausage",
+        "argentina sausage"
+      ],
+      "category": "Canned & Instant",
+      "unit": "small can",
+      "palengke_min": 29.0,
+      "palengke_max": 45.0,
+      "supermarket_min": 28.0,
+      "supermarket_max": 42.0,
+      "typical": 36.0,
+      "notes": "70g local cans run ₱28–₱33; 130g Libby's / imported cans cost ₱38–₱48."
+    },
+    {
+      "id": "liver_spread",
+      "name": "Canned Liver Spread (85g)",
+      "aliases": [
+        "liver spread",
+        "reno",
+        "cdo liver spread",
+        "reno liver spread"
+      ],
+      "category": "Canned & Instant",
+      "unit": "85g can",
+      "palengke_min": 24.0,
+      "palengke_max": 32.0,
+      "supermarket_min": 22.0,
+      "supermarket_max": 30.0,
+      "typical": 27.0,
+      "notes": "Popular bread spread & kaldereta ingredient; 230g large Reno cans run ₱48–₱58."
+    },
+    {
+      "id": "tomato_sauce",
+      "name": "Tomato Sauce Pouch / Can (200g–250g)",
+      "aliases": [
+        "tomato sauce",
+        "del monte tomato sauce",
+        "spaghetti sauce",
+        "del monte"
+      ],
+      "category": "Canned & Instant",
+      "unit": "200g–250g",
+      "palengke_min": 22.0,
+      "palengke_max": 32.0,
+      "supermarket_min": 18.0,
+      "supermarket_max": 28.0,
+      "typical": 24.0,
+      "notes": "Spaghetti sauce 250g pouches run ₱35–₱42; 1kg tomato/spaghetti packs run ₱85–₱110."
+    },
+    {
+      "id": "fruit_cocktail",
+      "name": "Canned Fruit Cocktail (432g)",
+      "aliases": [
+        "fruit cocktail",
+        "canned fruit",
+        "del monte fruit cocktail",
+        "fiesta fruit cocktail"
+      ],
+      "category": "Canned & Instant",
+      "unit": "432g can",
+      "palengke_min": 98.0,
+      "palengke_max": 120.0,
+      "supermarket_min": 92.0,
+      "supermarket_max": 115.0,
+      "typical": 105.0,
+      "notes": "822g–836g large party cans cost ₱145–₱175."
+    },
+    {
+      "id": "instant_mami",
+      "name": "Instant Mami Soup Noodles (55g)",
+      "aliases": [
+        "mami",
+        "instant mami",
+        "lucky me beef",
+        "lucky me chicken",
+        "ho-mi",
+        "quick chow",
+        "payless noodles"
+      ],
+      "category": "Canned & Instant",
+      "unit": "55g pack",
+      "palengke_min": 11.0,
+      "palengke_max": 15.0,
+      "supermarket_min": 7.5,
+      "supermarket_max": 10.5,
+      "typical": 11.0,
+      "notes": "DTI May 2026 SRP: Payless ₱7.50, Quick Chow ₱7.75, Lucky Me!/Ho-Mi ₱9.00; sari-sari single retail ₱12–₱14."
+    },
+    {
+      "id": "cup_noodles",
+      "name": "Cup Noodles (40g Mini Cup)",
+      "aliases": [
+        "cup noodles",
+        "nissin cup noodles",
+        "mini cup noodles",
+        "lucky me cup"
+      ],
+      "category": "Canned & Instant",
+      "unit": "40g cup",
+      "palengke_min": 23.0,
+      "palengke_max": 28.0,
+      "supermarket_min": 20.0,
+      "supermarket_max": 25.0,
+      "typical": 24.0,
+      "notes": "60g regular cup sizes run ₱30–₱38."
+    },
+    {
+      "id": "patis",
+      "name": "Fish Sauce / Patis (150ml–350ml)",
+      "aliases": [
+        "patis",
+        "fish sauce",
+        "datu puti patis",
+        "lorins patis",
+        "rufina patis"
+      ],
+      "category": "Cooking Essentials",
+      "unit": "1 bottle / pouch",
+      "palengke_min": 16.0,
+      "palengke_max": 34.0,
+      "supermarket_min": 13.25,
+      "supermarket_max": 32.75,
+      "typical": 26.0,
+      "notes": "DTI May 2026 SRP (350ml bottle): Silver Swan ₱26.00, Lorins ₱27.50, Datu Puti ₱28.50; 150ml pouch ₱13.25–₱22."
+    },
+    {
+      "id": "ketchup",
+      "name": "Banana Ketchup Pouch (200g)",
+      "aliases": [
+        "ketchup",
+        "banana ketchup",
+        "ufc ketchup",
+        "papa ketchup",
+        "del monte ketchup"
+      ],
+      "category": "Cooking Essentials",
+      "unit": "200g pouch",
+      "palengke_min": 22.0,
+      "palengke_max": 30.0,
+      "supermarket_min": 19.0,
+      "supermarket_max": 27.0,
+      "typical": 25.0,
+      "notes": "320g–550g bottles run ₱35–₱58."
+    },
+    {
+      "id": "beef_brisket",
+      "name": "Beef Brisket / Bulalo Cut",
+      "aliases": [
+        "beef",
+        "beef brisket",
+        "bulalo",
+        "karne ng baka",
+        "baka"
+      ],
+      "category": "Meat & Seafood",
+      "unit": "1 kg",
+      "palengke_min": 390.0,
+      "palengke_max": 470.0,
+      "supermarket_min": 420.0,
+      "supermarket_max": 510.0,
+      "typical": 449.5,
+      "notes": "DA Nov 10, 2026 prevailing price: Beef Brisket ₱449.48/kg, Beef Rump ₱505.00/kg."
+    },
+    {
+      "id": "ampalaya",
+      "name": "Ampalaya (Bitter Gourd)",
+      "aliases": [
+        "ampalaya",
+        "bitter gourd",
+        "bitter melon"
+      ],
+      "category": "Vegetables & Fruits",
+      "unit": "1 kg",
+      "palengke_min": 90.0,
+      "palengke_max": 135.0,
+      "supermarket_min": 105.0,
+      "supermarket_max": 150.0,
+      "typical": 112.0,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱112.04/kg."
+    },
+    {
+      "id": "eggplant",
+      "name": "Eggplant (Talong)",
+      "aliases": [
+        "talong",
+        "eggplant",
+        "eggplants"
+      ],
+      "category": "Vegetables & Fruits",
+      "unit": "1 kg",
+      "palengke_min": 95.0,
+      "palengke_max": 140.0,
+      "supermarket_min": 110.0,
+      "supermarket_max": 155.0,
+      "typical": 127.4,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱127.37/kg."
+    },
+    {
+      "id": "carrots",
+      "name": "Carrots",
+      "aliases": [
+        "carrots",
+        "carrot",
+        "karot"
+      ],
+      "category": "Vegetables & Fruits",
+      "unit": "1 kg",
+      "palengke_min": 110.0,
+      "palengke_max": 175.0,
+      "supermarket_min": 125.0,
+      "supermarket_max": 190.0,
+      "typical": 159.9,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱159.91/kg."
+    },
+    {
+      "id": "potatoes",
+      "name": "White Potato (Patatas)",
+      "aliases": [
+        "potato",
+        "potatoes",
+        "patatas",
+        "white potato"
+      ],
+      "category": "Vegetables & Fruits",
+      "unit": "1 kg",
+      "palengke_min": 130.0,
+      "palengke_max": 185.0,
+      "supermarket_min": 140.0,
+      "supermarket_max": 200.0,
+      "typical": 172.1,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱172.13/kg."
+    },
+    {
+      "id": "ginger",
+      "name": "Ginger (Luya)",
+      "aliases": [
+        "ginger",
+        "luya"
+      ],
+      "category": "Cooking Essentials",
+      "unit": "1 kg",
+      "palengke_min": 140.0,
+      "palengke_max": 210.0,
+      "supermarket_min": 160.0,
+      "supermarket_max": 230.0,
+      "typical": 189.5,
+      "notes": "DA Nov 10, 2026 prevailing average: ₱189.47/kg (small 100g bundle runs ₱20–₱30)."
+    },
+    {
+      "id": "bath_soap",
+      "name": "Bath Soap (55g–60g Bar)",
+      "aliases": [
+        "bath soap",
+        "safeguard",
+        "palmolive soap",
+        "green cross soap",
+        "bioderm",
+        "sabon pampaligo"
+      ],
+      "category": "Household",
+      "unit": "55g–60g bar",
+      "palengke_min": 17.0,
+      "palengke_max": 30.0,
+      "supermarket_min": 15.0,
+      "supermarket_max": 26.0,
+      "typical": 22.0,
+      "notes": "DTI May 2026 SRP: Green Cross 55g ₱15.00, Palmolive 55g ₱17.00, Safeguard 55g ₱22.00 (119g ₱49.00)."
+    },
+    {
+      "id": "shampoo_sachet",
+      "name": "Shampoo / Conditioner Sachet (12ml)",
+      "aliases": [
+        "shampoo",
+        "sunsilk",
+        "creamsilk",
+        "palmolive shampoo",
+        "pantene",
+        "shampoo sachet"
+      ],
+      "category": "Household",
+      "unit": "1 sachet",
+      "palengke_min": 8.0,
+      "palengke_max": 12.0,
+      "supermarket_min": 7.0,
+      "supermarket_max": 10.5,
+      "typical": 10.0,
+      "notes": "Sari-sari stores commonly sell single sachets at ₱10–₱12 each."
+    },
+    {
+      "id": "street_foods",
+      "name": "Philippine Street Foods (Isaw / Kwek-Kwek / Balut / Fishball)",
+      "aliases": [
+        "isaw",
+        "kwek-kwek",
+        "kwek kwek",
+        "balut",
+        "fishball",
+        "banana cue",
+        "street food",
+        "streetfood"
+      ],
+      "category": "Street Foods & Snacks",
+      "unit": "1 stick / serving",
+      "palengke_min": 1.0,
+      "palengke_max": 28.0,
+      "supermarket_min": 10.0,
+      "supermarket_max": 30.0,
+      "typical": 20.0,
+      "notes": "Fishball ~₱1–₱2/pc (₱10–₱20/cup), Isaw ₱10–₱15/stick, Kwek-Kwek ₱20–₱25/serving, Balut ₱25–₱30/pc, Banana Cue ₱15–₱25."
+    }
+  ]
+}
