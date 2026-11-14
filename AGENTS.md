@@ -144,3 +144,19 @@ in one pass.
 **Default when the owner does not say otherwise:** treat §3 as active — leave code untouched,
 put refactor suggestions in the issues section. If the owner asks for both, do the refactor
 first, then document the *final* code so line numbers stay accurate.
+
+---
+
+## 6. Contribution convention (owner-set)
+
+- **Commit author:** `Axistence99 <272527416+Axistence99@users.noreply.github.com>`
+  (GitHub noreply address — links commits to the owner's profile without exposing a
+  private email). Never commit as an agent or bot identity.
+- **Branch:** always commit and push to **`main`**. Do not open feature branches, do not
+  leave work on a side branch, do not ask which branch to use.
+- Set the identity in a fresh sandbox before committing, because `.git/config` is not
+  carried over:
+  ```bash
+  git config user.name  "Axistence99"
+  git config user.email "272527416+Axistence99@users.noreply.github.com"
+  ```

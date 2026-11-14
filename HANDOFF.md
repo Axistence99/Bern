@@ -10,14 +10,14 @@ Everything a new chat needs to resume this work. Written to survive a context re
 | | |
 |---|---|
 | Repo | `github.com/Axistence99/Bern` (public) |
-| Branch | `feat/handwriting-ocr` |
-| Commit | `469c061` — `feat: handwriting-to-text OCR` |
-| Base | `main` @ `74621fc` |
+| Branch | **`main`** (owner-set: never use feature branches) |
+| Commits | `9ec7c30` feat, `dbf722e` handoff, `21a72c6` AGENTS.md — on top of `74621fc` |
+| Author | **`Axistence99 <272527416+Axistence99@users.noreply.github.com>`** |
 | Tests | 22 passing (`python3 -m pytest tests/ -q`) |
 | New file | `bern/handwriting.py` (983 lines) |
 | Modified | `bern/engine.py`, `server.py`, `data/bern_dataset.json`, `README.md` |
 | Model | `models/handwriting_glyph_model.joblib` (252 KB, committed) |
-| Open PR | https://github.com/Axistence99/Bern/pull/new/feat/handwriting-ocr |
+| Push target | `origin main` |
 
 **Nothing is uncommitted.** `git status` is clean.
 
@@ -44,9 +44,14 @@ Then:
 
 ```bash
 git clone https://github.com/Axistence99/Bern.git bern && cd bern
-git checkout feat/handwriting-ocr
 git remote set-url origin git@github.com:Axistence99/Bern.git
+git config user.name  "Axistence99"
+git config user.email "272527416+Axistence99@users.noreply.github.com"
 ```
+
+**Commit identity and branch are owner-set rules (see `AGENTS.md` §6):** author must be
+`Axistence99`, and all pushes go to `main` — no feature branches. `git config` does not
+survive a snapshot restore, so re-run those two lines before committing.
 
 **Gotcha:** `.git/config` is excluded from workspace snapshots. In the same chat the remote
 may vanish — re-run `git remote add origin git@github.com:Axistence99/Bern.git`.
