@@ -152,11 +152,15 @@ first, then document the *final* code so line numbers stay accurate.
 - **Commit author:** `Axistence99 <272527416+Axistence99@users.noreply.github.com>`
   (GitHub noreply address — links commits to the owner's profile without exposing a
   private email). Never commit as an agent or bot identity.
-- **Branch:** always commit and push to **`main`**. Do not open feature branches, do not
-  leave work on a side branch, do not ask which branch to use.
+- **Branch:** always commit and push to **`main` only**. No feature branches, no side
+  branches, no pull requests, no asking which branch to use. Do not leave work uncommitted on
+  a branch — push it to `main` when the change is done.
+- **Never create a branch.** If one is found in this repository, delete it.
 - Set the identity in a fresh sandbox before committing, because `.git/config` is not
   carried over:
   ```bash
   git config user.name  "Axistence99"
   git config user.email "272527416+Axistence99@users.noreply.github.com"
+  git remote add origin git@github.com:Axistence99/Bern.git   # .git/config does not persist
+  git push origin main          # the only push target, always
   ```

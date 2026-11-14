@@ -10,7 +10,7 @@ Everything a new chat needs to resume this work. Written to survive a context re
 | | |
 |---|---|
 | Repo | `github.com/Axistence99/Bern` (public) |
-| Branch | **`main`** (owner-set: never use feature branches) |
+| Branch | **`main` only** (owner-set, reinforced twice: no branches, no PRs) |
 | Commits | `9ec7c30` OCR, `dbf722e` handoff, `21a72c6` AGENTS.md, plus the multilingual + study work |
 | Author | **`Axistence99 <272527416+Axistence99@users.noreply.github.com>`** |
 | Tests | 52 passing (`python3 -m pytest tests/ -q`) |
@@ -51,7 +51,8 @@ git config user.email "272527416+Axistence99@users.noreply.github.com"
 ```
 
 **Commit identity and branch are owner-set rules (see `AGENTS.md` §6):** author must be
-`Axistence99`, and all pushes go to `main` — no feature branches. `git config` does not
+`Axistence99`, and all pushes go to **`main` only** — no feature branches, no pull requests,
+never create a branch. `git config` does not
 survive a snapshot restore, so re-run those two lines before committing.
 
 **Gotcha:** `.git/config` is excluded from workspace snapshots. In the same chat the remote
