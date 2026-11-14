@@ -309,6 +309,7 @@ class BernAI:
         self.bundle: dict[str, Any] = {}
         self.price_expert = PHPriceExpert()
         self.nutrition_expert = get_shared_expert()
+        self._handwriting_reader: Any = None   # built on first use, see handwriting_reader
         self.load_or_train()
 
     def load_or_train(self) -> None:
@@ -329,6 +330,48 @@ class BernAI:
         with self._lock:
             result = predict_with_bundle(self.bundle, message)
         result["inference_ms"] = round((time.perf_counter() - start) * 1000.0, 2)
+        return result
+
+    @property
+    def handwriting_reader(self) -> Any:
+        """The shared :class:`bern.handwriting.HandwritingReader`, created on first use.
+
+        Built lazily on purpose: the reader pulls in OpenCV and a joblib model, and most
+        conversations never touch an image. Importing it inside the property keeps text
+        chat working even on a machine where the vision model has not been trained.
+        """
+        if self._handwriting_reader is None:
+            with self._lock:
+                if self._handwriting_reader is None:
+                    from bern.handwriting import HandwritingReader
+
+                    self._handwriting_reader = HandwritingReader()
+        return self._handwriting_reader
+
+    def read_handwriting(self, image_bytes: bytes, backend: str = "auto",
+                         case_mode: str = "auto") -> dict[str, Any]:
+        """Transcribe a photo of handwriting.
+
+        Args:
+            image_bytes: Raw JPEG/PNG/WebP bytes, as uploaded by the client.
+            backend: ``auto`` (default), ``glyph``, ``trocr`` or ``tesseract``.
+            case_mode: ``auto``, ``upper`` or ``lower``.
+
+        Returns:
+            ``{"text": str, "lines": [...], "backend": str, "confidence": float, ...}``
+            plus Bern's own ``ai_name`` metadata so responses look like the rest of the API.
+
+        Raises:
+            ValueError: if the bytes are not a decodable image.
+        """
+        reader = self.handwriting_reader
+        if backend != reader.requested_backend or case_mode != reader.case_mode:
+            from bern.handwriting import HandwritingReader
+
+            result = HandwritingReader(backend=backend, case_mode=case_mode).read_image(image_bytes)
+        else:
+            result = reader.read_image(image_bytes)
+        result["ai_name"] = self.bundle.get("ai_name", "Bern")
         return result
 
     @property
@@ -499,6 +542,13 @@ class BernAI:
                 now = datetime.now().astimezone()
                 tz_label = now.tzname() or "Local"
             reply = f"It's currently **{now.strftime('%I:%M %p')}** on **{now.strftime('%A, %B %d, %Y')}** ({tz_label})."
+        elif intent == "handwriting_ocr":
+            reply = (
+                "I can read handwriting! Send me a photo and I'll turn it into text.\n\n"
+                "**API:** `POST /api/handwriting` with multipart field `image`, or JSON "
+                "`{\"image_base64\": \"data:image/jpeg;base64,...\"}`.\n\n"
+                "Block letters on clean paper work best — for cursive, enable the TrOCR backend."
+            )
         elif intent == "user_name":
             new_name = extract_user_name(msg_clean)
             if new_name:

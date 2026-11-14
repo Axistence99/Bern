@@ -1,0 +1,77 @@
+{
+  "model": "models/handwriting_glyph_model.joblib",
+  "trained_at": "2026-11-14T08:17:06+00:00",
+  "train_samples": 3489660,
+  "epochs": 5,
+  "classes": 62,
+  "feature_dim": 341,
+  "training_seconds": 493.5,
+  "held_out": {
+    "samples": 30000,
+    "accuracy": 0.8255,
+    "elapsed_s": 1.4,
+    "top_confusions": [
+      {
+        "pair": "l->1",
+        "count": 551
+      },
+      {
+        "pair": "O->0",
+        "count": 469
+      },
+      {
+        "pair": "I->1",
+        "count": 291
+      },
+      {
+        "pair": "0->O",
+        "count": 266
+      },
+      {
+        "pair": "m->M",
+        "count": 100
+      },
+      {
+        "pair": "s->S",
+        "count": 100
+      },
+      {
+        "pair": "c->C",
+        "count": 89
+      },
+      {
+        "pair": "u->U",
+        "count": 86
+      },
+      {
+        "pair": "f->F",
+        "count": 77
+      },
+      {
+        "pair": "v->V",
+        "count": 74
+      },
+      {
+        "pair": "p->P",
+        "count": 68
+      },
+      {
+        "pair": "q->9",
+        "count": 68
+      },
+      {
+        "pair": "5->S",
+        "count": 65
+      },
+      {
+        "pair": "o->0",
+        "count": 61
+      },
+      {
+        "pair": "g->9",
+        "count": 58
+      }
+    ]
+  },
+  "notes": "Character-level accuracy on EMNIST byclass. Includes the ambiguous case pairs (c/C, o/O, s/S, v/V, w/W, x/X, z/Z, and 1/l/I) that EMNIST scores as separate classes; flagged ones would raise the number."
+}

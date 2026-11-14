@@ -304,6 +304,52 @@ class CountMoneyHandler(BaseHandler):
             self.write_json({"error": str(exc)}, status_code=400)
 
 
+class HandwritingHandler(BaseHandler):
+    """Transcribe handwriting from an uploaded photo.
+
+    Accepts the same two input shapes as ``CountMoneyHandler`` so clients only need one
+    upload helper, and returns the reader's result plus the active AI name.
+    """
+
+    def post(self) -> None:
+        try:
+            image_bytes: bytes | None = None
+
+            # Option A: multipart/form-data file upload ("image")
+            if "image" in self.request.files and self.request.files["image"]:
+                image_bytes = self.request.files["image"][0]["body"]
+            else:
+                # Option B: JSON {"image_base64": "data:image/jpeg;base64,..."}
+                body = self.parse_json_body()
+                b64_raw = str(body.get("image_base64", "")).strip()
+                if b64_raw:
+                    if "," in b64_raw and b64_raw.startswith("data:"):
+                        b64_raw = b64_raw.split(",", 1)[1]
+                    image_bytes = base64.b64decode(b64_raw)
+
+            if not image_bytes:
+                self.write_json(
+                    {"error": "Provide a photo via multipart 'image' field or JSON 'image_base64'."},
+                    status_code=400,
+                )
+                return
+
+            body = {}
+            backend = "auto"
+            case_mode = "auto"
+            try:
+                body = self.parse_json_body()
+            except Exception:
+                body = {}
+            if isinstance(body, dict):
+                backend = str(body.get("backend", "auto"))
+                case_mode = str(body.get("case_mode", "auto"))
+
+            self.write_json(bern_ai.read_handwriting(image_bytes, backend=backend, case_mode=case_mode))
+        except Exception as exc:
+            self.write_json({"error": str(exc)}, status_code=400)
+
+
 class SampleMoneyPhotoHandler(BaseHandler):
     def get(self) -> None:
         jpg_bytes = generate_sample_ph_money_image()
@@ -350,6 +396,7 @@ def make_app() -> tornado.web.Application:
             (r"/api/nutrition/summary", NutritionSummaryHandler),
             (r"/api/datasets", DatasetsHandler),
             (r"/api/count-money", CountMoneyHandler),
+            (r"/api/handwriting", HandwritingHandler),
             (r"/api/sample-money-photo", SampleMoneyPhotoHandler),
             (r"/api/react-native-files", ReactNativeFilesHandler),
         ]

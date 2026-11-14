@@ -3,10 +3,11 @@
 **Bern** is a custom, trainable Python Machine Learning assistant built with `scikit-learn` and OpenCV, persisted via `joblib`, served over a CORS-enabled Tornado REST API, and ready to integrate into React Native / Expo apps.
 
 It combines:
-1. **Trainable Intent ML Engine (`bern/engine.py`, `bern/trainer.py`)** — Hybrid Word (1–2 n-gram) + Char-WB (3–5 n-gram) TF-IDF + calibrated `LogisticRegression`, OOD vocabulary gating, AST math evaluator, `Asia/Manila` clock, and live teach/retrain endpoints (`21` intents, `1,481` hand-written English/Taglish phrases + `398` generated ones, tuned by cross-validation — see *Training Bern*).
+1. **Trainable Intent ML Engine (`bern/engine.py`, `bern/trainer.py`)** — Hybrid Word (1–2 n-gram) + Char-WB (3–5 n-gram) TF-IDF + calibrated `LogisticRegression`, OOD vocabulary gating, AST math evaluator, `Asia/Manila` clock, and live teach/retrain endpoints (`22` intents, `1,481` hand-written English/Taglish phrases + `398` generated ones, tuned by cross-validation — see *Training Bern*).
 2. **Philippine Common Goods Price Expert (`bern/ph_prices.py`)** — Curated 2026 PH catalog (`64` common items across `9` categories), `1,836` searchable PH retail SKUs (`150` canned foods), `17`-region UN WFP food price medians (`244,835` rows through `2026-09-15`), DA daily/NCR weekly Bantay Presyo (`30,600` rows through `2026-11-10`), official DTI May 2026 BNPC SRP bulletin, and Taglish budget/basket calculator.
 3. **Philippine Food & Nutrition Expert (`bern/ph_nutrition.py`)** — **19,594 foods** with calories, macros, sodium and more: **1,542 DOST-FNRI PhilFCT foods** (garlic, onion, milk, canned corned beef/sardines/luncheon meat ...), **13,577 USDA FoodData Central foods** (ground beef, fast-food chicken, McDonald's USA ...), **4,378 Philippine packaged products** from Open Food Facts (191 canned goods, 117 milk/dairy ...), **28 Filipino dishes + 3 meals** (adobo, pares, bopis, sisig, sinigang, kare-kare ...) and **66 McDonald's PH / Jollibee items**. Understands Taglish (`bawang`, `sibuyas`, `gatas`, `giniling na baka`, `kanin`), scales servings, totals whole meals and tells you how trustworthy each number is (see *Data quality* below).
 4. **Philippine Peso Money Counter (`bern/money_vision.py`)** — Dual-mode OpenCV + `scikit-learn` (`VotingClassifier` over 93-dim centered ROI + color/texture/contour features) trained on `1,100` real Philippine banknote & coin photos (`RichMiguel/Banknotes-Coins`, MIT) plus synthetic tabletop lighting scenes (**95.45%** end-to-end accuracy on `220` unseen real photos).
+5. **Handwriting-to-Text OCR (`bern/handwriting.py`)** — OpenCV layout analysis (Otsu/adaptive binarisation, deskew, projection-profile line/word/glyph segmentation) driving a scikit-learn **SGD glyph classifier trained on all 697,932 EMNIST `byclass` handwritten characters**: **82.55% held-out character accuracy** on 30,000 unseen characters. Optional TrOCR backend for cursive (`pip install transformers torch`). See *Handwriting* below for what it can and cannot read.
 
 ## Project Structure
 
@@ -19,9 +20,10 @@ bern-ai/
 │   ├── benchmark.py                 # held-out routing benchmark harness (python3 -m bern.benchmark)
 │   ├── ph_prices.py                 # PHPriceExpert: curated prices, 17-region WFP/DA, 1,836 SKUs
 │   ├── ph_nutrition.py              # PHNutritionExpert: PhilFCT + USDA + Open Food Facts + dishes + McDo/Jollibee
-│   └── money_vision.py              # PhilippineMoneyCounter (real-photo ROI + tabletop OpenCV)
+│   ├── money_vision.py              # PhilippineMoneyCounter (real-photo ROI + tabletop OpenCV)
+│   └── handwriting.py               # HandwritingReader: segment page -> classify glyphs (EMNIST)
 ├── data/
-│   ├── bern_dataset.json            # 21 intents, 1,481 English/Taglish phrases + the tuned training settings
+│   ├── bern_dataset.json            # 22 intents, 1,481 English/Taglish phrases + the tuned training settings
 │   ├── augmented_examples.json      # 398 catalog-generated phrases (training only, never evaluated on)
 │   ├── eval/bern_benchmark.json     # 380 held-out messages: dev / test / test2
 │   ├── ph_prices.json               # 64 curated PH basic goods (DTI SRP, DA, Sari-Sari 2026)
@@ -65,6 +67,8 @@ python3 scripts/train_bern.py                # FULL training: model search + cal
 python3 -m bern.trainer                      # quick retrain with the stored settings
 python3 -m bern.benchmark                    # score Bern on the held-out benchmark (prints dev failures only)
 python3 -m bern.money_vision                 # train the peso vision model
+python3 -m bern.handwriting                  # train the handwriting glyph model (downloads EMNIST, ~536 MB)
+python3 -m bern.handwriting --image note.jpg # transcribe one photo of handwriting
 python3 server.py                            # API + web studio on http://0.0.0.0:8000
 python3 -m pytest -v                         # 23 tests
 
@@ -168,3 +172,64 @@ import BernNutritionScreen from "./BernNutritionScreen";
 const { items } = await searchNutrition("bawang");           // Garlic bulb 129 kcal/100 g
 const meal = await estimateMeal({ text: "pares at kanin" });  // totals + per-item breakdown
 ```
+
+## Handwriting
+
+`bern/handwriting.py` turns a photo of handwriting into text. It is two stages:
+OpenCV finds and isolates each character, then a classifier names it.
+
+```bash
+python3 -m bern.handwriting                    # train (one-off, downloads EMNIST ~536 MB)
+python3 -m bern.handwriting --evaluate         # re-score the saved model
+python3 -m bern.handwriting --image note.jpg   # transcribe a file
+```
+
+```python
+from bern.handwriting import HandwritingReader
+
+result = HandwritingReader().read_image(open("note.jpg", "rb").read())
+print(result["text"], result["confidence"], result["backend"])
+```
+
+```bash
+curl -X POST http://localhost:8000/api/handwriting -F image=@note.jpg
+```
+
+Chat: `POST /api/chat` with `"read my handwriting"` routes to the `handwriting_ocr` intent
+and returns upload instructions — the chat endpoint is text-only, so the image itself goes
+to `/api/handwriting`.
+
+### What it reads, and what it does not
+
+| | |
+|---|---|
+| **Supported** | Hand-*printed* text: separated block letters, clean paper, reasonably level |
+| **Not supported** | Cursive or connected script — the segmenter cannot split a word written without lifting the pen |
+| **Never supported** | Punctuation. EMNIST has no `. , ? ! - ( ) / ; : @ &` samples, so those come back as their nearest letter |
+
+Measured held-out performance of the default `bern-glyph` backend:
+
+| Metric | Result |
+|---|---|
+| Character accuracy (EMNIST `byclass` test split, 30,000 unseen glyphs) | **82.55%** |
+| Character accuracy, end-to-end on lines composed from real EMNIST ink | 75.3% clean / 68.0% with ±9° rotation, blur and per-glyph scale jitter |
+| Word accuracy on the same synthetic lines | 4/20 clean, 5/20 jittered |
+
+Those end-to-end numbers are honest and modest: character errors compound, so a 5-letter
+word is right roughly 0.75⁵ ≈ 24% of the time. Cursive, and reliable word-level accuracy,
+need the TrOCR backend:
+
+```bash
+pip install transformers torch pillow
+python3 -m bern.handwriting --image note.jpg   # auto-selects TrOCR when installed
+```
+
+`HandwritingReader(backend="glyph" | "trocr" | "tesseract" | "auto")` overrides the choice.
+`case_mode="upper"` or `"lower"` forces output case (EMNIST scores `O` and `o` as different
+classes, and folding the two case forms together is worth about 5 points).
+
+### Retraining
+
+`python3 -m bern.handwriting` writes `models/handwriting_glyph_model.joblib` (252 KB) and
+`models/handwriting_metrics.json`. Training streams the EMNIST file in batches, so it needs
+under 1 GB of RAM; on 2 CPU cores it takes about 8 minutes for 5 epochs.

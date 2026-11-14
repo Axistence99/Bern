@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Trained artifacts that are rebuilt from data/ (the handwriting model is committed
+# on purpose: it is small and the feature is useless without it)
+models/bern_model.joblib
+models/metrics.json
+models/training_report.json
+models/money_vision_model.joblib
+
+# Large downloaded datasets
+data/external/emnist/

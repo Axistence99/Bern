@@ -1681,6 +1681,35 @@
       "responses": [
         "That's outside what I've been trained on so far — I focus on Philippine prices, food nutrition, peso counting and my own API. Click **Teach Bern This** to teach me!"
       ]
+    },
+    {
+      "tag": "handwriting_ocr",
+      "description": "Transcribes a photo of handwritten text into digital text",
+      "patterns": [
+        "read my handwriting",
+        "convert my handwriting to text",
+        "handwriting to text",
+        "read this handwritten note",
+        "ocr this",
+        "scan my notes",
+        "transcribe my note",
+        "basahin mo sulat ko",
+        "gawing text ang sulat ko",
+        "i-scan ang sulat ko",
+        "read what i wrote",
+        "digitize my handwriting",
+        "turn this note into text",
+        "recognize this handwriting",
+        "what does this note say",
+        "read this letter i wrote",
+        "handwritten notes to digital text",
+        "extract text from handwriting",
+        "translate my handwriting into text",
+        "read the words in this photo"
+      ],
+      "responses": [
+        "Send me a photo of your handwriting and I'll transcribe it into text! Upload it to `POST /api/handwriting` (multipart `image`, or JSON `image_base64`)."
+      ]
     }
   ],
   "training": {
