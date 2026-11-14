@@ -1710,6 +1710,53 @@
       "responses": [
         "Send me a photo of your handwriting and I'll transcribe it into text! Upload it to `POST /api/handwriting` (multipart `image`, or JSON `image_base64`)."
       ]
+    },
+    {
+      "tag": "study_materials",
+      "description": "Turns notes or lecture files into quizzes, reviewers, mock exams and flashcards",
+      "patterns": [
+        "make a quiz from my notes",
+        "create flashcards from this lecture",
+        "generate a reviewer",
+        "gumawa ng quiz mula sa notes ko",
+        "gawa ka ng reviewer",
+        "make a mock exam",
+        "turn my notes into flashcards",
+        "study guide from my lecture",
+        "gawin mong flashcards ang notes ko",
+        "make questions from this chapter",
+        "reviewer para sa exam",
+        "create practice questions",
+        "summarize my lecture into reviewer",
+        "flashcards mula sa aralin",
+        "quiz para sa exam ko bukas",
+        "turn this pdf into a quiz",
+        "make an exam from my notes"
+      ],
+      "responses": [
+        "I can build a reviewer, quiz, mock exam and flashcards from your notes! Send the file to `POST /api/study` (multipart `file`, or JSON `text`)."
+      ]
+    },
+    {
+      "tag": "file_scan",
+      "description": "Reads text out of PDFs, Word documents and photos of notes",
+      "patterns": [
+        "read this pdf",
+        "extract text from this file",
+        "scan my notes",
+        "basahin mo ang pdf ko",
+        "i-scan ang notes ko",
+        "read this document",
+        "extract the text",
+        "what does this file say",
+        "open this pdf",
+        "basahin mo ang dokumento",
+        "read my lecture file",
+        "ocr this document"
+      ],
+      "responses": [
+        "Upload the file to `POST /api/extract` (multipart `file`) and I'll return the text. PDFs, Word documents, images of handwriting, and plain text all work."
+      ]
     }
   ],
   "training": {

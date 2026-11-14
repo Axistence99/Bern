@@ -11,11 +11,12 @@ Everything a new chat needs to resume this work. Written to survive a context re
 |---|---|
 | Repo | `github.com/Axistence99/Bern` (public) |
 | Branch | **`main`** (owner-set: never use feature branches) |
-| Commits | `9ec7c30` feat, `dbf722e` handoff, `21a72c6` AGENTS.md — on top of `74621fc` |
+| Commits | `9ec7c30` OCR, `dbf722e` handoff, `21a72c6` AGENTS.md, plus the multilingual + study work |
 | Author | **`Axistence99 <272527416+Axistence99@users.noreply.github.com>`** |
-| Tests | 22 passing (`python3 -m pytest tests/ -q`) |
-| New file | `bern/handwriting.py` (983 lines) |
+| Tests | 52 passing (`python3 -m pytest tests/ -q`) |
+| New files | `bern/handwriting.py`, `bern/ph_lexicon.py`, `bern/text_extract.py`, `bern/study.py` |
 | Modified | `bern/engine.py`, `server.py`, `data/bern_dataset.json`, `README.md` |
+| Intents | 24 total (added `handwriting_ocr`, `study_materials`, `file_scan`) |
 | Model | `models/handwriting_glyph_model.joblib` (252 KB, committed) |
 | Push target | `origin main` |
 
@@ -199,6 +200,61 @@ in ~1 GB RAM. Feature vector is 341-dim: 324 HOG + 16 zoning + 1 ink ratio.
 
 ---
 
+## 7b. Round two — Filipino/Taglish and study materials
+
+### Filename map
+| File | Responsibility |
+|---|---|
+| `bern/ph_lexicon.py` | ~2,900-word Filipino/English/Taglish dictionary; `decode_word()` beam search |
+| `bern/text_extract.py` | PDF / DOCX / image / text → `{text, source_type, engine, ...}`; stdlib only |
+| `bern/study.py` | reviewer, MCQ quiz, mock exam, flashcards from source text |
+
+### Measured results (reproduce with `scripts/e2e_handwriting_eval.py`)
+| Corpus | Raw model | With dictionary |
+|---|---|---|
+| English clean | 81.0% | 84.5% |
+| Filipino clean | 77.2% | **91.3%** |
+| Taglish clean | 76.6% | 88.3% |
+| All, char accuracy | 72.5% | **83.6%** |
+| All, exact words | 8/82 | **29/82** |
+
+Tuned by measurement, not guesswork: `lexicon_bonus` swept 2/4/6/8/12 → 6.0 won;
+`top_k` swept 5/8/12 → no difference past 5, so 5 is kept for cost.
+
+### Bugs found this round (do not re-introduce)
+1. **All-caps OCR lines eaten as headings.** `BIGAS 50 PISO` matched the caps-heading regex
+   and vanished from the text. Heading detection is now *structural*: a caps line counts only
+   if it is isolated by blank lines above and below and has ≤ 8 words.
+2. **Headings glued onto sentences**, producing glossary terms like
+   "Cell Respiration Cellular respiration". Fixed with `_logical_lines()`, which rejoins
+   hard-wrapped lines but keeps a capitalised line after an unterminated one as a boundary.
+3. **Reviewer points sliced globally.** Sentences were cut from one ranked list and handed out
+   by index, so a Cell Respiration section received Photosynthesis points. Now each section
+   ranks only its own body text.
+4. **True/false was 7-of-8 TRUE.** Random flipping is not balance; items now alternate
+   deterministically.
+5. **Distractors were verbs.** Options came from raw keywords ("nagbebenta"); definition
+   terms are now preferred as distractors.
+
+### Environment changes
+- `/tmp` is a **992 MB tmpfs** — EMNIST will not fit. Use `~/emnist_dl` on `/` (~20 GB).
+- `pypdf` is **not** installed; `python-docx` was installed once but **does not persist**.
+  That is why both extractors have stdlib fallbacks. Do not add them as hard dependencies.
+
+### Verified this round
+- 52 tests pass.
+- PDF (built by hand), DOCX (built by hand), MD and TXT all extract and produce study packs.
+- Filipino notes produce a correct glossary: nutrisyon, protina, carbohydrates, bigas, adobo.
+- 8/8 intent routing correct including the two new intents; no regression in price/nutrition.
+- Both end-to-end accuracy tables above, re-measured on this machine.
+
+### NOT verified this round
+- The new HTTP routes (`/api/extract`, `/api/study`) over a socket — still no server allowed.
+- Real photographed handwriting; only composed EMNIST ink.
+- `pypdf` path and the TrOCR/Tesseract backends (dependencies absent).
+
+---
+
 ## 8. Pending work, in priority order
 
 1. **Lorem: fix the README's phantom structure.** It documents `scripts/`, `tests/`, `web/`,
@@ -210,13 +266,13 @@ in ~1 GB RAM. Feature vector is 341-dim: 324 HOG + 16 zoning + 1 ink ratio.
    Ask the user which wins before touching code.
 4. **§3d line-by-line walkthrough** — spec ready, never applied. `bern/handwriting.py` is the
    natural first target (983 lines, well-documented, fresh).
-5. **Word-accuracy improvements, in order of expected payoff:**
-   - lexicon/beam pass over glyph probabilities using Bern's own `data/ph_prices.json` +
-     `ph_nutrition_curated.json` vocabulary (Filipino + English food/price words)
-   - per-language case model: score the whole word in upper and lower, pick the better fit,
-     instead of per-glyph
+5. **Word-accuracy improvements still open:**
+   - ~~lexicon/beam pass over glyph probabilities~~ — **done this round** (+11.1 points)
+   - per-language case model: score the whole word in upper and lower, pick the better fit
+   - punctuation prediction (EMNIST has none; a small classifier on line-end position would help)
    - finer vertical zoning / stroke-width features
    - retrain with `C`/`alpha` neighbours plus 8 epochs
+   - expand `bern/ph_lexicon.py` toward a full Filipino corpus; coverage is the binding limit
 6. **Real-photo robustness:** ruled-line removal, adaptive line detection via Hough
    transforms, perspective correction. No real handwriting photos have been tested.
 7. **Cursive support** requires TrOCR (or similar CTC model). Character segmentation cannot

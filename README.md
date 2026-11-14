@@ -8,6 +8,8 @@ It combines:
 3. **Philippine Food & Nutrition Expert (`bern/ph_nutrition.py`)** — **19,594 foods** with calories, macros, sodium and more: **1,542 DOST-FNRI PhilFCT foods** (garlic, onion, milk, canned corned beef/sardines/luncheon meat ...), **13,577 USDA FoodData Central foods** (ground beef, fast-food chicken, McDonald's USA ...), **4,378 Philippine packaged products** from Open Food Facts (191 canned goods, 117 milk/dairy ...), **28 Filipino dishes + 3 meals** (adobo, pares, bopis, sisig, sinigang, kare-kare ...) and **66 McDonald's PH / Jollibee items**. Understands Taglish (`bawang`, `sibuyas`, `gatas`, `giniling na baka`, `kanin`), scales servings, totals whole meals and tells you how trustworthy each number is (see *Data quality* below).
 4. **Philippine Peso Money Counter (`bern/money_vision.py`)** — Dual-mode OpenCV + `scikit-learn` (`VotingClassifier` over 93-dim centered ROI + color/texture/contour features) trained on `1,100` real Philippine banknote & coin photos (`RichMiguel/Banknotes-Coins`, MIT) plus synthetic tabletop lighting scenes (**95.45%** end-to-end accuracy on `220` unseen real photos).
 5. **Handwriting-to-Text OCR (`bern/handwriting.py`)** — OpenCV layout analysis (Otsu/adaptive binarisation, deskew, projection-profile line/word/glyph segmentation) driving a scikit-learn **SGD glyph classifier trained on all 697,932 EMNIST `byclass` handwritten characters**: **82.55% held-out character accuracy** on 30,000 unseen characters. Optional TrOCR backend for cursive (`pip install transformers torch`). See *Handwriting* below for what it can and cannot read.
+6. **Study Material Generator (`bern/study.py`, `bern/text_extract.py`)** — point Bern at notes, a lecture PDF, a Word document, or a photo of handwriting, and it builds a **reviewer, multiple-choice quiz, mock exam and flashcards** from that material. Fully extractive: every question is cut from a real sentence in the source, and wrong answers are other real terms from the same document. Understands English and Filipino definition patterns ("X is ...", "Ang X ay ...").
+7. **Filipino / Taglish / English handwriting (`bern/ph_lexicon.py`)** — a 2,900-word dictionary (Filipino function words + day-to-day nouns, English basics, academic vocabulary, plus food and price terms harvested from Bern's own datasets) drives dictionary-constrained beam search over the glyph model. Raises end-to-end character accuracy from **72.5% to 83.6%** and exact-word hits from **8/82 to 29/82** across the three languages.
 
 ## Project Structure
 
@@ -21,7 +23,10 @@ bern-ai/
 │   ├── ph_prices.py                 # PHPriceExpert: curated prices, 17-region WFP/DA, 1,836 SKUs
 │   ├── ph_nutrition.py              # PHNutritionExpert: PhilFCT + USDA + Open Food Facts + dishes + McDo/Jollibee
 │   ├── money_vision.py              # PhilippineMoneyCounter (real-photo ROI + tabletop OpenCV)
-│   └── handwriting.py               # HandwritingReader: segment page -> classify glyphs (EMNIST)
+│   ├── handwriting.py               # HandwritingReader: segment page -> classify glyphs (EMNIST)
+│   ├── ph_lexicon.py                # Filipino/English/Taglish dictionary + beam-search word decoder
+│   ├── text_extract.py              # PDF / DOCX / image / text -> plain text (stdlib only)
+│   └── study.py                     # reviewer, quiz, mock exam, flashcards from source text
 ├── data/
 │   ├── bern_dataset.json            # 22 intents, 1,481 English/Taglish phrases + the tuned training settings
 │   ├── augmented_examples.json      # 398 catalog-generated phrases (training only, never evaluated on)
@@ -69,6 +74,8 @@ python3 -m bern.benchmark                    # score Bern on the held-out benchm
 python3 -m bern.money_vision                 # train the peso vision model
 python3 -m bern.handwriting                  # train the handwriting glyph model (downloads EMNIST, ~536 MB)
 python3 -m bern.handwriting --image note.jpg # transcribe one photo of handwriting
+python3 -m bern.study notes.pdf              # build a study pack from any document
+python3 scripts/e2e_handwriting_eval.py --data-dir ~/emnist_dl   # EN/FIL/Taglish accuracy
 python3 server.py                            # API + web studio on http://0.0.0.0:8000
 python3 -m pytest -v                         # 23 tests
 
@@ -233,3 +240,107 @@ classes, and folding the two case forms together is worth about 5 points).
 `python3 -m bern.handwriting` writes `models/handwriting_glyph_model.joblib` (252 KB) and
 `models/handwriting_metrics.json`. Training streams the EMNIST file in batches, so it needs
 under 1 GB of RAM; on 2 CPU cores it takes about 8 minutes for 5 epochs.
+
+## Study materials from notes and lectures
+
+Point Bern at study material and it produces a reviewer, quiz, mock exam and flashcards.
+
+```bash
+python3 -m bern.study lecture.pdf --out pack.json --flashcards 20 --quiz 10
+```
+
+```python
+from bern.text_extract import extract_path
+from bern.study import generate_study_pack
+
+text = extract_path("lecture.pdf")["text"]
+pack = generate_study_pack(text, flashcards=20, quiz_items=10, true_false_items=8)
+print(pack["reviewer"]["sections"][0]["heading"])
+print(pack["quiz"][0]["question"], pack["quiz"][0]["options"])
+```
+
+```bash
+curl -X POST localhost:8000/api/study -F file=@lecture.pdf
+curl -X POST localhost:8000/api/extract -F file=@notes.docx
+```
+
+### Supported inputs
+
+| Format | Engine | Notes |
+|---|---|---|
+| PDF (text layer) | `pypdf` if installed, else built-in | Built-in reader inflates FlateDecode streams with `zlib` and reads text operators |
+| DOCX | `zipfile` + XML | Stdlib only |
+| Images (PNG/JPG/WebP/BMP/TIFF) | handwriting pipeline | Scanned or photographed notes |
+| TXT / MD / CSV | direct decode | UTF-8, cp1252 and latin-1 handled |
+
+**No new dependencies.** Every format has a working stdlib path, so the feature does not
+disappear when a virtualenv does.
+
+### What it generates
+
+- **flashcards** — term on the front, definition on the back
+- **quiz** — multiple choice; wrong answers are other real terms from the same document
+- **reviewer** — headings, key points and a glossary, section by section
+- **mock exam** — multiple choice + true/false with a balanced answer key and explanations
+
+### Honest limits
+
+- **Extractive, not generative.** Bern has no language model. Every question is built from a
+  sentence that exists in the source; nothing is invented, and nothing is summarised the way
+  an LLM would summarise it.
+- Quality tracks the source. Notes with definitions and distinct terminology produce strong
+  items; bullet fragments produce weak ones.
+- Distractors are chosen by length similarity, not by part of speech, so an occasional verb
+  lands where a noun belongs.
+- **Scanned PDFs with no text layer extract to nothing.** There is no PDF rasteriser bundled;
+  export the pages as images and send them through `/api/handwriting` instead.
+- Encrypted PDFs are refused explicitly rather than silently returning garbage.
+
+---
+
+## Multilingual handwriting
+
+`bern/handwriting.py` reads hand-*printed* text in English, Filipino and Taglish. The
+character model is unchanged — EMNIST is script-agnostic Latin — but a dictionary now repairs
+what the character model cannot.
+
+```python
+from bern.handwriting import HandwritingReader
+result = HandwritingReader().read_image(open("notes.jpg", "rb").read())
+print(result["text"])
+```
+
+Word decoding runs beam search over the per-glyph probabilities (top-5 per glyph) and scores
+each hypothesis as `sum(log p) + 6.0 · [word ∈ lexicon]`. That is what turns `B1GAS` into
+`bigas` and `6A7AS` into `gatas`: the letters are individually plausible, but only one string
+is a Filipino word. `HandwritingReader(use_lexicon=False)` disables it for inspection.
+
+The dictionary is `bern/ph_lexicon.py`: ~2,900 words — Filipino function words and everyday
+nouns, English basics, academic vocabulary, and food/price terms harvested automatically from
+`data/ph_prices.json`, `data/ph_nutrition_curated.json` and `data/ph_sku_catalog.json`.
+
+### Measured effect
+
+Same corpus, same seeds, same jitter — only dictionary correction differs:
+
+| Corpus | Raw model | With dictionary | |
+|---|---|---|---|
+| English, clean | 81.0% | **84.5%** | +3.5 |
+| Filipino, clean | 77.2% | **91.3%** | +14.1 |
+| Taglish, clean | 76.6% | **88.3%** | +11.7 |
+| English, jittered | 66.7% | **79.8%** | +13.1 |
+| Filipino, jittered | 60.9% | **69.6%** | +8.7 |
+| Taglish, jittered | 71.5% | **84.7%** | +13.2 |
+| **All, character accuracy** | **72.5%** | **83.6%** | **+11.1** |
+| **All, exact words** | **8/82** | **29/82** | **3.6×** |
+
+Filipino gains the most because its vocabulary is short and highly patterned — exactly the
+case where a dictionary beats a character model. Reproduce with:
+
+```bash
+python3 scripts/e2e_handwriting_eval.py --data-dir ~/emnist_dl              # with dictionary
+python3 scripts/e2e_handwriting_eval.py --data-dir ~/emnist_dl --no-lexicon # without
+```
+
+Still out of scope: **cursive** (segmentation cannot split a word written without lifting the
+pen — use the TrOCR backend) and **punctuation** (EMNIST has no punctuation classes).

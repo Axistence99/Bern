@@ -374,6 +374,31 @@ class BernAI:
         result["ai_name"] = self.bundle.get("ai_name", "Bern")
         return result
 
+    def build_study_pack(self, text: str, **options: Any) -> dict[str, Any]:
+        """Turn notes or lecture text into a reviewer, quiz, mock exam and flashcards.
+
+        Thin wrapper over :func:`bern.study.generate_study_pack` that stamps Bern's
+        identity onto the result, matching the other API payloads.
+        """
+        from bern.study import generate_study_pack
+
+        pack = generate_study_pack(text, **options)
+        pack["ai_name"] = self.bundle.get("ai_name", "Bern")
+        return pack
+
+    def extract_document(self, data: bytes, filename: str = "") -> dict[str, Any]:
+        """Read text out of an uploaded PDF, DOCX, image or text file.
+
+        Raises:
+            ValueError: if the file type is unsupported or the PDF is encrypted.
+        """
+        from bern.text_extract import ExtractionError, extract_text
+
+        try:
+            return extract_text(data, filename)
+        except ExtractionError as exc:
+            raise ValueError(str(exc)) from exc
+
     @property
     def gating(self) -> dict[str, float]:
         return {**DEFAULT_GATING, **self.bundle.get("gating", {})}
@@ -548,6 +573,21 @@ class BernAI:
                 "**API:** `POST /api/handwriting` with multipart field `image`, or JSON "
                 "`{\"image_base64\": \"data:image/jpeg;base64,...\"}`.\n\n"
                 "Block letters on clean paper work best — for cursive, enable the TrOCR backend."
+            )
+        elif intent == "study_materials":
+            reply = (
+                "I can turn your notes into a **reviewer**, **quiz**, **mock exam** and "
+                "**flashcards** — all built from your own material, nothing invented.\n\n"
+                "**API:** `POST /api/study` with multipart `file` (PDF, DOCX, image, or text) "
+                "or JSON `{\"text\": \"...\"}`, plus optional `flashcards`, `quiz_items`, "
+                "`true_false_items`.\n\n"
+                "Handwritten notes work too — they are scanned first, then turned into questions."
+            )
+        elif intent == "file_scan":
+            reply = (
+                "Send me the file and I'll pull the text out.\n\n"
+                "**API:** `POST /api/extract` with multipart `file`.\n\n"
+                "Supported: PDF (text layer), DOCX, plain text, and photos of handwriting."
             )
         elif intent == "user_name":
             new_name = extract_user_name(msg_clean)

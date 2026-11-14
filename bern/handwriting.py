@@ -52,6 +52,8 @@ import cv2
 import joblib
 import numpy as np
 
+from bern.ph_lexicon import decode_word, get_lexicon
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 MODELS_DIR = BASE_DIR / "models"
 DEFAULT_HANDWRITING_MODEL_PATH = MODELS_DIR / "handwriting_glyph_model.joblib"
@@ -666,19 +668,15 @@ class GlyphBackend:
                 twins.setdefault(char.lower(), []).append(index)
         self.case_twins: list[list[int]] = [group for group in twins.values() if len(group) > 1]
 
-    def recognize(self, glyph_bgr: np.ndarray) -> tuple[str, float]:
-        """Classify a single normalised character.
+    def _class_probabilities(self, glyph_bgr: np.ndarray) -> np.ndarray:
+        """Per-class probabilities for one glyph, after case-twin folding.
 
         The probabilities of the two case forms of a letter are pooled onto whichever
-        form the model prefers. EMNIST treats ``O`` and ``o`` (and ``0``) as separate
+        form the model prefers. EMNIST scores ``O`` and ``o`` (and ``0``) as separate
         classes, so without this step the model keeps splitting its confidence three
         ways and picks the wrong one; pooling bought about 5 points of end-to-end word
         accuracy in testing. Digits are never pooled, so ``0`` still has to win on its
         own merit.
-
-        Returns:
-            ``(character, probability)``. Probability is the softmax output of the
-            log-loss classifier, so it is a real confidence and not a raw margin.
         """
         normalized = normalize_glyph(glyph_bgr)
         features = glyph_features(normalized).reshape(1, -1)
@@ -689,14 +687,38 @@ class GlyphBackend:
             winner = int(group[int(np.argmax(probas[group]))])
             probas[group] = 0.0
             probas[winner] = mass
+        return probas
 
-        best = int(np.argmax(probas))
-        char = self.classes[best]
+    def _apply_case_mode(self, char: str) -> str:
+        """Force upper/lower case when the caller asked for it."""
         if self.case_mode == "upper":
-            char = char.upper()
-        elif self.case_mode == "lower":
-            char = char.lower()
-        return char, float(probas[best])
+            return char.upper()
+        if self.case_mode == "lower":
+            return char.lower()
+        return char
+
+    def recognize(self, glyph_bgr: np.ndarray) -> tuple[str, float]:
+        """Classify a single normalised character.
+
+        Returns:
+            ``(character, probability)``. Probability is the softmax output of the
+            log-loss classifier, so it is a real confidence and not a raw margin.
+        """
+        probas = self._class_probabilities(glyph_bgr)
+        best = int(np.argmax(probas))
+        return self._apply_case_mode(self.classes[best]), float(probas[best])
+
+    def recognize_topk(self, glyph_bgr: np.ndarray, k: int = 5) -> list[tuple[str, float]]:
+        """Return the ``k`` most likely characters for one glyph, best first.
+
+        This is the input to :func:`bern.ph_lexicon.decode_word`, which needs the
+        runner-up letters — a ``g`` read as ``9`` with 0.41 confidence usually has ``g``
+        sitting right behind it at 0.38, and that second option is what lets the dictionary
+        rescue the word.
+        """
+        probas = self._class_probabilities(glyph_bgr)
+        best_indices = np.argsort(probas)[::-1][:k]
+        return [(self._apply_case_mode(self.classes[int(i)]), float(probas[int(i)])) for i in best_indices]
 
 
 class TrocrBackend:
@@ -790,10 +812,21 @@ class HandwritingReader:
     """
 
     def __init__(self, backend: str = "auto", model_path: Path = DEFAULT_HANDWRITING_MODEL_PATH,
-                 case_mode: str = "auto") -> None:
+                 case_mode: str = "auto", use_lexicon: bool = True) -> None:
+        """
+        Args:
+            backend: ``auto``, ``glyph``, ``trocr`` or ``tesseract``.
+            model_path: Trained glyph model.
+            case_mode: ``auto``, ``upper`` or ``lower``.
+            use_lexicon: Correct each word against the Filipino/English dictionary. Costs
+                nothing measurable and repairs the digit-for-letter confusions that the
+                character model cannot resolve on its own; disable only to inspect raw
+                model output.
+        """
         self.model_path = Path(model_path)
         self.requested_backend = backend
         self.case_mode = case_mode
+        self.use_lexicon = use_lexicon
         self._backend: Any = None
         self._backend_name = ""
 
@@ -854,6 +887,10 @@ class HandwritingReader:
         ink = cv2.bitwise_not(gray)
         mask, ink = deskew(ink_mask(gray), ink)
 
+        # Dictionary decoding only makes sense for backends that expose ranked characters.
+        top_k_backend = hasattr(backend, "recognize_topk") and self.use_lexicon
+        top_k = 5
+
         lines_out: list[dict[str, Any]] = []
         line_boxes = segment_lines(mask)
 
@@ -880,7 +917,9 @@ class HandwritingReader:
             for x, y, w, h in word_boxes:
                 word_mask = line_mask[y:y + h, x:x + w]
                 word_ink = line_ink[y:y + h, x:x + w]
-                pieces: list[str] = []
+                glyph_options: list[list[tuple[str, float]]] = []
+                fallback_chars: list[str] = []
+
                 for gx, gy, gw, gh in segment_glyphs(word_mask):
                     # Crop the grayscale ink, not the hard binary mask. EMNIST glyphs are
                     # antialiased, so handing the classifier crisp 0/255 edges is a
@@ -888,12 +927,22 @@ class HandwritingReader:
                     glyph = word_ink[gy:gy + gh, gx:gx + gw]
                     if not glyph.size:
                         continue
-                    char, prob = backend.recognize(glyph)
-                    pieces.append(char)
-                    confidences.append(prob)
+                    if top_k_backend:
+                        glyph_options.append(backend.recognize_topk(glyph, k=top_k))
+                    else:
+                        char, prob = backend.recognize(glyph)
+                        fallback_chars.append(char)
+                        confidences.append(prob)
                     glyph_total += 1
-                if pieces:
-                    words.append("".join(pieces))
+
+                if glyph_options:
+                    # Dictionary-constrained beam search over the whole word. This is what
+                    # turns "p1s0" into "piso" and "6A7AS" into "gatas".
+                    word_text, word_conf = decode_word(glyph_options, self._lexicon)
+                    words.append(self._apply_word_case(word_text))
+                    confidences.append(word_conf)
+                elif fallback_chars:
+                    words.append("".join(fallback_chars))
 
             if words:
                 line_conf = float(np.mean(confidences)) if confidences else float("nan")
@@ -903,6 +952,19 @@ class HandwritingReader:
 
         text = "\n".join(item["text"] for item in lines_out)
         return self._result(text, lines_out, backend, sum(i["glyphs"] for i in lines_out), started)
+
+    @property
+    def _lexicon(self) -> Any:
+        """The shared word list, or ``None`` when correction is switched off."""
+        return get_lexicon() if self.use_lexicon else None
+
+    def _apply_word_case(self, word: str) -> str:
+        """Force word case when requested, otherwise keep the decoded spelling."""
+        if self.case_mode == "upper":
+            return word.upper()
+        if self.case_mode == "lower":
+            return word.lower()
+        return word
 
     def _decode(self, source: bytes | str | Path | np.ndarray) -> np.ndarray:
         """Normalise the four accepted input types into one BGR array."""

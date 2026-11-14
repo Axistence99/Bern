@@ -350,6 +350,107 @@ class HandwritingHandler(BaseHandler):
             self.write_json({"error": str(exc)}, status_code=400)
 
 
+class ExtractHandler(BaseHandler):
+    """Turn an uploaded document into plain text.
+
+    Accepts multipart field ``file`` (PDF, DOCX, image, or text) or JSON ``text`` which is
+    passed through. Useful on its own, and it is what powers the study endpoints.
+    """
+
+    def post(self) -> None:
+        try:
+            data, filename = self._read_upload()
+            if data is None:
+                body = self.parse_json_body()
+                pasted = str(body.get("text", ""))
+                if not pasted.strip():
+                    self.write_json(
+                        {"error": "Provide a file via multipart 'file' or JSON 'text'."},
+                        status_code=400,
+                    )
+                    return
+                self.write_json({"text": pasted, "source_type": "text", "engine": "pasted",
+                                 "characters": len(pasted), "lines": pasted.count("\n") + 1,
+                                 "words": len(pasted.split())})
+                return
+
+            from bern.text_extract import ExtractionError, extract_text
+
+            try:
+                self.write_json(extract_text(data, filename))
+            except ExtractionError as exc:
+                self.write_json({"error": str(exc)}, status_code=400)
+        except Exception as exc:
+            self.write_json({"error": str(exc)}, status_code=400)
+
+    def _read_upload(self) -> tuple[bytes | None, str]:
+        """Return the uploaded file bytes and name, or ``(None, "")``."""
+        if "file" in self.request.files and self.request.files["file"]:
+            upload = self.request.files["file"][0]
+            return upload["body"], str(upload.get("filename", ""))
+        return None, ""
+
+
+class StudyMaterialsHandler(BaseHandler):
+    """Build reviewers, quizzes and flashcards from notes, a lecture file, or pasted text.
+
+    The heavy lifting is in :mod:`bern.study`; this handler only chooses the source.
+    """
+
+    def post(self) -> None:
+        try:
+            from bern.study import generate_study_pack
+            from bern.text_extract import ExtractionError, extract_text
+
+            body: dict[str, Any] = {}
+            try:
+                body = self.parse_json_body()
+            except Exception:
+                body = {}
+            if not isinstance(body, dict):
+                body = {}
+
+            source_text = str(body.get("text", ""))
+            source_type = "text"
+
+            if "file" in self.request.files and self.request.files["file"]:
+                upload = self.request.files["file"][0]
+                try:
+                    extracted = extract_text(upload["body"], str(upload.get("filename", "")))
+                except ExtractionError as exc:
+                    self.write_json({"error": str(exc)}, status_code=400)
+                    return
+                source_text = extracted["text"]
+                source_type = extracted["source_type"]
+            elif not source_text.strip():
+                self.write_json(
+                    {"error": "Provide a file via multipart 'file' or JSON 'text'."},
+                    status_code=400,
+                )
+                return
+
+            if not source_text.strip():
+                self.write_json(
+                    {"error": "No text could be extracted. For a scanned PDF, export the "
+                              "pages as images and send them through /api/handwriting."},
+                    status_code=400,
+                )
+                return
+
+            pack = generate_study_pack(
+                source_text,
+                flashcards=int(body.get("flashcards", 20)),
+                quiz_items=int(body.get("quiz_items", 10)),
+                true_false_items=int(body.get("true_false_items", 8)),
+                seed=int(body.get("seed", 7)),
+            )
+            pack["source_stats"]["source_type"] = source_type
+            pack["ai_name"] = bern_ai.bundle.get("ai_name", "Bern")
+            self.write_json(pack)
+        except Exception as exc:
+            self.write_json({"error": str(exc)}, status_code=400)
+
+
 class SampleMoneyPhotoHandler(BaseHandler):
     def get(self) -> None:
         jpg_bytes = generate_sample_ph_money_image()
@@ -397,6 +498,8 @@ def make_app() -> tornado.web.Application:
             (r"/api/datasets", DatasetsHandler),
             (r"/api/count-money", CountMoneyHandler),
             (r"/api/handwriting", HandwritingHandler),
+            (r"/api/extract", ExtractHandler),
+            (r"/api/study", StudyMaterialsHandler),
             (r"/api/sample-money-photo", SampleMoneyPhotoHandler),
             (r"/api/react-native-files", ReactNativeFilesHandler),
         ]
