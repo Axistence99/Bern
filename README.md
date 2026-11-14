@@ -46,10 +46,10 @@ bern-ai/
 │   ├── metrics.json                 # Held-out split accuracy, CV score, per-intent F1, benchmark summary
 │   └── training_report.json         # Baseline vs trained benchmark, model search, rejection thresholds, dev log
 ├── react-native/
-│   ├── bernApi.ts                   # API client: chat, prices, nutrition search / item / meal, money counter
-│   ├── BernChatScreen.tsx           # Drop-in Taglish chat & price screen
-│   ├── BernNutritionScreen.tsx      # Drop-in nutrition search + meal calorie basket
-│   └── BernMoneyScannerScreen.tsx   # Drop-in Expo Camera / ImagePicker Philippine Peso counter
+│   └── bernApi.ts                   # Full API client (chat, prices, nutrition, money, handwriting, study)
+├── examples/
+│   ├── quickstart.sh                # curl every endpoint in one go
+│   └── python_client.py             # stdlib-only Python client
 ├── scripts/
 │   ├── build_ph_catalog.py          # ETL: ph_prices / regional / sku JSON catalogs
 │   ├── build_philfct_compact.py     # FNRI PhilFCT (CC0 dump) -> compact gz
@@ -61,7 +61,7 @@ bern-ai/
 ├── tests/
 │   └── test_bern.py                 # NLP, benchmark thresholds, prices, nutrition, money counter & API tests (23)
 ├── web/
-│   └── index.html                   # Bern AI Studio: chat, prices, nutrition, money counter, trainer, RN code
+│   └── index.html                   # Browser test console for every endpoint (served at "/")
 └── server.py                        # Tornado HTTP + REST API server (0.0.0.0:8000)
 ```
 
@@ -344,3 +344,74 @@ python3 scripts/e2e_handwriting_eval.py --data-dir ~/emnist_dl --no-lexicon # wi
 
 Still out of scope: **cursive** (segmentation cannot split a word written without lifting the
 pen — use the TrOCR backend) and **punctuation** (EMNIST has no punctuation classes).
+
+## Testing it
+
+Three ways, in order of speed.
+
+### 1. Browser console
+
+```bash
+python3 server.py          # serves http://0.0.0.0:8000
+```
+
+Open `http://localhost:8000` — `web/index.html` is a console with a tab per feature: chat,
+handwriting, study pack, extract, money. The health badge turns green when the server answers.
+
+### 2. curl
+
+```bash
+./examples/quickstart.sh                            # every endpoint, localhost
+BERN=http://192.168.1.20:8000 ./examples/quickstart.sh   # another host
+NOTE_FILE=note.jpg PDF_FILE=lecture.pdf ./examples/quickstart.sh   # include uploads
+```
+
+### 3. Python, stdlib only
+
+```bash
+python3 examples/python_client.py http://localhost:8000
+```
+
+`examples/python_client.py` has no `requests` dependency and doubles as copy-paste material.
+
+### Automated tests
+
+```bash
+python3 -m pytest -v        # 52 tests: NLP, prices, nutrition, handwriting, study, extraction
+```
+
+---
+
+## Integrating it into your app
+
+The server sets `Access-Control-Allow-Origin: *`, so a browser or Expo web build can call it
+directly. In React Native / Expo:
+
+```ts
+import { BernClient } from "./react-native/bernApi";
+
+const bern = new BernClient("http://192.168.1.20:8000");
+
+await bern.chat("magkano ang bigas");                      // { reply, intent, confidence, ... }
+await bern.handwriting(photoUri);                          // { text, lines, confidence, ... }
+await bern.studyFile(pdfUri, "lecture.pdf");               // { reviewer, quiz, flashcards, mock_exam }
+await bern.countMoney(photoUri);                           // { total_php, items }
+```
+
+`react-native/bernApi.ts` is dependency-free (uses `fetch` + `FormData`), fully typed, and
+covers all 22 routes.
+
+### The one thing that trips people up
+
+**`localhost` on a phone means the phone.** When testing on a physical device, use your
+machine's LAN address — `http://192.168.x.x:8000` — and make sure the device is on the same
+Wi-Fi. If the app hangs instead of erroring, it is almost always this.
+
+### Deployment notes
+
+- The server binds `0.0.0.0:8000`, port overridable with `PORT`.
+- It loads the intent model, the nutrition corpus (~19k foods) and the money model at import
+  time, so cold start takes several seconds before the first request is answered.
+- There is **no authentication**. Anyone who can reach the port can call every endpoint,
+  including `POST /api/train` and `DELETE /api/intents/{tag}`. Put it behind a reverse proxy
+  with auth, and do not expose it directly to the internet.

@@ -61,7 +61,11 @@ class HomeHandler(BaseHandler):
     def get(self) -> None:
         index_path = WEB_DIR / "index.html"
         if not index_path.exists():
-            self.write_json({"error": "Web UI not found"}, status_code=404)
+            self.write_json(
+                {"error": "Web UI not found", "expected": str(index_path),
+                 "hint": "Check out the full repository, or use the API directly — see README."},
+                status_code=404,
+            )
             return
         self.set_header("Content-Type", "text/html; charset=utf-8")
         self.set_header("Cache-Control", "no-store")
@@ -460,18 +464,27 @@ class SampleMoneyPhotoHandler(BaseHandler):
 
 
 class ReactNativeFilesHandler(BaseHandler):
+    """Serve the bundled React Native client files as JSON.
+
+    Degrades to a 404 with an explanation instead of a stack trace when the directory has
+    not been checked out — the handler used to read the files unconditionally.
+    """
+
     def get(self) -> None:
-        api_ts = (RN_DIR / "bernApi.ts").read_text(encoding="utf-8")
-        chat_tsx = (RN_DIR / "BernChatScreen.tsx").read_text(encoding="utf-8")
-        scanner_tsx = (RN_DIR / "BernMoneyScannerScreen.tsx").read_text(encoding="utf-8")
-        files = {
-            "bernApi.ts": api_ts,
-            "BernChatScreen.tsx": chat_tsx,
-            "BernMoneyScannerScreen.tsx": scanner_tsx,
-        }
-        nutrition_path = RN_DIR / "BernNutritionScreen.tsx"
-        if nutrition_path.exists():
-            files["BernNutritionScreen.tsx"] = nutrition_path.read_text(encoding="utf-8")
+        api_ts = RN_DIR / "bernApi.ts"
+        if not api_ts.exists():
+            self.write_json(
+                {"error": f"React Native client files not found in {RN_DIR}. "
+                          "They ship with the repository — check out the full tree."},
+                status_code=404,
+            )
+            return
+        api_source = api_ts.read_text(encoding="utf-8")
+        files = {"bernApi.ts": api_source}
+        for name in ("BernChatScreen.tsx", "BernMoneyScannerScreen.tsx", "BernNutritionScreen.tsx"):
+            candidate = RN_DIR / name
+            if candidate.exists():
+                files[name] = candidate.read_text(encoding="utf-8")
         self.write_json({"files": files})
 
 

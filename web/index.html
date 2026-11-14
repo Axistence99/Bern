@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bern — API test console</title>
+<!--
+  A dependency-free console for exercising every Bern endpoint from a browser.
+  It is served at "/" by server.py. All styles are inline on purpose: this page has to
+  work when opened from the filesystem with no network access to a CDN.
+-->
+<style>
+  :root { color-scheme: light dark; --fg:#101418; --muted:#5b6672; --line:#d8dee6; --bg:#fff; --accent:#1f6feb; --ok:#1a7f37; --err:#b42318; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg:#e6edf3; --muted:#8b96a3; --line:#2c333b; --bg:#0d1117; --accent:#4493f8; --ok:#3fb950; --err:#f85149; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; color:var(--fg); background:var(--bg); }
+  header { padding:20px 24px 0; border-bottom:1px solid var(--line); }
+  h1 { margin:0 0 4px; font-size:20px; letter-spacing:-0.01em; }
+  .sub { color:var(--muted); font-size:13px; margin-bottom:14px; }
+  .status { display:inline-block; font-size:12px; padding:2px 9px; border-radius:99px; border:1px solid var(--line); margin-left:8px; vertical-align:2px; }
+  .status.ok { color:var(--ok); border-color:var(--ok); }
+  .status.bad { color:var(--err); border-color:var(--err); }
+  nav { display:flex; gap:4px; flex-wrap:wrap; padding:0 24px; border-bottom:1px solid var(--line); }
+  nav button { background:none; border:none; border-bottom:2px solid transparent; color:var(--muted); padding:10px 14px; font:inherit; cursor:pointer; }
+  nav button[aria-selected="true"] { color:var(--fg); border-bottom-color:var(--accent); font-weight:600; }
+  main { padding:24px; max-width:900px; }
+  section[hidden] { display:none; }
+  label { display:block; font-size:13px; color:var(--muted); margin:10px 0 4px; }
+  input[type=text], input[type=number], textarea, select {
+    width:100%; padding:9px 11px; font:inherit; color:var(--fg); background:var(--bg);
+    border:1px solid var(--line); border-radius:7px;
+  }
+  textarea { min-height:110px; resize:vertical; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px; }
+  .row { display:flex; gap:10px; flex-wrap:wrap; }
+  .row > * { flex:1 1 160px; }
+  button.act { margin-top:14px; padding:9px 18px; font:inherit; font-weight:600; color:#fff;
+    background:var(--accent); border:none; border-radius:7px; cursor:pointer; }
+  button.act:disabled { opacity:.55; cursor:progress; }
+  pre { margin-top:16px; padding:14px; background:rgba(127,127,127,.09); border:1px solid var(--line);
+    border-radius:8px; font-size:12.5px; line-height:1.5; overflow:auto; max-height:440px; white-space:pre-wrap; word-break:break-word; }
+  .hint { font-size:12.5px; color:var(--muted); margin-top:6px; }
+  .err { color:var(--err); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Bern <span id="status" class="status">checking…</span></h1>
+  <div class="sub">Test console for the REST API. Every request below goes to the server that served this page.</div>
+</header>
+
+<nav>
+  <button aria-selected="true" data-tab="chat">Chat</button>
+  <button aria-selected="false" data-tab="handwriting">Handwriting</button>
+  <button aria-selected="false" data-tab="study">Study pack</button>
+  <button aria-selected="false" data-tab="extract">Extract text</button>
+  <button aria-selected="false" data-tab="money">Money</button>
+</nav>
+
+<main>
+  <!-- Chat -->
+  <section id="chat">
+    <label for="chat-msg">Message</label>
+    <input id="chat-msg" type="text" value="magkano ang bigas" autocomplete="off">
+    <div class="hint">Try: <code>gumawa ng quiz mula sa notes ko</code>, <code>read my handwriting</code>, <code>calories ng adobo</code></div>
+    <button class="act" id="chat-go">POST /api/chat</button>
+    <pre id="chat-out">—</pre>
+  </section>
+
+  <!-- Handwriting -->
+  <section id="handwriting" hidden>
+    <label for="hw-file">Photo of handwriting</label>
+    <input id="hw-file" type="file" accept="image/*">
+    <div class="row">
+      <div>
+        <label for="hw-backend">Backend</label>
+        <select id="hw-backend">
+          <option value="auto">auto</option>
+          <option value="glyph">glyph (Bern's own)</option>
+          <option value="trocr">trocr (cursive, needs install)</option>
+          <option value="tesseract">tesseract</option>
+        </select>
+      </div>
+      <div>
+        <label for="hw-case">Case</label>
+        <select id="hw-case">
+          <option value="auto">auto</option>
+          <option value="upper">UPPER</option>
+          <option value="lower">lower</option>
+        </select>
+      </div>
+    </div>
+    <button class="act" id="hw-go">POST /api/handwriting</button>
+    <div class="hint">Block letters on clean paper. Cursive needs the trocr backend.</div>
+    <pre id="hw-out">—</pre>
+  </section>
+
+  <!-- Study -->
+  <section id="study" hidden>
+    <label for="study-file">Notes or lecture file (PDF, DOCX, image, text)</label>
+    <input id="study-file" type="file" accept=".pdf,.docx,.txt,.md,image/*">
+    <label for="study-text">…or paste notes instead</label>
+    <textarea id="study-text" placeholder="Ang nutrisyon ay ang proseso ng pagkuha ng mga sustansya mula sa pagkain."></textarea>
+    <div class="row">
+      <div><label for="study-cards">Flashcards</label><input id="study-cards" type="number" value="10" min="1" max="50"></div>
+      <div><label for="study-quiz">Quiz items</label><input id="study-quiz" type="number" value="5" min="1" max="30"></div>
+      <div><label for="study-tf">True/false</label><input id="study-tf" type="number" value="4" min="0" max="20"></div>
+    </div>
+    <button class="act" id="study-go">POST /api/study</button>
+    <pre id="study-out">—</pre>
+  </section>
+
+  <!-- Extract -->
+  <section id="extract" hidden>
+    <label for="extract-file">Document</label>
+    <input id="extract-file" type="file" accept=".pdf,.docx,.txt,.md,image/*">
+    <button class="act" id="extract-go">POST /api/extract</button>
+    <pre id="extract-out">—</pre>
+  </section>
+
+  <!-- Money -->
+  <section id="money" hidden>
+    <label for="money-file">Photo of Philippine bills / coins</label>
+    <input id="money-file" type="file" accept="image/*">
+    <button class="act" id="money-go">POST /api/count-money</button>
+    <div class="hint">No photo handy? <a href="/api/sample-money-photo">GET /api/sample-money-photo</a> returns a synthetic one.</div>
+    <pre id="money-out">—</pre>
+  </section>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+
+// -- tabs ---------------------------------------------------------------------------
+document.querySelectorAll("nav button").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll("nav button").forEach((b) => b.setAttribute("aria-selected", String(b === button)));
+    document.querySelectorAll("main section").forEach((s) => { s.hidden = s.id !== button.dataset.tab; });
+  });
+});
+
+// -- helpers ------------------------------------------------------------------------
+function show(element, value, isError = false) {
+  element.textContent = typeof value === "string" ? value : JSON.stringify(value, null, 2);
+  element.classList.toggle("err", Boolean(isError));
+}
+
+async function send(element, url, options) {
+  element.textContent = "…";
+  element.classList.remove("err");
+  try {
+    const response = await fetch(url, options);
+    const text = await response.text();
+    let payload;
+    try { payload = JSON.parse(text); } catch { payload = text; }
+    if (!response.ok) {
+      show(element, payload, true);
+      return null;
+    }
+    show(element, payload);
+    return payload;
+  } catch (error) {
+    show(element, `Network error: ${error.message}\n\nIs the server running, and is this page served by it?`, true);
+    return null;
+  }
+}
+
+function formData(field, input, extra = {}) {
+  const form = new FormData();
+  if (input.files && input.files[0]) form.append(field, input.files[0]);
+  for (const [key, value] of Object.entries(extra)) form.append(key, value);
+  return form;
+}
+
+// -- health -------------------------------------------------------------------------
+fetch("/api/health")
+  .then((r) => r.json())
+  .then((d) => {
+    $("status").textContent = `${d.ai_name} · ${d.num_intents} intents`;
+    $("status").className = "status ok";
+  })
+  .catch(() => { $("status").textContent = "offline"; $("status").className = "status bad"; });
+
+// -- chat ---------------------------------------------------------------------------
+$("chat-go").addEventListener("click", () =>
+  send($("chat-out"), "/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: $("chat-msg").value, session_id: "console" }),
+  }));
+$("chat-msg").addEventListener("keydown", (e) => { if (e.key === "Enter") $("chat-go").click(); });
+
+// -- handwriting --------------------------------------------------------------------
+$("hw-go").addEventListener("click", () => {
+  if (!$("hw-file").files[0]) { show($("hw-out"), "Choose an image first.", true); return; }
+  send($("hw-out"), "/api/handwriting", {
+    method: "POST",
+    body: formData("image", $("hw-file"), { backend: $("hw-backend").value, case_mode: $("hw-case").value }),
+  });
+});
+
+// -- study --------------------------------------------------------------------------
+$("study-go").addEventListener("click", () => {
+  const hasFile = $("study-file").files[0];
+  const pasted = $("study-text").value.trim();
+  if (!hasFile && !pasted) { show($("study-out"), "Attach a file or paste notes.", true); return; }
+
+  const options = {
+    flashcards: $("study-cards").value,
+    quiz_items: $("study-quiz").value,
+    true_false_items: $("study-tf").value,
+  };
+
+  if (hasFile) {
+    send($("study-out"), "/api/study", { method: "POST", body: formData("file", $("study-file"), options) });
+  } else {
+    send($("study-out"), "/api/study", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: pasted, ...options }),
+    });
+  }
+});
+
+// -- extract ------------------------------------------------------------------------
+$("extract-go").addEventListener("click", () => {
+  if (!$("extract-file").files[0]) { show($("extract-out"), "Choose a file first.", true); return; }
+  send($("extract-out"), "/api/extract", { method: "POST", body: formData("file", $("extract-file")) });
+});
+
+// -- money --------------------------------------------------------------------------
+$("money-go").addEventListener("click", () => {
+  if (!$("money-file").files[0]) { show($("money-out"), "Choose an image first.", true); return; }
+  send($("money-out"), "/api/count-money", { method: "POST", body: formData("image", $("money-file")) });
+});
+</script>
+</body>
+</html>
