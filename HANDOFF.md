@@ -56,6 +56,10 @@ Read-only clone/pull over HTTPS always works without any key.
 
 ## 3. Standing instructions from the user (do not lose these)
 
+> **Verbatim source:** [`AGENTS.md`](AGENTS.md) at the repo root holds the owner's exact
+> wording. The summary below is a convenience index — **when the two disagree, `AGENTS.md`
+> wins.** Read that file first.
+
 The user sent four instruction blocks. They are permanent unless the user revises them.
 
 ### 3a. Universal vibe coding rules (§0)
