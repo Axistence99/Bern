@@ -1,0 +1,19 @@
+# Keep the image small and the build context quick.
+.git
+.gitignore
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Tests are a development concern and are not needed to serve requests.
+tests/
+docs/
+
+# Rebuilt inside the image by the Dockerfile; editing them locally must not leak in.
+models/bern_model.joblib
+models/metrics.json
+
+# The LMDB/EMNIST download is huge and only needed for retraining handwriting.
+data/external/emnist/

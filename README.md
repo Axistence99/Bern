@@ -498,6 +498,25 @@ follows the OpenAI chat-completions API, which is unverified against the live se
 
 ---
 
+## Sharing it with other people
+
+See **[SHARE.md](SHARE.md)** for the three ways to get Bern in front of someone else, in order
+of effort: same network with no install, Docker plus a tunnel, or a hosted deploy.
+
+```bash
+python3 -m pip install -r requirements.txt
+python3 server.py                 # binds 0.0.0.0, honours $PORT
+```
+
+Then hand over `http://<your-lan-ip>:8000`. The Handwriting tab has a **"Load a sample"**
+button that loads `examples/sample_handwriting.png` — real handwriting that reads back exactly
+— so a first-time visitor has something to try without hunting for a photo.
+
+> **Bern has no authentication.** `POST /api/train` rewrites the model and `DELETE
+> /api/intents/<tag>` deletes a skill, both open to anyone who has the URL. Fine on a
+> classroom LAN; not fine on the public internet without a login in front of it. `SHARE.md`
+> has the details.
+
 ## Testing it
 
 Three ways, in order of speed.

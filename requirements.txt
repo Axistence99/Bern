@@ -1,0 +1,33 @@
+# Bern runtime dependencies.
+#
+# Everything here is required to start the server and use every feature. Nothing optional:
+# the handwriting reader needs OpenCV and scikit-learn, the intent model needs scikit-learn
+# to unpickle, and the API needs Tornado.
+#
+#     python3 -m pip install -r requirements.txt
+#     python3 server.py
+#
+# Versions are pinned because the committed .joblib models were pickled with these. scikit-
+# learn pickles are not guaranteed to load across versions - a mismatch can warn or fail
+# outright - so the pin is what makes `models/*.joblib` work as shipped.
+
+tornado==6.6
+numpy==2.3.5
+scikit-learn==1.6.1
+joblib==1.5.3
+scipy==1.17.1
+
+# No GUI calls anywhere in the codebase, so the headless build is correct and avoids
+# pulling X11 libraries into a container. If you already have `opencv-python` installed,
+# keep it - importing `cv2` works either way; do not install both, they overwrite each other.
+opencv-python-headless==4.11.0.86
+
+# ── Optional ────────────────────────────────────────────────────────────────────────────
+# Not needed to run Bern. Install only if you want the matching feature.
+#
+#   pytest==8.3.4        # python3 -m pytest tests/         (dev)
+#   pillow               # python3 -m bern.symbols          (retrain the symbol model)
+#   transformers, torch  # cursive handwriting (TrOCR backend, ~2 GB download)
+#
+# The opt-in language model needs NO package: bern/llm.py uses the standard library's
+# urllib. It is enabled with BERN_LLM_API_KEY, not with pip.

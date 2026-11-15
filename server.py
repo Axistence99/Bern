@@ -533,6 +533,24 @@ class TutorHandler(BaseHandler):
         self.write_json({"cleared": session_id})
 
 
+class SampleHandwritingHandler(BaseHandler):
+    """Serve the committed sample handwriting image for the web console's demo button.
+
+    Returns a plain 404 with an explanation when the file is absent, rather than raising:
+    the sample is a convenience, and its absence must not look like a server fault.
+    """
+
+    def get(self) -> None:
+        path = BASE_DIR / "examples" / "sample_handwriting.png"
+        if not path.exists():
+            self.write_json({"error": "No sample image in examples/sample_handwriting.png."},
+                            status_code=404)
+            return
+        self.set_header("Content-Type", "image/png")
+        self.set_header("Cache-Control", "no-store")
+        self.finish(path.read_bytes())
+
+
 class SampleMoneyPhotoHandler(BaseHandler):
     def get(self) -> None:
         jpg_bytes = generate_sample_ph_money_image()
@@ -592,6 +610,7 @@ def make_app() -> tornado.web.Application:
             (r"/api/extract", ExtractHandler),
             (r"/api/study", StudyMaterialsHandler),
             (r"/api/tutor", TutorHandler),
+            (r"/examples/sample_handwriting\.png", SampleHandwritingHandler),
             (r"/api/sample-money-photo", SampleMoneyPhotoHandler),
             (r"/api/react-native-files", ReactNativeFilesHandler),
         ]

@@ -394,9 +394,36 @@ first real call as untested code.
 
 ---
 
+## 7e. Sharing with other people
+
+| File | Purpose |
+| --- | --- |
+| `requirements.txt` | **New.** Pinned runtime deps. Verified by a clean-venv install. |
+| `Dockerfile`, `.dockerignore` | **New.** Build-time training of the gitignored model. |
+| `SHARE.md` | **New.** Three sharing routes plus the security warning. |
+| `examples/sample_handwriting.png` | **New.** Demo image; reads back exactly. |
+| `web/index.html` | "Load a sample" button. |
+| `server.py` | `GET /examples/sample_handwriting.png`. |
+
+Verified by a clean venv (`python3 -m venv`, `pip install -r requirements.txt`): imports,
+`server` module load, intent prediction, study packs, handwriting with the symbol backend, and
+**102/102 tests**. Versions also checked to exist on PyPI.
+
+**Not verified:** `docker build` — no Docker daemon in this environment. The Dockerfile is
+reviewed statically only (base image, layer order, build-time training, non-root user,
+`PORT`/`EXPOSE`). Treat the first real build as untested.
+
+Security finding: **no authentication anywhere**. `POST /api/train` and
+`DELETE /api/intents/<tag>` are open, and no request-body limit is configured. Documented in
+`SHARE.md`; not fixed, because a fix changes the API surface and is a decision for the owner.
+
+---
+
 ## 8. Pending work, in priority order
 
-1. ~~**Fix the README's phantom structure.**~~ **Partly fixed this round.** The worst case was
+1. ~~**Fix the README's phantom structure.**~~ **Mostly fixed.** `requirements.txt` now exists
+   and was verified by installing into a clean venv (102 tests pass there). `Dockerfile`,
+   `.dockerignore` and `SHARE.md` added. The worst case was
    `scripts/train_bern.py`, referenced four times and **never committed to this repo** — anyone
    following the README got `No such file or directory`. Full training now runs as
    `python3 -m bern.trainer` (real `argparse` CLI added; before this, `--help` silently started

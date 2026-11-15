@@ -92,9 +92,31 @@
       </div>
     </div>
     <button class="act" id="hw-go">POST /api/handwriting</button>
-    <div class="hint">Block letters on clean paper. Cursive needs the trocr backend.</div>
+    <div class="hint">No photo handy? <a href="#" id="hw-sample">Load a sample</a> — real
+      handwriting, reads back exactly. Block letters on clean paper; cursive needs trocr.</div>
     <pre id="hw-out">—</pre>
   </section>
+
+  <script>
+    // One-click demo: fetch the committed sample image and load it into the file input, so
+    // someone opening the app with nothing to upload can still try the feature.
+    document.getElementById("hw-sample").addEventListener("click", async (event) => {
+      event.preventDefault();
+      const out = document.getElementById("hw-out");
+      out.textContent = "loading sample…";
+      try {
+        const response = await fetch("examples/sample_handwriting.png");
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const blob = await response.blob();
+        const transfer = new DataTransfer();
+        transfer.items.add(new File([blob], "sample_handwriting.png", { type: "image/png" }));
+        document.getElementById("hw-file").files = transfer.files;
+        out.textContent = "sample loaded — press POST /api/handwriting";
+      } catch (error) {
+        out.textContent = "could not load the sample: " + error.message;
+      }
+    });
+  </script>
 
   <!-- Study -->
   <section id="study" hidden>
