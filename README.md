@@ -233,6 +233,33 @@ const result = await bern.handwriting(photoUri);            // photo URI from th
 the iOS and Android settings that block plain HTTP, why `localhost` never works on a phone,
 camera-to-text in a working component, and how to degrade when the server is unreachable.
 
+### Running Bern on the phone, with no server
+
+`react-native/bernOnDevice.ts` evaluates the models in TypeScript. No Python runtime, no
+OpenCV, no scikit-learn, no network — 2.84 MB of weights in `models/ondevice/`.
+
+```ts
+import { BernOnDevice } from "./bern/bernOnDevice";
+const leaf = await BernOnDevice.load(intentJson, glyphJson, symbolJson);
+
+leaf.classify("magkano ang bigas?");       // { intent: "ph_price_lookup", confidence: 0.98 }
+leaf.readGlyph(twentyEightByTwentyEight);  // { char: "a", confidence: 0.93, candidates: [...] }
+leaf.readSymbol(twentyEightByTwentyEight); // { char: "ñ", ... }
+```
+
+| Model | On the phone | Measured |
+| --- | --- | --- |
+| Intents (24 classes) | yes | 18/18 agreement with the server on a mixed sample |
+| Handwriting (62 classes) | yes, one character at a time | 80.9% on 20,000 held-out EMNIST glyphs |
+| Symbols (28 classes) | yes | 99.3% held out |
+| Page → text (segmentation) | **no** | stays on the server; the phone has no line/word splitter |
+
+The server's own handwriting model scores 82.55% with OpenCV features; the phone's is trained
+on the portable descriptor and loses 1.6 points, which is what makes it portable. The
+TypeScript and the Python are checked against each other on every run of
+`scripts/check_ondevice_parity.py` — identifiers, probabilities and confidences agree to
+float32 rounding (differences around 1e-7).
+
 ## React Native / Expo
 
 Copy `react-native/` into your app, set `BERN_API_URL` in `bernApi.ts`, then:

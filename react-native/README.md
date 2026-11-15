@@ -12,24 +12,30 @@ Native and Expo both provide.
 
 ---
 
-## Decide the architecture first
+## Two ways to run Bern, and you can use both
 
-**Recommended: the phone talks to a server running Bern.**
+| | Runs where | Needs a server | Answers from |
+| --- | --- | --- | --- |
+| `bernApi.ts` | Python server | yes | everything, including prices and file reading |
+| `bernOnDevice.ts` | the phone | no | its 24 intents, stored answers, single characters |
 
-```
-[ phone app ]  --HTTP/HTTPS-->  [ Bern server: Python + OpenCV + scikit-learn ]
-```
+**On the phone — `bernOnDevice.ts`.** The intent model, the handwriting model and the symbol
+model are 2.84 MB of weights, exported to `models/ondevice/*.json` and evaluated in TypeScript.
+No Python runtime, no OpenCV, no scikit-learn, no network. A message sent to a phone in
+airplane mode still classifies and still gets an answer.
 
-The phone sends a photo, the server runs the model, the phone gets text back. This is what
-`bernApi.ts` assumes, and it is the only practical option today.
+**On a server — `bernApi.ts`.** Everything the on-device models cannot do: reading a
+photographed page (splitting lines, words and characters), looking up a price, correcting a
+spelling against the dictionary, explaining an out-of-scope question, building a study pack.
 
-**Not recommended: running Bern on the device.** It is technically possible (BeeWare,
-Chaquopy, pyodide) but you would be shipping a Python runtime, OpenCV and scikit-learn inside
-the app — hundreds of MB, slow start, and a build process most teams regret. The models are
-only 5.8 MB; the *runtime* is the problem.
+The honest split is that the phone recognises *what you asked* and the server answers *with
+data*. Shipping only the on-device path gives a Bern that knows 24 things; shipping only the
+server path gives a Bern that stops working when the Wi-Fi does.
 
-The practical consequence: **the app needs a reachable server.** Either one on the same Wi-Fi
-(a laptop), or a hosted one. See `../SHARE.md` for how to run it.
+> An earlier version of this file said embedding Bern in the app was not recommended. That was
+> about embedding the *Python runtime*, which is still a bad idea — hundreds of megabytes, slow
+> cold start. Porting the *models* is a different proposition, and it is what `bernOnDevice.ts`
+> does.
 
 ---
 
@@ -61,6 +67,49 @@ console.log(followUp.resolved_as);   // "magkano ang Regular Milled Rice"
 | `studyFile` / `studyText` | `POST /api/study` | Multipart field `file` |
 | `prices` `skus` `budget` `nutrition` `meal` | `/api/ph-prices*`, `/api/nutrition*` | Text only |
 | `tutor(question, {notes, sessionId})` | `POST /api/tutor` | **Needs a server-side API key** |
+
+---
+
+## Running it with no server at all
+
+The bundles live in `models/ondevice/` and are committed, so there is nothing to generate
+before first run. Regenerate them with `scripts/export_ondevice.py` only when a model changes.
+
+```ts
+import { BernOnDevice } from "./bern/bernOnDevice";
+import intent from "../models/ondevice/intent.json";
+import glyph from "../models/ondevice/glyph.json";
+import symbol from "../models/ondevice/symbol.json";
+
+const leaf = await BernOnDevice.load(intent, glyph, symbol);
+
+// What did they ask? Works offline, ~1 ms.
+const { intent: tag, confidence } = leaf.classify("magkano ang bigas?");
+// tag: "ph_price_lookup", confidence: 0.97
+
+// Bern's own answer, stored with the model. No lookup, so no price in it.
+leaf.reply("salamat po");        // { intent: "gratitude", text: "You're welcome! Happy to help anytime." }
+
+// One character, straight from a 28x28 ink-bright crop.
+const crop = leaf.prepare(cameraGray, width, height);   // normalise any size to 28x28
+leaf.readGlyph(crop);            // { char: "a", confidence: 0.93, candidates: [...] }
+leaf.readSymbol(crop);           // ".", ",", "?", "+", "ñ", ...
+```
+
+| Method | Cost | What it needs |
+| --- | --- | --- |
+| `classify(text)` | ~1 ms | nothing |
+| `reply(text)` | ~1 ms | nothing; `needsServer` is set for `out_of_scope` |
+| `readGlyph(28x28)` | ~2 ms | a **cropped** character — see below |
+| `readSymbol(28x28)` | ~2 ms | a cropped symbol |
+| `prepare(gray, w, h)` | ~1 ms | any grey crop, ink bright |
+
+**`readGlyph` takes one character, not a page.** Splitting a photo into lines, words and glyphs
+is done with OpenCV projection profiles and morphological thresholds on the server
+(`bern/handwriting.py:segment_lines` and friends). That code was not ported. If your app
+photographs whole pages, use `bernApi.ts` — or crop to a single character before calling
+`readGlyph`. Saying this plainly beats shipping a reader that returns one letter for a
+sentence.
 
 ---
 
@@ -225,6 +274,9 @@ Measured on this repo — do not oversell it in the app:
 
 | Feature | State |
 | --- | --- |
+| Chat, no server | `bernOnDevice.ts`: 24 intents, measured 18/18 agreement with the server on a sample |
+| One handwritten character, no server | 80.9% per character, measured on 20,000 held-out EMNIST glyphs |
+| Handwriting across a page | **Server only** — the phone has no line/word/glyph segmenter |
 | Block-letter handwriting | Good on clean paper. `. , - ?` now recovered; `ñ` supported |
 | Phone photos | Perspective and ruled-line handling exist, **never tested on a real photo** |
 | Chat follow-ups | Works, no key needed |

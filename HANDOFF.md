@@ -465,6 +465,68 @@ environment.
 
 ---
 
+## 7g. Bern running on the phone
+
+The user asked for the models to run *inside the app*, with no server. Done, with one honest
+gap.
+
+**Why it was possible.** Bern's models are 5.8 MB; the runtime around them was the entire
+obstacle. `bern/portable_features.py` and `bern/portable_text.py` reimplement the two feature
+extractors with nothing but numpy, and `react-native/bernFeatures.ts` ports those to
+TypeScript. Every step is a deliberate match of scikit-learn's semantics, not a
+simplification — `char_wb` n-grams that count a short word once, `sublinear_tf`, smooth IDF,
+per-vectoriser L2 before the union weights, and OpenCV's pixel-centre resize mapping.
+
+**The decision that made it work.** Reimplementing `cv2.HOGDescriptor` bit-for-bit is not
+achievable in reasonable time. Instead the models were *retrained on the portable descriptor*,
+so both sides share one implementation and the difference from OpenCV stops mattering. That
+costs accuracy, and the cost was measured rather than assumed:
+
+| Model | Server (OpenCV features) | Phone (portable features) | Cost |
+| --- | --- | --- | --- |
+| Handwriting, 62 classes | 82.55% (30k held out) | **80.91%** (300k train, 20k held out) | −1.6 points |
+| Symbols, 28 classes | 99.67% | **99.25%** (fresh render, 80/20 split) | −0.4 points |
+| Intents, 24 classes | unchanged | identical weights | 0 |
+
+**The epochs surprise.** `--epochs 3` scored 63% and looked like a broken port. It was the
+averaged-SGD schedule: with `average=True` and `learning_rate="optimal"` the step size has
+collapsed by the end of pass one, so later passes wander around a worse iterate and drag the
+running average with them. Measured on 100,000 glyphs: 1 pass 79.9%, 3 passes 75.7%, 5 passes
+79.3%. On 300,000: 1 pass 80.6%, 2 passes 80.9%. Default is now 2. Do not "improve" it by
+raising epochs.
+
+**Verified, by running it.** `scripts/check_ondevice_parity.py` feeds 52 glyphs and 18
+messages through both implementations — glyph features differ by 7.5e-08, intent probabilities
+by 6.7e-08, and the two read 52/52 glyphs and 52/52 symbols identically. That is float32
+accumulation noise, not a behavioural difference. The check compiles the TypeScript with `tsc`
+and runs it under `node`; neither is needed at runtime.
+
+**What the phone cannot do**, and the app must not pretend otherwise: split a photographed page
+into lines, words and characters (`segment_lines` and friends are OpenCV projection profiles,
+never ported), look anything up, correct a spelling against the dictionary, or answer outside
+the 24 intents. The honest limits are written down in `react-native/README.md`.
+
+**The promise problem.** Several stored replies are *announcements* — "Let me check my 2026
+Philippine Price Knowledge Base!" — with the answer produced server-side from data the phone
+does not carry. Printing that on the phone promises a price and then shows nothing. The
+exporter now ships `server_backed`, the list of those eleven intents, and `reply()` sets
+`needsServer` so the app can route them to the server instead of presenting the announcement
+as the answer.
+
+**Exported artifacts** (committed, 2.84 MB total in `models/ondevice/`):
+
+| File | Size | Contents |
+| --- | --- | --- |
+| `intent.json` | 2.67 MB | 24 classes, 18,898 features, vocabularies, IDF, weights, stored answers |
+| `glyph.json` | 0.11 MB | 62 classes, 341-feature descriptor, `feature_extractor: portable` |
+| `symbol.json` | 0.05 MB | 28 classes, same descriptor |
+
+`scripts/export_ondevice.py` is idempotent: a plain run refreshes intents and *keeps* the two
+models that need the EMNIST download or the font renderer, refusing to reuse one that was
+trained on OpenCV features.
+
+---
+
 ## 8. Pending work, in priority order
 
 1. ~~**Fix the README's phantom structure.**~~ **Mostly fixed.** `requirements.txt` now exists
@@ -493,7 +555,12 @@ environment.
    real phone photos; expect the thresholds in `bern/preprocess.py` to need adjusting.
 7. **Cursive support** requires TrOCR (or similar CTC model). Character segmentation cannot
    solve it, by construction.
-8. **Tier 3 and 4 are built, but only offline paths are verified.** `bern/llm.py` holds the
+8. ~~**"Lets run bern inside the app then."**~~ **Done — see §7g.** Intent, handwriting and
+   symbol models now run in TypeScript on the phone; parity with Python is checked by
+   `scripts/check_ondevice_parity.py`. The one remaining gap is page segmentation, which still
+   needs OpenCV's projection profiles on the server. Porting it is the next step if the user
+   wants whole-page reading without a server.
+9. **Tier 3 and 4 are built, but only offline paths are verified.** `bern/llm.py` holds the
    opt-in layer and `/api/tutor` adds sessions. See §7d. The live HTTP call has never been
    made — no API key exists in this environment.
 
