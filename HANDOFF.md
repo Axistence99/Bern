@@ -382,10 +382,12 @@ first real call as untested code.
 
 ## 8. Pending work, in priority order
 
-1. **Lorem: fix the README's phantom structure.** It documents `scripts/`, `tests/`, `web/`,
-   `models/`, `react-native/`, and `requirements.txt` — none existed at `74621fc`. Now `tests/`
-   and `models/` do exist (partly), the rest still do not. §1 forbids documenting things that
-   don't exist. This is the biggest doc debt in the repo.
+1. ~~**Fix the README's phantom structure.**~~ **Partly fixed this round.** The worst case was
+   `scripts/train_bern.py`, referenced four times and **never committed to this repo** — anyone
+   following the README got `No such file or directory`. Full training now runs as
+   `python3 -m bern.trainer` (real `argparse` CLI added; before this, `--help` silently started
+   a training run). `requirements.txt` and `web/` genuinely exist; `react-native/` only partly.
+   Remaining: re-audit the project-structure tree against the actual file listing.
 2. **No `requirements.txt`** anywhere. Deps are unpinned and undiscoverable. Straightforward win.
 3. **§2 readability pass** — never started, and it conflicts with §3d's "do not refactor".
    Ask the user which wins before touching code.

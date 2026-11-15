@@ -331,6 +331,34 @@ def train_bern_model(
     return metrics
 
 
-if __name__ == "__main__":
-    result = train_bern_model()
+def main() -> None:
+    """``python3 -m bern.trainer`` — retrain the intent model from ``data/``.
+
+    ``--fast`` skips the model search and calibration and just refits, which is what
+    ``POST /api/train`` does between phrases. Without it the full search runs, which is the
+    path to take after changing the dataset rather than after adding one sentence.
+    """
+    import argparse
+    from pathlib import Path
+
+    parser = argparse.ArgumentParser(
+        description="Train Bern's intent model from data/bern_dataset.json."
+    )
+    parser.add_argument("--dataset", default="data/bern_dataset.json",
+                        help="training dataset (default: data/bern_dataset.json)")
+    parser.add_argument("--model", default="models/bern_model.joblib",
+                        help="output model bundle (default: models/bern_model.joblib)")
+    parser.add_argument("--metrics", default="models/metrics.json",
+                        help="output metrics report (default: models/metrics.json)")
+    parser.add_argument("--fast", action="store_true",
+                        help="skip model search and calibration; refit only (~10 s)")
+    args = parser.parse_args()
+
+    result = train_bern_model(
+        Path(args.dataset), Path(args.model), Path(args.metrics), fast=args.fast
+    )
     print(json.dumps(result, indent=2))
+
+
+if __name__ == "__main__":
+    main()

@@ -56,7 +56,7 @@ bern-ai/
 │   ├── build_usda_core.py           # USDA FDC bulk CSV -> compact gz
 │   ├── download_off_ph_nutrition.py # Open Food Facts PH products (bulk CSV export, resumable)
 │   ├── build_ph_nutrition.py        # Filipino dish recipes + McDonald's / Jollibee -> ph_nutrition_curated.json
-│   ├── train_bern.py                # full training: model search -> threshold calibration -> final model -> benchmark report
+│   └── (intent training lives in bern/trainer.py: python3 -m bern.trainer)
 │   └── download_kaggle_datasets.py  # Optional authenticated Kaggle downloader
 ├── tests/
 │   └── test_bern.py                 # NLP, benchmark thresholds, prices, nutrition, money counter & API tests (23)
@@ -68,7 +68,8 @@ bern-ai/
 ## Quick Commands
 
 ```bash
-python3 scripts/train_bern.py                # FULL training: model search + calibration + benchmark report (~2 min)
+python3 -m bern.trainer                     # FULL training: model search + calibration (~20 s)
+python3 -m bern.trainer --fast              # refit only, what POST /api/train does (~10 s)
 python3 -m bern.trainer                      # quick retrain with the stored settings
 python3 -m bern.benchmark                    # score Bern on the held-out benchmark (prints dev failures only)
 python3 -m bern.money_vision                 # train the peso vision model
@@ -135,7 +136,7 @@ Each food record has `per_100g` (generic foods, products, dishes) or `per_servin
 
 ## Training Bern
 
-Bern's intent model was trained in a measured, repeatable way (`python3 scripts/train_bern.py`):
+Bern's intent model was trained in a measured, repeatable way (`python3 -m bern.trainer`):
 
 1. **Frozen benchmark first.** `data/eval/bern_benchmark.json` holds 380 realistic English/Taglish messages (typos, short chat, off-topic questions) written *independently* of the training phrases and checked for zero overlap (a test enforces it). `dev` (135) is used for error analysis; `test` (130) and `test2` (115, written after the first training run) are held-out.
 2. **Data.** 1,101 new hand-written phrases (Tagalog/Taglish conversation, API / React Native / training questions, price, budget, nutrition wording), a new **`out_of_scope`** intent (239 off-topic examples so Bern knows what it does *not* know), 398 catalog-generated phrases where the same food appears with price, nutrition and "how to cook" wording, and refreshed answers about Bern's own API, files and pipeline.
@@ -153,7 +154,7 @@ Bern's intent model was trained in a measured, repeatable way (`python3 scripts/
 
 How to read this honestly: the benchmark was written by one author (me), so real-world accuracy will differ; `dev` scores (100%) are optimistic because errors on it were used for learning; `test` was scored twice (before and after the threshold calibration) and `test2` once for routing. Three expert-module bugs (generic words matching a vegetable in SKU search, unit words like "cup" treated as food names, Tagalog "listahan ng presyo") were fixed after they surfaced in held-out failures — only answer checks were affected, and both numbers are in `models/training_report.json`. Known weak spots: off-topic questions phrased like price or budget questions ("magkano ang bagong kotse", "convert 100 dollars to pesos") can still slip through, and ambiguous pairs (`api_usage` vs `deployment_tips`, `greeting` vs `small_talk` for "kumusta") are sometimes swapped. Prices for products that only exist as SKUs (e.g. *tuyo*) are reported as "no verified price".
 
-**Teach Bern more:** use the **Train Bern** tab or `POST /api/train`. Live retraining takes ~6 s, uses the tuned settings stored in the dataset, and moves an identical phrase out of `out_of_scope` if you teach Bern something it used to decline. Re-run `python3 scripts/train_bern.py` after bigger changes and compare `models/training_report.json`.
+**Teach Bern more:** use the **Train Bern** tab or `POST /api/train`. Live retraining takes ~6 s, uses the tuned settings stored in the dataset, and moves an identical phrase out of `out_of_scope` if you teach Bern something it used to decline. Re-run `python3 -m bern.trainer` after bigger changes and compare `models/metrics.json`.
 
 ## Data quality — read this before trusting a number
 
@@ -401,6 +402,48 @@ python3 scripts/e2e_handwriting_eval.py --data-dir ~/emnist_dl --no-lexicon # wi
 Still out of scope: **cursive** (segmentation cannot split a word written without lifting the
 pen — use the TrOCR backend) and **punctuation** (EMNIST has no punctuation classes).
 
+## How training actually works
+
+Bern is four small models and one word list, each trained or built by a different process.
+"Retraining" means one of these, not editing code — but several real improvements *were* code
+fixes rather than training, and that distinction matters.
+
+| What | How it is trained | Command | Measured |
+|---|---|---|---|
+| **Intent model** (`models/bern_model.joblib`, 5.6 MB) | TF-IDF word 1–2-grams + char 2–5-grams → `LogisticRegression` | `python3 -m bern.trainer` | 17.7 s, CV macro-F1 0.8634, CV accuracy 0.8719 |
+| **Handwriting glyphs** (`models/handwriting_glyph_model.joblib`, 252 KB) | SGD (log-loss, averaged) over 341-d HOG, 5 epochs over EMNIST `byclass` | `python3 -m bern.handwriting` | ~8 min on 2 cores, 82.55% held-out |
+| **Symbols** (`models/symbol_model.joblib`, 117 KB) | SGD over 19,600 synthetic renders of 28 classes | `python3 -m bern.symbols` | 100% on unseen font families |
+| **Dictionary** (`bern/ph_lexicon.py`, 2,936 words) | **Not trained.** Hand-curated. | add words by hand | coverage is the binding limit |
+
+Two ways to retrain the intent model, and they are not the same job:
+
+```bash
+python3 -m bern.trainer          # full: model search + threshold calibration (~18 s)
+python3 -m bern.trainer --fast   # refit only, no CV (~10 s)
+```
+
+`POST /api/train` runs the **fast** path. It reports no `cv_macro_f1` — there is no
+cross-validation in that mode — so do not compare a fast score against a full one.
+
+### What training does *not* fix
+
+Worth knowing, because it is where most of the recent accuracy came from:
+
+| Symptom | Training helps? | What actually helps |
+|---|---|---|
+| Model confuses `0` and `O` | A little | Dictionary constraint on decoding |
+| Word splits in the wrong place | **No** | Segmentation code |
+| `.` and `,` never appear | **No** — not in EMNIST | Separate symbol model |
+| A correct word outside the dictionary | **No** | Adding the word to `ph_lexicon.py` |
+| Cursive | No | Different model class entirely (CTC) |
+
+Measured on this repo: the same 82.55% glyph model scores 91.7% end-to-end once decoding is
+constrained, and punctuation went from impossible to readable without retraining the glyph
+model at all. Retraining is the right tool when the *model* is wrong; it does nothing when the
+*pipeline around it* is wrong.
+
+---
+
 ## Optional: a language model for Tier 3 and Tier 4
 
 Everything above runs offline on scikit-learn, OpenCV and the 2,936-word dictionary. Two
@@ -487,7 +530,7 @@ python3 examples/python_client.py http://localhost:8000
 ### Automated tests
 
 ```bash
-python3 -m pytest -v        # 80 tests: NLP, prices, nutrition, handwriting, study,
+python3 -m pytest -v        # 102 tests: NLP, prices, nutrition, handwriting, study,
                             # extraction, punctuation geometry, symbols, photo preprocessing
 ```
 
