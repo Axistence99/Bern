@@ -216,6 +216,25 @@ Philippine chains' live nutrition pages (Jollibee app, McDelivery) cannot be dow
 
 ## React Native / Expo
 
+A dependency-free TypeScript client lives in `react-native/bernApi.ts`: handwriting, chat with
+session memory, study packs, prices, nutrition and peso counting, fully typed.
+
+```bash
+cp react-native/bernApi.ts your-app/src/bern/bernApi.ts
+```
+
+```ts
+import { BernClient } from "./bern/bernApi";
+const bern = new BernClient("http://192.168.1.20:8000");   // your server, not localhost
+const result = await bern.handwriting(photoUri);            // photo URI from the image picker
+```
+
+**[react-native/README.md](react-native/README.md)** covers the parts that actually cost time:
+the iOS and Android settings that block plain HTTP, why `localhost` never works on a phone,
+camera-to-text in a working component, and how to degrade when the server is unreachable.
+
+## React Native / Expo
+
 Copy `react-native/` into your app, set `BERN_API_URL` in `bernApi.ts`, then:
 
 ```tsx

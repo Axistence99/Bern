@@ -40,6 +40,26 @@ export interface ChatResponse {
   model_version: string;
   trained_at: string | null;
   guessed_intent?: string;
+  /** `"local"` or `"llm"` — which engine actually produced this reply. */
+  engine?: string;
+  /** Items the reply was about, e.g. `["Regular Milled Rice"]`. */
+  entities?: string[];
+  /**
+   * Set when a follow-up was rewritten using earlier turns, e.g. `"magkano ang Regular
+   * Milled Rice"`. Show it if you want to make the interpretation visible.
+   */
+  resolved_as?: string | null;
+  /** What the server remembers for this session. */
+  conversation?: { turns: number; subject: string | null; discussed: string[] };
+}
+
+/** Response from `POST /api/tutor`. Requires a language model on the server. */
+export interface TutorResponse {
+  answer: string;
+  engine: string;
+  grounded: boolean;
+  session_id: string;
+  turns: number;
 }
 
 export interface HandwritingLine {
@@ -57,6 +77,12 @@ export interface HandwritingResponse {
   inference_ms: number;
   unsupported_symbols: string[];
   ai_name: string;
+  /**
+   * What the photo pipeline corrected before reading. Useful to surface: "straightened the
+   * page" explains a surprising result, and `rules_removed: 0` on ruled paper tells you the
+   * detection missed and the reading is probably bad.
+   */
+  repairs?: { perspective: boolean; rules_removed: number; columns: number };
 }
 
 export interface ExtractedDocument {
@@ -197,16 +223,49 @@ export class BernClient {
   // -- conversation --------------------------------------------------------------------
 
   /** Health probe. Use this to confirm the phone can reach the laptop before debugging anything else. */
-  health(): Promise<{ status: string; ai_name: string; num_intents: number }> {
+  health(): Promise<{ status: string; ai_name: string; num_intents: number; language_model?: boolean }> {
     return this.request("/api/health");
   }
 
   /** Free-form chat. Returns the reply plus the routing metadata behind it. */
-  chat(message: string, sessionId = "default"): Promise<ChatResponse> {
-    return this.postJson("/api/chat", { message, session_id: sessionId });
+  /**
+   * Send one message, continuing the conversation identified by `sessionId`.
+   *
+   * Follow-ups work: the server remembers what earlier turns were about, so "what about
+   * the other one?" resolves against the previous answer. Keep the same `sessionId` for a
+   * conversation and use a new one to start over.
+   *
+   * @param engine `"auto"` (default) uses the server's language model when one is
+   *               configured; `"local"` never does. Both behave identically without a key.
+   */
+  chat(message: string, sessionId = "default", engine: "auto" | "local" = "auto"): Promise<ChatResponse> {
+    return this.postJson("/api/chat", { message, session_id: sessionId, engine });
   }
 
   /** Raw classifier output without the response text. Useful for debugging misrouting. */
+  /**
+   * Ask a follow-up question about a set of notes. Requires `BERN_LLM_API_KEY` on the
+   * server; without one the call rejects with HTTP 503 and a readable message.
+   *
+   * Distinct from {@link chat}: this carries the notes as grounding and the model answers
+   * in its own words. The server keeps the thread per `sessionId`, so pass the same one to
+   * continue.
+   */
+  tutor(question: string, options: { sessionId?: string; notes?: string } = {}): Promise<TutorResponse> {
+    return this.postJson("/api/tutor", {
+      question,
+      session_id: options.sessionId ?? "default",
+      notes: options.notes ?? "",
+    });
+  }
+
+  /** Forget a tutoring session on the server. */
+  clearTutorSession(sessionId = "default"): Promise<{ cleared: string }> {
+    return this.request(`/api/tutor?session_id=${encodeURIComponent(sessionId)}`, {
+      method: "DELETE",
+    });
+  }
+
   predict(message: string): Promise<ChatResponse> {
     return this.postJson("/api/predict", { message });
   }
