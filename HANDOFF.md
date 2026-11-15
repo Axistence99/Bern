@@ -343,6 +343,43 @@ the cross-family figures above are the ones that mean anything.
 
 ---
 
+## 7d. Round three, part two — Tier 3 and Tier 4 (opt-in)
+
+| File | Change |
+| --- | --- |
+| `bern/llm.py` | **New.** Opt-in language-model layer: study packs, tutoring sessions. |
+| `bern/study.py` | `generate_study_pack(..., engine="local" \| "llm" \| "auto")`. Default unchanged. |
+| `server.py` | `engine` accepted by `/api/study`; new `/api/tutor` with in-memory sessions. |
+| `tests/test_llm.py` | **New.** 22 tests, all offline. |
+
+### The contract
+
+- Disabled unless `BERN_LLM_API_KEY` is set. `llm.is_available()` is the single check.
+- `engine="local"` (the default) is byte-for-byte the old behaviour.
+- `engine="auto"` uses the model when configured, else the local generator. Never raises.
+- `engine="llm"` raises `LLMError` when no model is configured. Deliberate: a caller that
+  asked for an explanation should not silently receive flashcards.
+- `/api/tutor` returns 503 without a key rather than a scripted answer.
+- Stdlib `urllib.request` only. No SDK, no new dependency.
+
+### Reply handling
+
+Model output is untrusted input. A quiz item whose `answer` is not among its own `options` is
+dropped; flashcards need both sides; true/false needs a real boolean; an answer key is rebuilt
+from the questions rather than trusted from the model. `_parse_json_object` accepts a bare
+object, a fenced block, or an object wrapped in prose.
+
+### Verified / not verified
+
+Verified: everything in `tests/test_llm.py` — availability gating, the fallback contract, reply
+cleaning, JSON extraction, mock-exam assembly, session reset. 102 tests pass.
+
+**Not verified: the live HTTP call.** No API key exists here. The request body follows the
+OpenAI chat-completions schema, but that has not been exercised against the service. Treat the
+first real call as untested code.
+
+---
+
 ## 8. Pending work, in priority order
 
 1. **Lorem: fix the README's phantom structure.** It documents `scripts/`, `tests/`, `web/`,
@@ -367,9 +404,9 @@ the cross-family figures above are the ones that mean anything.
    real phone photos; expect the thresholds in `bern/preprocess.py` to need adjusting.
 7. **Cursive support** requires TrOCR (or similar CTC model). Character segmentation cannot
    solve it, by construction.
-8. **Tier 3 and 4 are not started.** Generative study packs and tutoring need a language model.
-   The plan was agreed and is unchanged: a `ChatGPTBackend` behind the existing `study.py`
-   interface, opt-in, with the local template generator kept as the offline fallback.
+8. **Tier 3 and 4 are built, but only offline paths are verified.** `bern/llm.py` holds the
+   opt-in layer and `/api/tutor` adds sessions. See §7d. The live HTTP call has never been
+   made — no API key exists in this environment.
 
 ---
 

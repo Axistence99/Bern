@@ -441,18 +441,96 @@ class StudyMaterialsHandler(BaseHandler):
                 )
                 return
 
+            # "auto" is the safe default: it uses a language model only when one is
+            # configured and falls back to the local generator otherwise, so an install with
+            # no key behaves exactly as before.
+            engine = str(body.get("engine", "auto")).lower()
+            if engine not in ("local", "llm", "auto"):
+                self.write_json(
+                    {"error": "engine must be 'local', 'llm' or 'auto'."}, status_code=400
+                )
+                return
+
             pack = generate_study_pack(
                 source_text,
                 flashcards=int(body.get("flashcards", 20)),
                 quiz_items=int(body.get("quiz_items", 10)),
                 true_false_items=int(body.get("true_false_items", 8)),
                 seed=int(body.get("seed", 7)),
+                engine=engine,
             )
             pack["source_stats"]["source_type"] = source_type
             pack["ai_name"] = bern_ai.bundle.get("ai_name", "Bern")
             self.write_json(pack)
         except Exception as exc:
             self.write_json({"error": str(exc)}, status_code=400)
+
+
+class TutorHandler(BaseHandler):
+    """Answer follow-up questions about a set of notes, remembering the conversation.
+
+    Requires a configured language model (``BERN_LLM_API_KEY``). Without one this returns 503
+    with an explanation instead of pretending to tutor: a scripted reply that ignores the
+    question is worse than an honest refusal, and the local study pack is still available at
+    ``/api/study``.
+
+    Sessions are held in memory and keyed by ``session_id``. They are lost on restart, which
+    is acceptable for a single-user local tool and avoids a storage dependency.
+    """
+
+    _sessions: dict[str, Any] = {}
+    _max_sessions = 64
+
+    def post(self) -> None:
+        try:
+            from bern import llm
+
+            body = self.parse_json_body()
+            if not isinstance(body, dict):
+                body = {}
+
+            if not llm.is_available():
+                self.write_json(
+                    {"error": "Tutoring needs a language model. Set BERN_LLM_API_KEY and "
+                              "restart. Everything else in Bern works without it.",
+                     "engine": "none"},
+                    status_code=503,
+                )
+                return
+
+            question = str(body.get("question", "")).strip()
+            if not question:
+                self.write_json({"error": "Provide a 'question'."}, status_code=400)
+                return
+
+            session_id = str(body.get("session_id", "default"))
+            notes = str(body.get("notes", ""))
+
+            session = self._sessions.get(session_id)
+            if session is None or (notes and notes != session.notes):
+                # New session, or the caller swapped the notes under an existing one.
+                if len(self._sessions) >= self._max_sessions:
+                    oldest = next(iter(self._sessions))
+                    self._sessions.pop(oldest, None)
+                session = llm.TutorSession(notes=notes)
+                self._sessions[session_id] = session
+
+            result = session.ask(question)
+            self.write_json({
+                "answer": result["answer"],
+                "engine": result["engine"],
+                "grounded": result["grounded"],
+                "session_id": session_id,
+                "turns": len(session.history) // 2,
+            })
+        except Exception as exc:
+            self.write_json({"error": str(exc)}, status_code=400)
+
+    def delete(self) -> None:
+        """Forget a session. ``DELETE /api/tutor?session_id=...``"""
+        session_id = self.get_query_argument("session_id", "default")
+        self._sessions.pop(session_id, None)
+        self.write_json({"cleared": session_id})
 
 
 class SampleMoneyPhotoHandler(BaseHandler):
@@ -513,6 +591,7 @@ def make_app() -> tornado.web.Application:
             (r"/api/handwriting", HandwritingHandler),
             (r"/api/extract", ExtractHandler),
             (r"/api/study", StudyMaterialsHandler),
+            (r"/api/tutor", TutorHandler),
             (r"/api/sample-money-photo", SampleMoneyPhotoHandler),
             (r"/api/react-native-files", ReactNativeFilesHandler),
         ]

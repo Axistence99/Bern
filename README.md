@@ -401,6 +401,60 @@ python3 scripts/e2e_handwriting_eval.py --data-dir ~/emnist_dl --no-lexicon # wi
 Still out of scope: **cursive** (segmentation cannot split a word written without lifting the
 pen — use the TrOCR backend) and **punctuation** (EMNIST has no punctuation classes).
 
+## Optional: a language model for Tier 3 and Tier 4
+
+Everything above runs offline on scikit-learn, OpenCV and the 2,936-word dictionary. Two
+things genuinely need a language model, because a 21k-parameter classifier cannot do them:
+
+| | Local (default) | With `BERN_LLM_API_KEY` |
+|---|---|---|
+| **Study packs** | Extractive: finds real definitions in your notes and quizzes you on them. Invents nothing. | Generative: explains ideas in its own words, writes plausible distractors, follows the notes' language. |
+| **Tutoring** | Not available. | Multi-turn: remembers what you asked and answers follow-ups, grounded in your notes. |
+
+The local path is **never removed**. With no key, `/api/study` behaves exactly as before and
+`/api/tutor` returns 503 with an explanation rather than a scripted reply that ignores you.
+
+```bash
+export BERN_LLM_API_KEY=sk-...          # required to enable
+export BERN_LLM_MODEL=gpt-4o-mini       # default
+export BERN_LLM_BASE_URL=...            # any OpenAI-compatible endpoint
+```
+
+`BERN_LLM_BASE_URL` matters more than it looks: point it at Ollama or llama.cpp and the notes
+never leave the machine even with a model configured.
+
+```bash
+# auto: uses the model only if one is configured, otherwise the local generator
+curl -X POST http://localhost:8000/api/study -H "Content-Type: application/json" \
+     -d '{"text":"Mitochondria produce ATP...","engine":"auto"}'
+
+# tutoring keeps the conversation, keyed by session_id
+curl -X POST http://localhost:8000/api/tutor -H "Content-Type: application/json" \
+     -d '{"session_id":"bio","notes":"Mitochondria produce ATP.","question":"What makes ATP?"}'
+```
+
+```python
+from bern import llm
+
+session = llm.TutorSession(notes=open("chapter3.txt").read())
+print(session.ask("What is the powerhouse of the cell?")["answer"])
+print(session.ask("And what does it produce?")["answer"])   # follow-up, same thread
+```
+
+Unreachable model, HTTP errors and malformed replies all raise `bern.llm.LLMError`. The server
+turns that into a 400 with the reason; it does not silently substitute a local pack, because a
+student who asked for an explanation should not receive ten flashcards and be told it worked.
+
+Model replies are treated as untrusted: a quiz item whose answer is not one of its own options
+is dropped, flashcards need both sides, and the mock exam's answer key is rebuilt from the
+questions rather than taken from the model.
+
+**Not verified:** the live HTTP call. There is no API key in this environment, so every test in
+`tests/test_llm.py` covers the no-key and reply-cleaning paths only. The request/response shape
+follows the OpenAI chat-completions API, which is unverified against the live service here.
+
+---
+
 ## Testing it
 
 Three ways, in order of speed.

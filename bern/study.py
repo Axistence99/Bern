@@ -520,6 +520,7 @@ def generate_study_pack(
     quiz_items: int = 10,
     true_false_items: int = 8,
     seed: int = 7,
+    engine: str = "local",
 ) -> dict[str, Any]:
     """Build every study artefact from one block of text.
 
@@ -529,11 +530,33 @@ def generate_study_pack(
         quiz_items: Maximum number of multiple-choice questions.
         true_false_items: Maximum number of true/false items.
         seed: Makes shuffling reproducible, so the same notes give the same paper.
+        engine: Which generator to use.
+
+            * ``"local"`` (default) — the extractive generator in this module. Runs offline,
+              invents nothing, and is the only engine available without configuration.
+            * ``"llm"`` — ask a language model for a generated pack. Requires
+              ``BERN_LLM_API_KEY``; raises rather than silently degrading.
+            * ``"auto"`` — use the language model when one is configured, otherwise the
+              local generator. This is the only value that never fails.
 
     Returns:
-        ``{"reviewer", "flashcards", "quiz", "mock_exam", "source_stats"}``. The mock exam
-        is a mixed paper with its own answer key.
+        ``{"reviewer", "flashcards", "quiz", "mock_exam", "source_stats", "engine"}``. The
+        mock exam is a mixed paper with its own answer key.
     """
+    if engine in ("llm", "auto"):
+        from bern import llm
+
+        if engine == "llm" or llm.is_available():
+            pack = llm.generate_study_pack(
+                text,
+                flashcards=flashcards,
+                quiz_items=quiz_items,
+                true_false_items=true_false_items,
+            )
+            pack.setdefault("seed", seed)
+            return pack
+        # engine == "auto" with no model configured: fall through to the local generator.
+
     sentences = split_sentences(text)
     definitions = extract_definitions(sentences)
     terms = key_terms(text, sentences, limit=40)
@@ -567,6 +590,7 @@ def generate_study_pack(
         "flashcards": cards,
         "quiz": question_pool,
         "mock_exam": mock_exam,
+        "engine": "local",
         "source_stats": {
             "characters": len(text),
             "sentences": len(sentences),
