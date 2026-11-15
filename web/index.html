@@ -42,6 +42,22 @@
     border-radius:8px; font-size:12.5px; line-height:1.5; overflow:auto; max-height:440px; white-space:pre-wrap; word-break:break-word; }
   .hint { font-size:12.5px; color:var(--muted); margin-top:6px; }
   .err { color:var(--err); }
+  /* Chat transcript. Scrolls in place instead of replacing one block of text, because a
+     conversation you cannot see is not a conversation. */
+  #chat-log { margin-top:16px; padding:12px; border:1px solid var(--line); border-radius:8px;
+    max-height:440px; overflow-y:auto; display:flex; flex-direction:column; gap:10px;
+    background:rgba(127,127,127,.04); }
+  #chat-log:empty::before { content:"No messages yet."; color:var(--muted); font-size:13px; }
+  .msg { max-width:88%; padding:9px 12px; border-radius:10px; font-size:13.5px;
+    line-height:1.5; white-space:pre-wrap; word-break:break-word; }
+  .msg.user { align-self:flex-end; background:var(--accent); color:#fff; border-bottom-right-radius:3px; }
+  .msg.bot { align-self:flex-start; background:rgba(127,127,127,.13); border-bottom-left-radius:3px; }
+  .msg.bot.err { background:rgba(180,35,24,.12); color:var(--err); }
+  .meta { font-size:11px; color:var(--muted); margin-top:5px; }
+  .meta code { font-size:11px; }
+  .composer { display:flex; gap:8px; margin-top:10px; }
+  .composer input { flex:1 1 auto; }
+  .composer button { margin-top:0; }
 </style>
 </head>
 <body>
@@ -62,10 +78,18 @@
   <!-- Chat -->
   <section id="chat">
     <label for="chat-msg">Message</label>
-    <input id="chat-msg" type="text" value="magkano ang bigas" autocomplete="off">
-    <div class="hint">Try: <code>gumawa ng quiz mula sa notes ko</code>, <code>read my handwriting</code>, <code>calories ng adobo</code></div>
-    <button class="act" id="chat-go">POST /api/chat</button>
-    <pre id="chat-out">—</pre>
+    <div id="chat-log" role="log" aria-live="polite"></div>
+    <div class="composer">
+      <input id="chat-msg" type="text" value="magkano ang bigas" autocomplete="off"
+             placeholder="Ask Bern something…">
+      <button class="act" id="chat-go">Send</button>
+    </div>
+    <div class="hint">
+      <span id="chat-mode"></span><br>
+      Try <code>magkano ang bigas</code>, then <code>magkano ang itlog</code>, then
+      <code>what about the other one?</code> — Bern remembers the session.
+      <button id="chat-reset" style="background:none;border:none;color:var(--accent);cursor:pointer;font:inherit;padding:0;">Start over</button>
+    </div>
   </section>
 
   <!-- Handwriting -->
@@ -201,17 +225,79 @@ fetch("/api/health")
   .then((d) => {
     $("status").textContent = `${d.ai_name} · ${d.num_intents} intents`;
     $("status").className = "status ok";
+    // Say what this install can do, so nobody asks "why" and gets a price table
+    // wondering whether it is broken.
+    $("chat-mode").textContent = d.language_model
+      ? "Language model: on — follow-ups, explanations and unseen questions work."
+      : "Language model: off (no BERN_LLM_API_KEY). Follow-ups work; explanations and "
+        + "unseen questions do not — Bern says so instead of guessing.";
   })
   .catch(() => { $("status").textContent = "offline"; $("status").className = "status bad"; });
 
 // -- chat ---------------------------------------------------------------------------
-$("chat-go").addEventListener("click", () =>
-  send($("chat-out"), "/api/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: $("chat-msg").value, session_id: "console" }),
-  }));
-$("chat-msg").addEventListener("keydown", (e) => { if (e.key === "Enter") $("chat-go").click(); });
+// -- chat transcript ----------------------------------------------------------------
+let chatSession = "console";
+
+function appendMessage(role, text, meta) {
+  const log = $("chat-log");
+  const bubble = document.createElement("div");
+  bubble.className = "msg " + role;
+  bubble.textContent = text;
+  if (meta) {
+    const line = document.createElement("div");
+    line.className = "meta";
+    line.textContent = meta;
+    bubble.appendChild(line);
+  }
+  log.appendChild(bubble);
+  log.scrollTop = log.scrollHeight;
+  return bubble;
+}
+
+async function sendChat() {
+  const field = $("chat-msg");
+  const message = field.value.trim();
+  if (!message) return;
+
+  appendMessage("user", message);
+  field.value = "";
+  $("chat-go").disabled = true;
+  const pending = appendMessage("bot", "…", null);
+
+  try {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message, session_id: chatSession, engine: "auto" }),
+    });
+    const data = await response.json();
+    if (!response.ok || data.error) throw new Error(data.error || ("HTTP " + response.status));
+
+    pending.textContent = data.reply;
+    const bits = [data.intent, Math.round((data.confidence || 0) * 100) + "%"];
+    if (data.resolved_as) bits.push("understood as \u201c" + data.resolved_as + "\u201d");
+    if (data.engine === "llm") bits.push("language model");
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    meta.textContent = bits.join(" \u00b7 ");
+    pending.appendChild(meta);
+  } catch (error) {
+    pending.textContent = "Could not reach Bern: " + error.message;
+    pending.classList.add("err");
+  } finally {
+    $("chat-go").disabled = false;
+    field.focus();
+  }
+}
+
+$("chat-go").addEventListener("click", sendChat);
+$("chat-msg").addEventListener("keydown", (e) => { if (e.key === "Enter") sendChat(); });
+$("chat-reset").addEventListener("click", () => {
+  // A fresh session id, so the server-side memory starts empty too — clearing only the
+  // visible transcript would leave Bern still answering "what about the other one?".
+  chatSession = "console-" + Date.now();
+  $("chat-log").replaceChildren();
+});
 
 // -- handwriting --------------------------------------------------------------------
 $("hw-go").addEventListener("click", () => {

@@ -105,6 +105,51 @@ bopis vs adobo                             -> side-by-side comparison
 magkano ang itlog                          -> (price expert, unchanged)
 ```
 
+### Conversation memory
+
+`POST /api/chat` keeps a per-session transcript, so a follow-up works the way a person expects
+it to. Measured in one session:
+
+```text
+magkano ang bigas                -> ph_price_lookup 0.93   —
+magkano ang itlog                -> ph_price_lookup 0.99   —
+what about the other one?        -> ph_price_lookup 0.92   understood as "magkano ang Regular Milled Rice"
+and that one?                    -> ph_price_lookup 0.88   understood as "magkano ang Chicken Egg (Medium…)"
+```
+
+This is rule-based, not a language model. Bern records the items each answer was actually
+about, then rewrites a short follow-up into the question it stands for. It **declines rather
+than guesses**: with only one item ever discussed, "what about the other one?" is left alone
+and answered as written, because inventing a subject answers the wrong question while sounding
+confident.
+
+The response reports what was understood and what is remembered:
+
+```json
+{"reply": "...", "intent": "ph_price_lookup", "resolved_as": "magkano ang Regular Milled Rice",
+ "conversation": {"turns": 3, "subject": "Regular Milled Rice", "discussed": ["Chicken Egg…", "Regular Milled Rice"]}}
+```
+
+`DELETE /api/tutor` clears a tutoring session; chat sessions are in-memory and reset with the
+process. Pass a different `session_id` to start a fresh conversation.
+
+### Explanations and unseen questions
+
+Two things a bag-of-words model cannot do, handled honestly:
+
+| Ask | Without a key | With `BERN_LLM_API_KEY` |
+| --- | --- | --- |
+| `bakit mahal ang bigas?` | Says plainly it cannot explain causes, then gives the price data it does have | Explained |
+| A question outside the 24 intents | Declines and offers *Teach Bern This* | Answered |
+
+`engine` controls this: `"local"` never calls a model, `"llm"` and `"auto"` use one when a key
+is set and fall back to the local answer when it is not — or when the call fails. The web
+console shows which mode is active under the message box.
+
+`use_llm=False` on `BernAI.chat` forces the offline path; the frozen benchmark uses it so
+scoring stays reproducible. Routing is unchanged by any of this: 96.9% on `test`, 97.4% on
+`test2`.
+
 ## REST API Endpoints
 
 - `GET /api/health` — Server status, model readiness, and catalog counts
@@ -451,6 +496,9 @@ things genuinely need a language model, because a 21k-parameter classifier canno
 
 | | Local (default) | With `BERN_LLM_API_KEY` |
 |---|---|---|
+| **Chat memory** | Works — rule-based reference resolution over the session transcript | Unchanged (memory is local either way) |
+| **Explanations** | Declines openly, gives the data instead | Explains |
+| **Unseen questions** | Declines, offers to be taught | Answers |
 | **Study packs** | Extractive: finds real definitions in your notes and quizzes you on them. Invents nothing. | Generative: explains ideas in its own words, writes plausible distractors, follows the notes' language. |
 | **Tutoring** | Not available. | Multi-turn: remembers what you asked and answers follow-ups, grounded in your notes. |
 
@@ -549,7 +597,7 @@ python3 examples/python_client.py http://localhost:8000
 ### Automated tests
 
 ```bash
-python3 -m pytest -v        # 102 tests: NLP, prices, nutrition, handwriting, study,
+python3 -m pytest -v        # 129 tests: NLP, prices, nutrition, handwriting, study, conversation,
                             # extraction, punctuation geometry, symbols, photo preprocessing
 ```
 

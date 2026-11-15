@@ -419,6 +419,52 @@ Security finding: **no authentication anywhere**. `POST /api/train` and
 
 ---
 
+## 7f. Chat that behaves like chat
+
+The console had a textbox that looked like Claude's and behaved like a command line: one
+message in, one answer out, `<pre>` replaced every time, no memory anywhere. `session` held
+only `{"user_name": ..., "turns": n}`.
+
+| File | Change |
+| --- | --- |
+| `bern/conversation.py` | **New.** `Memory` (capped transcript + rolling entities) and `wants_explanation`. |
+| `bern/engine.py` | `chat()` wraps the old body (`_answer`) with memory and the optional model; `_llm_answer` falls back on any failure. |
+| `server.py` | `/api/chat` accepts `engine`; `/api/health` reports `language_model`. |
+| `web/index.html` | Scrolling transcript, Enter to send, mode line, "Start over". |
+| `bern/benchmark.py` | Passes `use_llm=False` so scoring stays offline and reproducible. |
+| `tests/test_conversation.py` | **New.** 27 tests. |
+
+### Measured, one session, no API key
+
+```text
+magkano ang bigas            -> ph_price_lookup 0.93  -
+magkano ang itlog            -> ph_price_lookup 0.99  -
+what about the other one?    -> ph_price_lookup 0.92  magkano ang Regular Milled Rice
+and that one?                -> ph_price_lookup 0.88  magkano ang Chicken Egg (Medium, per piece)
+bakit mahal ang bigas?       -> ph_price_lookup 0.26  local fallback, says it cannot explain
+```
+
+Before: `unknown` 0.46, `gratitude` 0.30. Routing benchmark unchanged at 96.9% / 97.4%.
+
+### Deliberate design choices
+
+- **Reference resolution declines rather than guesses.** One item discussed and the user asks
+  "the other one" → no rewrite, because inventing a subject answers the wrong question.
+- **Entities are taken from the answer's own search results**, never parsed back out of prose.
+- **A declined question never becomes the next subject.**
+- **`use_llm=False` exists** so the frozen benchmark cannot start depending on a network call.
+- **The model is an enhancement, not a dependency:** `_llm_answer` returns `None` on any
+  exception, and a test proves a broken model still leaves a working local answer.
+
+### Not verified
+
+The LLM branch itself: no API key here. Tests cover "no key" and "model raises"; they cannot
+cover "model answers well". The `.js` in `web/index.html` was syntax-checked with `node
+--check`; the page was **not** served or clicked, because no server may run in this
+environment.
+
+---
+
 ## 8. Pending work, in priority order
 
 1. ~~**Fix the README's phantom structure.**~~ **Mostly fixed.** `requirements.txt` now exists

@@ -20,6 +20,16 @@ bern_ai = BernAI()
 money_counter = PhilippineMoneyCounter()
 
 
+def llm_available() -> bool:
+    """Whether an optional language model is configured. Never raises."""
+    try:
+        from bern import llm
+
+        return llm.is_available()
+    except Exception:
+        return False
+
+
 class BaseHandler(tornado.web.RequestHandler):
     def set_default_headers(self) -> None:
         self.set_header("Access-Control-Allow-Origin", "*")
@@ -86,6 +96,10 @@ class HealthHandler(BaseHandler):
                 "ph_price_items": len(bern_ai.price_expert.items),
                 "nutrition_foods": len(bern_ai.nutrition_expert.foods),
                 "money_vision_ready": True,
+                # Reported so a client can tell the user what is possible before they type.
+                # With no key, explanations and unseen questions are answered locally or
+                # declined honestly rather than generated.
+                "language_model": llm_available(),
             }
         )
 
@@ -96,7 +110,14 @@ class ChatHandler(BaseHandler):
             body = self.parse_json_body()
             message = str(body.get("message", ""))
             session_id = str(body.get("session_id", "default"))
-            result = bern_ai.chat(message=message, session_id=session_id)
+            # "auto" uses a language model only when one is configured, and falls back to
+            # the local answer otherwise, so an install with no key is unchanged.
+            engine = str(body.get("engine", "auto")).lower()
+            if engine not in ("local", "llm", "auto"):
+                self.write_json({"error": "engine must be 'local', 'llm' or 'auto'."},
+                                status_code=400)
+                return
+            result = bern_ai.chat(message=message, session_id=session_id, engine=engine)
             self.write_json(result)
         except ValueError as exc:
             self.write_json({"error": str(exc)}, status_code=400)

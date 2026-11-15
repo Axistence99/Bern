@@ -14,6 +14,7 @@ from zoneinfo import ZoneInfo
 import joblib
 import numpy as np
 
+from bern.conversation import Memory, wants_explanation
 from bern.ph_nutrition import get_shared_expert
 from bern.ph_prices import PHPriceExpert
 from bern.trainer import (
@@ -290,6 +291,29 @@ def gating_rejects(pred: dict[str, Any], gating: dict[str, float]) -> bool:
     return bool(out_of_vocab or low_conf or partially_unseen)
 
 
+def _entity_name(entry: Any) -> str | None:
+    """Pull a readable item name out of whatever shape the price expert returns.
+
+    ``search_items`` yields item dicts directly, while the basket parser yields
+    ``{"item": {...}, "qty": n}``. Reading ``entry["name"]`` on the second shape returns
+    nothing and ``entry["item"]`` returns a dict, which is how a follow-up once resolved to
+    ``magkano ang {'id': 'rice_regular', ...}``.
+    """
+    if isinstance(entry, str):
+        return entry.strip() or None
+    if not isinstance(entry, dict):
+        return None
+    for key in ("name", "item", "food"):
+        value = entry.get(key)
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+        if isinstance(value, dict):
+            nested = value.get("name")
+            if isinstance(nested, str) and nested.strip():
+                return nested.strip()
+    return None
+
+
 class BernAI:
     """Bern — Trainable scikit-learn ML Assistant with live retraining and diagnostics."""
 
@@ -403,8 +427,109 @@ class BernAI:
     def gating(self) -> dict[str, float]:
         return {**DEFAULT_GATING, **self.bundle.get("gating", {})}
 
-    def chat(self, message: str, session_id: str = "default") -> dict[str, Any]:
-        """Generate Bern's response plus full ML prediction metadata."""
+    def chat(self, message: str, session_id: str = "default", engine: str = "auto",
+             use_llm: bool = True) -> dict[str, Any]:
+        """Answer one message, using what was said earlier in this session.
+
+        Three things happen here that a plain classifier cannot do:
+
+        * **Memory.** Session transcripts are kept, and a follow-up such as "what about the
+          other one?" is rewritten into the question it stands for before classification.
+        * **Unseen questions.** When local routing declines a message and a language model is
+          configured, the model answers instead of Bern giving up.
+        * **Explanations.** "Bakit mahal ang bigas?" asks for a reason; a bag-of-words model
+          has none to give, so a configured model answers it.
+
+        Args:
+            message: What the user typed.
+            session_id: Conversation to continue. Sessions are in-memory and per-process.
+            engine: ``"local"`` never uses a language model; ``"llm"`` and ``"auto"`` use it
+                for the cases above and fall back locally when no key is set or the call
+                fails.
+            use_llm: Set False for deterministic, offline runs. The frozen benchmark uses
+                it, so scoring never depends on a network call.
+
+        Returns:
+            The usual reply payload, plus ``conversation`` (what is remembered) and
+            ``resolved_as`` (the rewritten question, when one was rewritten).
+        """
+        session = self.sessions.setdefault(
+            session_id, {"user_name": None, "turns": 0, "memory": Memory()}
+        )
+        memory: Memory = session.setdefault("memory", Memory())
+
+        resolved, subject = memory.resolve(message)
+        result = self._answer(resolved, session_id)
+
+        wants_reason = wants_explanation(message)
+        if use_llm and engine in ("llm", "auto") and (result.get("needs_training") or wants_reason):
+            generated = self._llm_answer(message, result, subject)
+            if generated is not None:
+                result = generated
+            elif wants_reason:
+                # No model available, and the message asks for a reason. Answering it with a
+                # price table looks like an answer while being a non-answer, so say plainly
+                # what Bern cannot do and keep the facts that are still useful.
+                result["reply"] = (
+                    "**I can't explain why** — I'm a small model and I have no way to reason "
+                    "about causes.\n\nHere is what I do know:\n\n" + str(result.get("reply", ""))
+                )
+
+        result.setdefault("engine", "local")
+
+        # Only record what actually happened: a declined question must not become the
+        # subject of the next "what about that one?".
+        if not result.get("needs_training"):
+            memory.record(message, str(result.get("intent", "")), str(result.get("reply", "")),
+                          list(result.get("entities", [])))
+
+        result["conversation"] = memory.summary()
+        result["resolved_as"] = resolved if subject else None
+        return result
+
+    def _llm_answer(self, message: str, local: dict[str, Any],
+                    subject: str | None) -> dict[str, Any] | None:
+        """Try the language model; return ``None`` to keep the local answer.
+
+        The local answer is passed in as grounding, so the model can quote Bern's own price
+        and nutrition figures instead of recalling them from training and getting them wrong.
+        """
+        try:
+            from bern import llm
+        except Exception:
+            return None
+        if not llm.is_available():
+            return None
+
+        context = ""
+        if not wants_explanation(message) and local.get("intent") not in (None, "unknown"):
+            context = str(local.get("reply", ""))[:1500]
+
+        question = message if subject is None else f"{message} (about {subject})"
+        try:
+            answer = llm.TutorSession(notes=context).ask(question)["answer"].strip()
+        except Exception:
+            # A model that is down must not take the chat down with it.
+            return None
+        if not answer:
+            return None
+
+        return {
+            "reply": answer,
+            "intent": local.get("intent", "unknown"),
+            "confidence": local.get("confidence", 0.0),
+            "needs_training": False,
+            "engine": "llm",
+            "top_predictions": local.get("top_predictions", []),
+            "top_signals": local.get("top_signals", []),
+            "inference_ms": local.get("inference_ms", 0.0),
+            "ai_name": self.bundle.get("ai_name", "Bern"),
+            "model_version": self.bundle.get("version", "1.0.0"),
+            "trained_at": self.bundle.get("trained_at"),
+        }
+
+    def _answer(self, message: str, session_id: str = "default") -> dict[str, Any]:
+        """Single-message routing: no memory, no language model. See :meth:`chat`."""
         msg_clean = message.strip()
         if not msg_clean:
             return {
@@ -420,8 +545,13 @@ class BernAI:
                 "trained_at": self.bundle.get("trained_at"),
             }
 
-        session = self.sessions.setdefault(session_id, {"user_name": None, "turns": 0})
+        session = self.sessions.setdefault(
+            session_id, {"user_name": None, "turns": 0, "memory": Memory()}
+        )
         session["turns"] += 1
+
+        # Items this answer is about; reported so the caller can remember them.
+        entities: list[str] = []
 
         pred = self.predict(msg_clean)
         intent = pred["intent"]
@@ -433,11 +563,16 @@ class BernAI:
         if nutri_signal or intent == "ph_nutrition_lookup":
             nutri_reply = self.nutrition_expert.try_answer(msg_clean, min_score=0.5 if nutri_signal else 0.62)
             if nutri_reply:
+                for match in re.finditer(r"\*\*([^*\n]{2,40})\*\*", nutri_reply):
+                    entities.append(match.group(1).strip())
+                    if len(entities) >= 3:
+                        break
                 return {
                     "reply": nutri_reply,
                     "intent": "ph_nutrition_lookup",
                     "confidence": max(confidence, 0.9) if intent == "ph_nutrition_lookup" else max(confidence, 0.86),
                     "needs_training": False,
+                    "entities": entities,
                     "top_predictions": pred["top_predictions"],
                     "top_signals": pred["top_signals"] or ["ph_nutrition_expert"],
                     "inference_ms": pred["inference_ms"],
@@ -464,11 +599,19 @@ class BernAI:
                 routed_intent = intent
             else:
                 routed_intent = "ph_price_lookup"
+            priced = self.price_expert.answer_price_query(msg_clean)
+            # The items this answer is actually about. Taken from the same hits that routed
+            # the message, so a follow-up refers to what was really discussed.
+            for hit in list(ph_hits) + list(ph_basket):
+                name = _entity_name(hit)
+                if name and name not in entities:
+                    entities.append(name)
             return {
-                "reply": self.price_expert.answer_price_query(msg_clean),
+                "reply": priced,
                 "intent": routed_intent,
                 "confidence": max(confidence, 0.88),
                 "needs_training": False,
+                "entities": entities,
                 "top_predictions": pred["top_predictions"],
                 "top_signals": pred["top_signals"] or ["ph_price_expert"],
                 "inference_ms": pred["inference_ms"],
@@ -557,8 +700,19 @@ class BernAI:
                 reply = "Give me numbers and an operator — for example: `calculate 125 * 8` or `15% of 400`!"
         elif intent in {"ph_price_lookup", "ph_price_catalog", "ph_budget_calc"}:
             reply = self.price_expert.answer_price_query(msg_clean)
+            # Remember what was just discussed, so "what about the other one?" has something
+            # to point at. Recorded from the search results, never parsed back out of prose.
+            for item in self.price_expert.search_items(msg_clean, limit=4, min_score=0.45):
+                name = _entity_name(item)
+                if name and name not in entities:
+                    entities.append(name)
         elif intent == "ph_nutrition_lookup":
             reply = self.nutrition_expert.try_answer(msg_clean, min_score=0.4) or self.nutrition_expert.answer_nutrition_query(msg_clean)
+            # The matched food is the first bold span of the answer ("**Adobo** ...").
+            for match in re.finditer(r"\*\*([^*\n]{2,40})\*\*", reply or ""):
+                entities.append(match.group(1).strip())
+                if len(entities) >= 3:
+                    break
         elif intent == "time_date":
             try:
                 now = datetime.now(ZoneInfo("Asia/Manila"))
@@ -609,6 +763,7 @@ class BernAI:
             "intent": intent,
             "confidence": confidence,
             "needs_training": False,
+            "entities": entities,
             "top_predictions": pred["top_predictions"],
             "top_signals": pred["top_signals"],
             "inference_ms": pred["inference_ms"],

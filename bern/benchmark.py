@@ -60,7 +60,9 @@ def evaluate(bern: Any, items: list[dict[str, Any]] | None = None) -> dict[str, 
     items = items if items is not None else load_benchmark()
     rows: list[dict[str, Any]] = []
     for i, it in enumerate(items):
-        res = bern.chat(it["text"], session_id=f"bench-{i}")
+        # use_llm=False keeps scoring offline and reproducible: a benchmark that calls a
+        # remote model costs money and stops being deterministic.
+        res = bern.chat(it["text"], session_id=f"bench-{i}", use_llm=False)
         clf = bern.predict(it["text"])["intent"] if it["intent"] != "unknown" else None
         reply = res["reply"].lower()
         contains_ok = all(s.lower() in reply for s in it.get("contains", [])) if it.get("contains") else None
