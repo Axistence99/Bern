@@ -210,21 +210,26 @@ to `/api/handwriting`.
 
 | | |
 |---|---|
-| **Supported** | Hand-*printed* text: separated block letters, clean paper, reasonably level |
+| **Supported** | Hand-*printed* text: separated block letters, clean paper or a phone photo |
+| **Supported** | `. , - ?` and standalone symbols — `+ = % ° ñ Ñ ( ) / @ # & $ _ * : ;` — see below |
+| **Partly supported** | Phone photos: perspective, ruled paper and two-column layout are corrected automatically |
 | **Not supported** | Cursive or connected script — the segmenter cannot split a word written without lifting the pen |
-| **Never supported** | Punctuation. EMNIST has no `. , ? ! - ( ) / ; : @ &` samples, so those come back as their nearest letter |
 
-Measured held-out performance of the default `bern-glyph` backend:
+Measured performance of the default `bern-glyph` backend:
 
 | Metric | Result |
 |---|---|
 | Character accuracy (EMNIST `byclass` test split, 30,000 unseen glyphs) | **82.55%** |
-| Character accuracy, end-to-end on lines composed from real EMNIST ink | 75.3% clean / 68.0% with ±9° rotation, blur and per-glyph scale jitter |
-| Word accuracy on the same synthetic lines | 4/20 clean, 5/20 jittered |
+| End-to-end, dictionary and symbols on, clean pages | **91.7%** English, **93.5%** Filipino, **94.2%** Taglish |
+| End-to-end with ±9° rotation, blur, scale and baseline jitter | **82.1%** / **80.4%** / **89.1%** |
+| Pages with words and `. , - ?` composed in | 88.1% clean, 82.1% jittered |
 
-Those end-to-end numbers are honest and modest: character errors compound, so a 5-letter
-word is right roughly 0.75⁵ ≈ 24% of the time. Cursive, and reliable word-level accuracy,
-need the TrOCR backend:
+The single biggest accuracy lever is the **dictionary**, not the classifier: the same model
+scoring 81.0% raw reaches 91.7% once `bern/ph_lexicon.py` constrains the decode to real words.
+That also sets the limit — a correct word outside the 2,936-word list cannot be recovered,
+because the score needed to win is never on the table.
+
+Cursive needs the TrOCR backend:
 
 ```bash
 pip install transformers torch pillow
@@ -240,6 +245,57 @@ classes, and folding the two case forms together is worth about 5 points).
 `python3 -m bern.handwriting` writes `models/handwriting_glyph_model.joblib` (252 KB) and
 `models/handwriting_metrics.json`. Training streams the EMNIST file in batches, so it needs
 under 1 GB of RAM; on 2 CPU cores it takes about 8 minutes for 5 epochs.
+
+### Punctuation, symbols and accents
+
+EMNIST contains only `0-9A-Za-z`, so the glyph model structurally cannot emit `.` or `ñ`.
+Two additions sit on top of it:
+
+- **`bern/symbols.py`** — a 28-class classifier (`.,?!-:;()/\+=%°ñÑ×÷√@#&$_*'"`) trained on
+  rendered glyphs, 117 KB. Cross-family accuracy is 100% on fonts it never saw. It runs only
+  where the glyph model cannot be trusted: standalone single-glyph words, and the last glyph of
+  a word, gated at 0.95 confidence.
+- **`classify_punctuation`** — pure geometry, no model. A mark begins low in the letter band;
+  every letter reaches the top. That single positional test separates `. , -` from letters far
+  more reliably than any size threshold.
+
+Measured, 14 trials each:
+
+| mark | read exactly | detected at all |
+|---|---|---|
+| `.` | 10/14 | 14/14 |
+| `,` | 8/14 | 11/14 |
+| `-` | 10/14 | 14/14 |
+| `?` | 7/14 | 10/14 |
+
+Colons, semicolons and quotes are deliberately *not* inferred from geometry: the test that
+looked plausible also fired on the thin tail of a comma and cost real commas.
+
+### Phone photos
+
+`HandwritingReader(photo_mode=True)` is on by default and applies three repairs, each of which
+only helps a photograph and does nothing to a clean scan:
+
+- **Perspective** — finds the page outline and warps it square, so glyphs near one corner are
+  not systematically taller than those near another.
+- **Ruled lines** — deletes horizontal runs that span most of the page. Guarded: if that would
+  remove more than 35% of the ink it is abandoned as handwriting rather than rules.
+- **Columns** — reads each column top to bottom. Requires three or more lines and a gutter
+  wider than 2.5× the page's median word gap, so a single line of text is never split.
+
+```python
+reader = HandwritingReader(photo_mode=False)   # compare against the raw pipeline
+```
+
+The result dict reports what happened:
+
+```python
+{"text": "...", "repairs": {"perspective": True, "rules_removed": 2, "columns": 2}}
+```
+
+**None of this has been run against a real photograph.** It is unit tested on synthetic pages,
+and the thresholds in `bern/preprocess.py` should be expected to need adjustment once real
+photos exist.
 
 ## Study materials from notes and lectures
 
@@ -377,7 +433,16 @@ python3 examples/python_client.py http://localhost:8000
 ### Automated tests
 
 ```bash
-python3 -m pytest -v        # 52 tests: NLP, prices, nutrition, handwriting, study, extraction
+python3 -m pytest -v        # 80 tests: NLP, prices, nutrition, handwriting, study,
+                            # extraction, punctuation geometry, symbols, photo preprocessing
+```
+
+The end-to-end handwriting benchmark needs EMNIST locally (see `HANDOFF.md` §6 for the
+download); the unit tests do not.
+
+```bash
+PYTHONPATH=. python3 scripts/e2e_handwriting_eval.py --data-dir ~/emnist_dl
+PYTHONPATH=. python3 scripts/bench_handwriting.py --cases 40
 ```
 
 ---

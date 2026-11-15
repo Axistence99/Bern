@@ -256,6 +256,93 @@ Tuned by measurement, not guesswork: `lexicon_bonus` swept 2/4/6/8/12 → 6.0 wo
 
 ---
 
+## 7c. Round three — Tier 1 to Tier 4, and what is actually measured
+
+Scope: make Bern measurably better, with the honest acknowledgement that a 21k-parameter
+model cannot read meaning. Local fixes were done first; anything needing a language model is
+opt-in and keeps an offline fallback.
+
+### What changed
+
+| File | Change |
+| --- | --- |
+| `bern/symbols.py` | **New.** 28-class symbol model + rule-based `classify_punctuation`. |
+| `bern/preprocess.py` | **New.** Perspective correction, ruled-line removal, column detection. |
+| `bern/handwriting.py` | Symbol layer, photo mode, mark merging, prefix-constrained decode. |
+| `bern/ph_lexicon.py` | Prefix index and prefix bonus in `decode_word`. |
+| `models/symbol_model.joblib` | **New.** 28 classes, 117 KB. |
+| `models/symbol_metrics.json` | **New.** Measured scores for the symbol model. |
+| `scripts/bench_handwriting.py` | **New.** End-to-end benchmark including marks. |
+| `tests/test_symbols.py`, `tests/test_mark_assembly.py` | **New.** 28 tests. |
+
+### Measured results (reproduce with the commands given)
+
+`PYTHONPATH=. python3 scripts/e2e_handwriting_eval.py --data-dir ~/emnist_dl`
+(dictionary on, photo mode on):
+
+| split | clean chars | clean exact words | jittered chars | jittered exact words |
+| --- | --- | --- | --- | --- |
+| english | 91.7% | 11/15 | 82.1% | 7/15 |
+| filipino | 93.5% | 13/16 | 80.4% | 8/16 |
+| taglish | 94.2% | 7/10 | 89.1% | 3/10 |
+
+`PYTHONPATH=. python3 scripts/bench_handwriting.py --cases 40` (words plus `. , - ?`):
+
+| condition | char accuracy | exact words |
+| --- | --- | --- |
+| clean | 88.1% | 36/68 |
+| jittered | 82.1% | 22/59 |
+
+Per-mark recall on 14 trials each (`?` and the marks are rendered with Noto, a font family
+the symbol model never trained on):
+
+| mark | exact | detected at all |
+| --- | --- | --- |
+| `.` | 10/14 | 14/14 |
+| `,` | 8/14 | 11/14 |
+| `-` | 10/14 | 14/14 |
+| `?` | 7/14 | 10/14 |
+
+Symbol model on 10 symbols across 3 DejaVu faces and 4 sizes it never saw: **100% (120/120)**;
+on Noto CJK, also never trained on: **100% (42/42)**. The held-out number in
+`models/symbol_metrics.json` (99.67%) was measured on a random split of the same renders, so
+the cross-family figures above are the ones that mean anything.
+
+### Bugs found this round (do not re-introduce)
+
+1. **The symbol backend was silently dead.** It loaded lazily inside a path that only ran for
+   single-glyph words, so `self._symbol_backend` stayed `None` for every real word. `read_image`
+   now resolves it up front.
+2. **`segment_words` split words containing narrow letters** (`BIGAS` became `B` + `IGAS`).
+   Otsu on two to four gap samples is meaningless. The current rule uses a floor relative to
+   the median gap plus a global line-height crossing check.
+3. **A comma split into two components** and produced `,,`; a thin tail was also read as `;`.
+   Marks are now merged by union box before classification, and `:`/`;` are no longer inferred
+   from geometry at all — the learned model does them, and measurement showed the geometric
+   guess was costing real commas.
+4. **The baseline was dragged down by the mark being classified.** A comma is a descender by
+   nature, so including it in the median made the comma stop looking like it hung below the
+   baseline. Only letter-sized glyphs vote now.
+5. **`cv2.threshold(..., THRESH_OTSU)` raises on float32.** Cast to `uint8` first.
+6. **Mark polarity.** `compose` already inverts; a harness that inverts first paints marks as
+   white gaps. Two hours of debugging came from this.
+7. **A held-out score measured on the training distribution is not a generalisation claim.**
+   The symbol model's 99.67% is real but only says "separates its own renders". The 100%
+   cross-family numbers are the honest ones.
+
+### Known limits, stated plainly
+
+- `,` and `?` are the weakest marks. `,` depends on how far the tail crosses the baseline.
+- Punctuation is only inferred for `. , -` from geometry. `: ; ' "` come from the symbol
+  model and only where the reader already isolates them.
+- Column detection requires three or more lines; it will not split a two-line page.
+- Perspective correction needs a visible page outline. A photo cropped inside the page is
+  passed through untouched.
+- No real handwriting photograph has been tested. All photo-mode numbers come from synthetic
+  pages. The code says so where it matters.
+
+---
+
 ## 8. Pending work, in priority order
 
 1. **Lorem: fix the README's phantom structure.** It documents `scripts/`, `tests/`, `web/`,
@@ -268,16 +355,21 @@ Tuned by measurement, not guesswork: `lexicon_bonus` swept 2/4/6/8/12 → 6.0 wo
 4. **§3d line-by-line walkthrough** — spec ready, never applied. `bern/handwriting.py` is the
    natural first target (983 lines, well-documented, fresh).
 5. **Word-accuracy improvements still open:**
-   - ~~lexicon/beam pass over glyph probabilities~~ — **done this round** (+11.1 points)
+   - ~~lexicon/beam pass over glyph probabilities~~ — **done** (+11.1 points)
+   - ~~punctuation~~ — **done for `. , - ?`**, see the per-mark table above
    - per-language case model: score the whole word in upper and lower, pick the better fit
-   - punctuation prediction (EMNIST has none; a small classifier on line-end position would help)
-   - finer vertical zoning / stroke-width features
-   - retrain with `C`/`alpha` neighbours plus 8 epochs
-   - expand `bern/ph_lexicon.py` toward a full Filipino corpus; coverage is the binding limit
-6. **Real-photo robustness:** ruled-line removal, adaptive line detection via Hough
-   transforms, perspective correction. No real handwriting photos have been tested.
+   - **lexicon coverage is the binding limit.** Measured: a correct word outside the 2,936-word
+     list cannot be recovered by any prior, because the score needed to win is never available.
+     Expanding the Filipino/English list is worth more than any further model tuning.
+   - finer vertical zoning / stroke-width features; retrain with `C`/`alpha` neighbours
+6. **Real-photo robustness:** perspective, ruled lines and columns are implemented and unit
+   tested, but **no real photograph has been run through them.** Next step is a handful of
+   real phone photos; expect the thresholds in `bern/preprocess.py` to need adjusting.
 7. **Cursive support** requires TrOCR (or similar CTC model). Character segmentation cannot
    solve it, by construction.
+8. **Tier 3 and 4 are not started.** Generative study packs and tutoring need a language model.
+   The plan was agreed and is unchanged: a `ChatGPTBackend` behind the existing `study.py`
+   interface, opt-in, with the local template generator kept as the offline fallback.
 
 ---
 
@@ -285,10 +377,10 @@ Tuned by measurement, not guesswork: `lexicon_bonus` swept 2/4/6/8/12 → 6.0 wo
 
 Paste this into the new chat:
 
-> Continue the Bern project. Clone `github.com/Axistence99/Bern`, branch
-> `feat/handwriting-ocr`. Read `HANDOFF.md` at the repo root first — it has the full state,
-> the standing instructions, verified-vs-unverified status, and pending work. Do not run a
-> sandbox server. Then [your next request].
+> Continue the Bern project. Clone `github.com/Axistence99/Bern`, branch `main`. Read
+> `AGENTS.md` and `HANDOFF.md` at the repo root first — they have the standing rules, the full
+> state, verified-vs-unverified status, and pending work. Do not run a sandbox server. Then
+> [your next request].
 
 ---
 

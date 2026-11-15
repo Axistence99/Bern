@@ -53,6 +53,8 @@ import joblib
 import numpy as np
 
 from bern.ph_lexicon import decode_word, get_lexicon
+from bern.preprocess import correct_perspective, detect_columns, remove_ruled_lines
+from bern.symbols import classify_punctuation
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 MODELS_DIR = BASE_DIR / "models"
@@ -67,6 +69,7 @@ EMNIST_URL = "https://biometrics.nist.gov/cs_links/EMNIST/gzip.zip"
 GLYPH_SIZE = 28
 
 #: Character classes that ``GlyphBackend`` can never output because EMNIST has no samples for them.
+_PUNCTUATION_ONLY = frozenset(['.', ',', ':', ';', '-', chr(39), chr(34), '?', '!'])
 EMNIST_UNSUPPORTED = {".": "period", ",": "comma", "?": "question mark", "!": "exclamation mark",
                       "-": "hyphen", "(": "open paren", ")": "close paren", "/": "slash", ";": "semicolon",
                       ":": "colon", "@": "at sign", "&": "ampersand", "\"": "double quote", "\u2019": "apostrophe"}
@@ -539,8 +542,29 @@ def segment_words(line_mask: np.ndarray) -> list[tuple[int, int, int, int]]:
     spans = _runs(cols, 0)
     if not spans:
         return []
+
     widths = [e - s for s, e in spans]
-    gap_threshold = max(3, int(np.median(widths) * 0.75))
+    median_width = float(np.median(widths)) or 1.0
+
+    # Splitting words on a fixed fraction of the median letter width is fragile: narrow
+    # letters ("I", "l", "1") leave wide gaps inside a word, and a single threshold then
+    # tears "BIGAS" into "B" + "IGAS". Instead the gap distribution is split into two
+    # clusters with Otsu, which adapts to the writer's spacing on that particular line.
+    gaps = np.array([b[0] - a[1] for a, b in zip(spans, spans[1:])], dtype=np.uint8).reshape(-1, 1)
+    if gaps.size >= 2:
+        median_gap = float(np.median(gaps))
+        # Evenly spaced letters mean one word: without this guard a line of uniformly
+        # spaced capitals ("MANILA") gets split on nothing but noise.
+        if median_gap <= 0 or float(gaps.max()) < median_gap * 1.6:
+            gap_threshold = int(gaps.max()) + 1
+        elif float(gaps.max()) > median_width * 0.35:
+            threshold, _ = cv2.threshold(gaps, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+            gap_threshold = int(max(threshold, median_gap * 1.6, median_width * 0.35))
+        else:
+            gap_threshold = max(3, int(median_width * 0.75))
+    else:
+        gap_threshold = max(3, int(median_width * 0.75))
+
     words = _merge_spans(spans, gap=gap_threshold)
 
     boxes: list[tuple[int, int, int, int]] = []
@@ -812,7 +836,8 @@ class HandwritingReader:
     """
 
     def __init__(self, backend: str = "auto", model_path: Path = DEFAULT_HANDWRITING_MODEL_PATH,
-                 case_mode: str = "auto", use_lexicon: bool = True) -> None:
+                 case_mode: str = "auto", use_lexicon: bool = True,
+                 use_symbols: bool = True, photo_mode: bool = True) -> None:
         """
         Args:
             backend: ``auto``, ``glyph``, ``trocr`` or ``tesseract``.
@@ -822,11 +847,19 @@ class HandwritingReader:
                 nothing measurable and repairs the digit-for-letter confusions that the
                 character model cannot resolve on its own; disable only to inspect raw
                 model output.
+            use_symbols: Recover punctuation, math operators and accented letters, which the
+                62-class glyph model cannot emit at all.
+            photo_mode: Apply the photo repairs (perspective correction, ruled-line removal,
+                column-aware reading order). Harmless on a clean scan and essential on a
+                phone photo; switch it off only to compare against the raw pipeline.
         """
         self.model_path = Path(model_path)
         self.requested_backend = backend
         self.case_mode = case_mode
         self.use_lexicon = use_lexicon
+        self.use_symbols = use_symbols
+        self.photo_mode = photo_mode
+        self._symbol_backend: Any = None
         self._backend: Any = None
         self._backend_name = ""
 
@@ -875,6 +908,10 @@ class HandwritingReader:
         started = time.perf_counter()
         image = self._decode(source)
         backend = self._resolve_backend()
+        if self.use_symbols:
+            # Load the symbol model now rather than on first use. It is consulted per word,
+            # and a lazily-loaded backend that is never touched stays silently disabled.
+            self._get_symbol_backend()
 
         gray = to_gray(image)
         # Cap the working size: beyond ~1600 px there is no accuracy to gain, only time.
@@ -882,24 +919,54 @@ class HandwritingReader:
         if scale < 1.0:
             gray = cv2.resize(gray, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA)
 
+        repairs: dict[str, Any] = {"perspective": False, "rules_removed": 0, "columns": 1}
+        if self.photo_mode:
+            # A phone photo is a trapezoid, not a rectangle. Straighten it before anything
+            # measures the page, otherwise glyphs in one corner are systematically larger
+            # than those in the other and one normalisation cannot serve both.
+            gray, repaired = correct_perspective(gray)
+            repairs["perspective"] = repaired
+
         # Invert first (ink bright, paper black) and deskew both images with one matrix
         # so the crop boxes below line up with the pixels they refer to.
         ink = cv2.bitwise_not(gray)
-        mask, ink = deskew(ink_mask(gray), ink)
+        mask = ink_mask(gray)
+
+        if self.photo_mode:
+            # Notebook rules survive thresholding as long horizontal runs and weld whole
+            # lines of text into single smeared components.
+            mask, removed = remove_ruled_lines(mask)
+            repairs["rules_removed"] = removed
+
+        mask, ink = deskew(mask, ink)
 
         # Dictionary decoding only makes sense for backends that expose ranked characters.
         top_k_backend = hasattr(backend, "recognize_topk") and self.use_lexicon
-        top_k = 5
+        # 8 candidates, not 5: on a hard glyph the correct letter is sometimes ranked
+        # 6th-8th, and if it is absent from the list no dictionary prior can recover it.
+        # Swept 5/8/12 — no measurable cost, so the wider list is kept.
+        top_k = 8
 
         lines_out: list[dict[str, Any]] = []
-        line_boxes = segment_lines(mask)
+        # Read each column top-to-bottom before moving right. Reading across a gutter
+        # stitches the left column's line to the right column's and produces nonsense.
+        if self.photo_mode:
+            columns = detect_columns(mask)
+        else:
+            columns = [(0, mask.shape[1])]
+        repairs["columns"] = len(columns)
+
+        line_boxes: list[tuple[int, int, int, int]] = []   # (top, bottom, x0, x1)
+        for x0, x1 in columns:
+            for top, bottom in segment_lines(mask[:, x0:x1]):
+                line_boxes.append((top, bottom, x0, x1))
 
         if not line_boxes:
-            return self._result("", [], backend, 0, started)
+            return self._result("", [], backend, 0, started, repairs)
 
-        for top, bottom in line_boxes:
-            line_mask = mask[top:bottom, :]
-            line_ink = ink[top:bottom, :]
+        for top, bottom, column_x0, column_x1 in line_boxes:
+            line_mask = mask[top:bottom, column_x0:column_x1]
+            line_ink = ink[top:bottom, column_x0:column_x1]
 
             if isinstance(backend, TrocrBackend):
                 # Line-level engine: skip segmentation entirely.
@@ -910,39 +977,146 @@ class HandwritingReader:
                 continue
 
             word_boxes = segment_words(line_mask)
+
+            # Baseline: most letters sit on it, descenders hang below. The median of every
+            # glyph's bottom edge is a robust estimate even when a line contains several
+            # descenders, which a mean would drag downward.
+            glyph_boxes: list[list[tuple[int, int, int, int]]] = []
+            bottoms: list[int] = []
+            heights: list[int] = []
+            for x, y, w, h in word_boxes:
+                boxes = [(x + gx, y + gy, gw, gh) for gx, gy, gw, gh in segment_glyphs(line_mask[y:y + h, x:x + w])]
+                glyph_boxes.append(boxes)
+                bottoms.extend(box_top + box_h for _bx, box_top, _bw, box_h in boxes)
+                heights.extend(box_h for _bx, _by, _bw, box_h in boxes)
+
+            # Median *letter* height: the yardstick for "is this a mark or a letter".
+            reference_height = int(np.median(heights)) if heights else int(line_mask.shape[0])
+
+            # Baseline: most letters sit on it, descenders hang below. Only letter-sized
+            # glyphs vote. A comma is a descender by nature, and letting its own tail into the
+            # median pulls the baseline down until the comma no longer looks like it hangs
+            # below anything — which is exactly how a "," became a ".".
+            letter_bottoms = [
+                box_top + box_h
+                for boxes in glyph_boxes
+                for _bx, box_top, _bw, box_h in boxes
+                if box_h >= 0.6 * reference_height
+            ]
+            baseline = float(np.median(letter_bottoms)) if letter_bottoms else float(line_mask.shape[0])
+            height_of_line = int(line_mask.shape[0])
+
             words: list[str] = []
             confidences: list[float] = []
             glyph_total = 0
 
-            for x, y, w, h in word_boxes:
-                word_mask = line_mask[y:y + h, x:x + w]
+            for word_index, (x, y, w, h) in enumerate(word_boxes):
                 word_ink = line_ink[y:y + h, x:x + w]
-                glyph_options: list[list[tuple[str, float]]] = []
+                letter_options: list[list[tuple[str, float]]] = []
                 fallback_chars: list[str] = []
+                word_text = ""
+                # A comma is a dot with a tail, and connected-component labelling splits the
+                # two, so one comma arrives as two mark boxes and would be emitted twice.
+                # The most recent mark is held here so a vertically stacked partner can be
+                # folded back into a single mark before it reaches the text.
+                pending_mark: tuple[int, int, int, int] | None = None
 
-                for gx, gy, gw, gh in segment_glyphs(word_mask):
-                    # Crop the grayscale ink, not the hard binary mask. EMNIST glyphs are
-                    # antialiased, so handing the classifier crisp 0/255 edges is a
-                    # distribution shift; the mask is only used to find where the boxes are.
-                    glyph = word_ink[gy:gy + gh, gx:gx + gw]
+                for bx, by, bw, bh in glyph_boxes[word_index]:
+                    # Coordinates inside this word's crop.
+                    gx, gy = bx - x, by - y
+                    glyph = word_ink[gy:gy + bh, gx:gx + bw]
                     if not glyph.size:
                         continue
+                    glyph_total += 1
+
+                    # Punctuation first: geometry settles it more reliably than any
+                    # classifier, and it must never enter the beam search — a stray period
+                    # inside a word would break the dictionary match.
+                    mark = classify_punctuation(bw, bh, by, height_of_line, baseline, reference_height)
+                    if mark is not None:
+                        if pending_mark is not None:
+                            union = self._union_box(pending_mark, (bx, by, bw, bh))
+                            if union is not None and word_text:
+                                merged = classify_punctuation(
+                                    union[2], union[3], union[1], height_of_line, baseline, reference_height
+                                )
+                                word_text = word_text[:-1] + (merged or mark)
+                                pending_mark = union
+                                continue
+                        if letter_options:
+                            decoded, decoded_conf = decode_word(letter_options, self._lexicon)
+                            word_text += self._apply_word_case(decoded)
+                            confidences.append(decoded_conf)
+                            letter_options = []
+                        elif fallback_chars:
+                            word_text += "".join(fallback_chars)
+                            fallback_chars = []
+                        word_text += mark
+                        pending_mark = (bx, by, bw, bh)
+                        continue
+
+                    pending_mark = None
+
                     if top_k_backend:
-                        glyph_options.append(backend.recognize_topk(glyph, k=top_k))
+                        options = backend.recognize_topk(glyph, k=top_k)
+                        letter_options.append(options)
                     else:
                         char, prob = backend.recognize(glyph)
                         fallback_chars.append(char)
                         confidences.append(prob)
-                    glyph_total += 1
 
-                if glyph_options:
+                if len(letter_options) == 1:
+                    # A single glyph that is not a word is usually a standalone symbol:
+                    # "+", "=", "%", "₱", "@", or a full-height "?" / "!". Multi-glyph words
+                    # never reach the symbol model — measured attempts to do so turned
+                    # ordinary letters into "#" and "@" and cost ~20 points of accuracy.
+                    only_box = glyph_boxes[word_index][0] if glyph_boxes[word_index] else None
+                    if only_box is not None:
+                        _bx, by, bw, bh = only_box
+                        glyph = line_ink[by:by + bh, _bx:_bx + bw]
+                        if glyph.size:
+                            letter_options[0] = self._merge_symbol_options(glyph, letter_options[0])
+                elif self._symbol_backend is not None and self.use_symbols:
+                    # "?" and "!" reach full height, so the geometry test cannot see them and
+                    # the mark stays inside the word. Only the trailing glyph is considered,
+                    # and only when the symbol model is nearly certain about it. Running the
+                    # symbol model across a whole word was measured to turn ordinary letters
+                    # into "#" and "@" and cost about twenty points of accuracy.
+                    trailing_box = glyph_boxes[word_index][-1] if glyph_boxes[word_index] else None
+                    if trailing_box is not None and len(letter_options) == len(glyph_boxes[word_index]):
+                        _bx, by, bw, bh = trailing_box
+                        glyph = line_ink[by:by + bh, _bx:_bx + bw]
+                        if glyph.size and letter_options[-1]:
+                            symbol, symbol_prob = self._symbol_backend.recognize_topk(glyph, k=1)[0]
+                            # The letter model is often confidently wrong here: a written
+                            # "?" comes back as "7" at 0.85. So the gate is the symbol
+                            # model's own certainty, not the letter model's doubt, and the
+                            # accepted set stays narrow.
+                            if symbol_prob >= 0.95 and symbol in ".?!":
+                                decoded, decoded_conf = decode_word(letter_options[:-1], self._lexicon)
+                                word_text += self._apply_word_case(decoded)
+                                confidences.append(decoded_conf)
+                                word_text += symbol
+                                letter_options = []
+
+                if letter_options:
                     # Dictionary-constrained beam search over the whole word. This is what
                     # turns "p1s0" into "piso" and "6A7AS" into "gatas".
-                    word_text, word_conf = decode_word(glyph_options, self._lexicon)
-                    words.append(self._apply_word_case(word_text))
-                    confidences.append(word_conf)
+                    tail, tail_conf = decode_word(letter_options, self._lexicon)
+                    word_text += self._apply_word_case(tail)
+                    confidences.append(tail_conf)
                 elif fallback_chars:
-                    words.append("".join(fallback_chars))
+                    word_text += "".join(fallback_chars)
+
+                if not word_text:
+                    continue
+                # A mark isolated as its own "word" belongs to the word before it:
+                # "...PISO" + "." must join, not become "PISO .".
+                word_text = self._tidy_marks(word_text)
+                if word_text in _PUNCTUATION_ONLY and words:
+                    words[-1] += word_text
+                else:
+                    words.append(word_text)
 
             if words:
                 line_conf = float(np.mean(confidences)) if confidences else float("nan")
@@ -951,7 +1125,7 @@ class HandwritingReader:
                                   "glyphs": glyph_total})
 
         text = "\n".join(item["text"] for item in lines_out)
-        return self._result(text, lines_out, backend, sum(i["glyphs"] for i in lines_out), started)
+        return self._result(text, lines_out, backend, sum(i["glyphs"] for i in lines_out), started, repairs)
 
     @property
     def _lexicon(self) -> Any:
@@ -965,6 +1139,96 @@ class HandwritingReader:
         if self.case_mode == "lower":
             return word.lower()
         return word
+
+    @staticmethod
+    def _tidy_marks(text: str) -> str:
+        """Collapse marks that one glyph was split into.
+
+        Connected-component labelling sometimes breaks a single mark into pieces — a comma
+        into head and tail — and each piece is then classified on its own, so the same mark
+        arrives twice. A run of exactly two identical marks is folded into one; a run of
+        three or more is kept, because that is an ellipsis and is meant to be there.
+        A semicolon immediately followed by a comma is likewise one split comma.
+        """
+        if len(text) < 2:
+            return text
+
+        out: list[str] = []
+        index = 0
+        while index < len(text):
+            char = text[index]
+            run = 1
+            while index + run < len(text) and text[index + run] == char:
+                run += 1
+            if char in _PUNCTUATION_ONLY and run == 2:
+                out.append(char)
+            else:
+                out.extend([char] * run)
+            index += run
+
+        tidied = "".join(out)
+        return tidied.replace(";,", ",").replace(";.", ".")
+
+    @staticmethod
+    def _union_box(
+        first: tuple[int, int, int, int], second: tuple[int, int, int, int]
+    ) -> tuple[int, int, int, int] | None:
+        """Combine two glyph boxes if they overlap horizontally enough to be one mark.
+
+        Returns ``None`` when the boxes sit well apart, which means they are two separate
+        marks rather than the pieces of one.
+        """
+        ax, ay, aw, ah = first
+        bx, by, bw, bh = second
+        # A mark split down the middle yields two halves that merely touch, so a one-pixel
+        # gap still counts as one mark. Two genuinely separate marks are further apart.
+        overlap = min(ax + aw, bx + bw) - max(ax, bx)
+        if overlap < -1:
+            return None
+        left, top = min(ax, bx), min(ay, by)
+        right, bottom = max(ax + aw, bx + bw), max(ay + ah, by + bh)
+        return (left, top, right - left, bottom - top)
+
+    def _merge_symbol_options(self, glyph: np.ndarray,
+                              letter_options: list[tuple[str, float]]) -> list[tuple[str, float]]:
+        """Let the symbol model override a low-confidence letter guess.
+
+        The rule is conservative on purpose. The symbol model is trained on rendered fonts,
+        not real pen strokes, so it is only trusted when it is *sure* and the letter model
+        is *not* — otherwise a slightly odd ``A`` would come back as ``&``.
+
+        The merged list keeps the letter candidates first, so when the two models agree on a
+        plausible word the dictionary still wins.
+        """
+        if not self.use_symbols:
+            return letter_options
+        try:
+            symbol_backend = self._get_symbol_backend()
+        except (FileNotFoundError, ImportError):
+            self.use_symbols = False          # trained model absent: run without it, quietly
+            return letter_options
+
+        symbol_options = symbol_backend.recognize_topk(glyph, k=2)
+        if not symbol_options:
+            return letter_options
+
+        best_symbol, symbol_probability = symbol_options[0]
+        best_letter, letter_probability = letter_options[0] if letter_options else ("", 0.0)
+        # Only symbols that cannot plausibly be a letter are allowed to win, and only by a
+        # wide margin. The symbol model is trained on rendered fonts, so it is trusted for
+        # shape-distinctive marks and nothing else.
+        _ = best_letter
+        if symbol_probability >= 0.85 and letter_probability <= 0.45:
+            return [(best_symbol, symbol_probability)] + letter_options
+        return letter_options
+
+    def _get_symbol_backend(self) -> Any:
+        """Lazily build the symbol classifier, so the model file is optional at runtime."""
+        if self._symbol_backend is None:
+            from bern.symbols import SymbolBackend
+
+            self._symbol_backend = SymbolBackend()
+        return self._symbol_backend
 
     def _decode(self, source: bytes | str | Path | np.ndarray) -> np.ndarray:
         """Normalise the four accepted input types into one BGR array."""
@@ -984,7 +1248,8 @@ class HandwritingReader:
         raise TypeError(f"Unsupported input type {type(source)!r}")
 
     def _result(self, text: str, lines: list[dict[str, Any]], backend: Any,
-                glyph_count: int, started: float) -> dict[str, Any]:
+                glyph_count: int, started: float,
+                repairs: dict[str, Any] | None = None) -> dict[str, Any]:
         """Assemble the public result dictionary shared by every backend."""
         confidences = [item["confidence"] for item in lines if item.get("confidence") is not None]
         return {
@@ -995,6 +1260,7 @@ class HandwritingReader:
             "glyph_count": glyph_count,
             "inference_ms": round((time.perf_counter() - started) * 1000.0, 2),
             "unsupported_symbols": sorted(set(EMNIST_UNSUPPORTED) & set(text)),
+            "repairs": repairs or {},
         }
 
 

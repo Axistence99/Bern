@@ -195,6 +195,7 @@ class Lexicon:
             if not key or len(key) > 32:
                 continue
             self.weights[key] = max(self.weights.get(key, 0.0), weight)
+        _prefix_index.cache_clear()          # vocabulary changed; rebuild on next decode
 
     def _add_dataset_words(self) -> None:
         """Harvest vocabulary from Bern's bundled PH datasets.
@@ -317,12 +318,28 @@ def get_lexicon() -> Lexicon:
 # Word decoding
 # --------------------------------------------------------------------------------------
 
+@lru_cache(maxsize=4)
+def _prefix_index(size: int) -> frozenset[str]:
+    """Every prefix of every lexicon word, for prefix-constrained beam search.
+
+    Caching on ``size`` keeps the index alive for the life of the process while staying
+    correct if the lexicon is rebuilt. The set costs roughly a few hundred KB.
+    """
+    lexicon = get_lexicon()
+    prefixes: set[str] = set()
+    for word in lexicon.weights:
+        for end in range(1, len(word) + 1):
+            prefixes.add(word[:end])
+    return frozenset(prefixes)
+
+
 def decode_word(
     glyph_probabilities: Sequence[Sequence[tuple[str, float]]],
     lexicon: Lexicon | None = None,
-    beam_width: int = 24,
+    beam_width: int = 64,
     lexicon_bonus: float = 6.0,
     length_penalty: float = 0.05,
+    prefix_bonus: float = 0.6,
 ) -> tuple[str, float]:
     """Find the most likely *word* behind a column of per-glyph character probabilities.
 
@@ -351,6 +368,7 @@ def decode_word(
         return "", 0.0
 
     lexicon = lexicon if lexicon is not None else get_lexicon()
+    prefixes = _prefix_index(len(lexicon))
 
     # (score, text, accumulated_log_prob, char_count)
     beams: list[tuple[float, str, float, int]] = [(0.0, "", 0.0, 0)]
@@ -362,7 +380,14 @@ def decode_word(
         for score, text, log_prob, count in beams:
             for char, prob in options:
                 p = max(float(prob), 1e-6)
-                expanded.append((score + math.log(p), text + char, log_prob + math.log(p), count + 1))
+                log_p = math.log(p)
+                candidate = text + char
+                # Steer the search toward real vocabulary as soon as a prefix exists.
+                # Without this, a path like "ADO" is discarded long before the end-of-word
+                # bonus could rescue it, because its second letter scored 0.02 while "0"
+                # scored 0.92 — a 3.8 nat deficit that no final bonus ever repays in time.
+                step = log_p + (prefix_bonus if normalize_word(candidate) in prefixes else 0.0)
+                expanded.append((score + step, candidate, log_prob + log_p, count + 1))
         expanded.sort(key=lambda item: item[0], reverse=True)
         beams = expanded[:beam_width]
 
