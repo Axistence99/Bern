@@ -274,8 +274,9 @@ Measured on this repo — do not oversell it in the app:
 
 | Feature | State |
 | --- | --- |
-| Chat, no server | `bernOnDevice.ts`: 24 intents, measured 18/18 agreement with the server on a sample |
+| Chat, no server | `bernOnDevice.ts`: 24 intents. Returns the intent and the stored answer, not a price |
 | One handwritten character, no server | 80.9% per character, measured on 20,000 held-out EMNIST glyphs |
+| Parity with the Python path | Features and probabilities agree to float32 rounding; 52/52 glyphs read identically |
 | Handwriting across a page | **Server only** — the phone has no line/word/glyph segmenter |
 | Block-letter handwriting | Good on clean paper. `. , - ?` now recovered; `ñ` supported |
 | Phone photos | Perspective and ruled-line handling exist, **never tested on a real photo** |

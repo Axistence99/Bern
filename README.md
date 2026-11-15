@@ -249,7 +249,7 @@ leaf.readSymbol(twentyEightByTwentyEight); // { char: "ñ", ... }
 
 | Model | On the phone | Measured |
 | --- | --- | --- |
-| Intents (24 classes) | yes | 18/18 agreement with the server on a mixed sample |
+| Intents (24 classes) | yes | 18/18 agreement with the Python path on a mixed sample |
 | Handwriting (62 classes) | yes, one character at a time | 80.9% on 20,000 held-out EMNIST glyphs |
 | Symbols (28 classes) | yes | 99.3% held out |
 | Page → text (segmentation) | **no** | stays on the server; the phone has no line/word splitter |
