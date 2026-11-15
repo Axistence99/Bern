@@ -369,6 +369,20 @@ dropped; flashcards need both sides; true/false needs a real boolean; an answer 
 from the questions rather than trusted from the model. `_parse_json_object` accepts a bare
 object, a fenced block, or an object wrapped in prose.
 
+### Bug found while documenting (fixed in the same round)
+
+`python3 -m bern.trainer` pickled the classifier as `__main__.BernClassifier`, because the
+class is defined in a file executed as `__main__`. `bern.engine` then failed to load the
+bundle in any other process with `AttributeError: Can't get attribute 'BernClassifier'`.
+The pre-existing `__main__` block had the same defect; documenting the command as *the* way
+to train made it reachable. `__main__` now delegates to the canonical module, and the pickle
+records `bern.trainer.BernClassifier`. Reproduce the check with:
+
+```bash
+python3 -m bern.trainer --fast
+python3 -c "from bern.engine import BernAI; print(BernAI().predict('magkano ang bigas')['intent'])"
+```
+
 ### Verified / not verified
 
 Verified: everything in `tests/test_llm.py` — availability gating, the fallback contract, reply

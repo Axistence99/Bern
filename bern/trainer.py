@@ -361,4 +361,11 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    # Running as ``python3 -m bern.trainer`` makes this file ``__main__``, and any class
+    # defined here would be pickled as ``__main__.BernClassifier`` — a name that does not
+    # exist when ``bern.engine`` loads the bundle from another process, so the model file
+    # would be unloadable by the very code that is meant to use it. Delegating to the
+    # canonical module keeps the pickle path as ``bern.trainer.BernClassifier``.
+    from bern.trainer import main as _train_main
+
+    _train_main()
