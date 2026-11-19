@@ -90,9 +90,10 @@ const { intent: tag, confidence } = leaf.classify("magkano ang bigas?");
 // Bern's own answer, stored with the model. No lookup, so no price in it.
 leaf.reply("salamat po");        // { intent: "gratitude", text: "You're welcome! Happy to help anytime." }
 
-// One character, straight from a 28x28 ink-bright crop.
-const crop = leaf.prepare(cameraGray, width, height);   // normalise any size to 28x28
-leaf.readGlyph(crop);            // { char: "a", confidence: 0.93, candidates: [...] }
+// One character from a camera crop. prepare() thresholds it to ink-bright first, so this
+// works on a phone photo of black ink on paper, not only on a pre-cleaned glyph.
+const glyph = leaf.prepare(cameraGray, width, height);  // any size -> 28x28
+leaf.readGlyph(glyph);           // { char: "a", confidence: 0.93, candidates: [...] }
 leaf.readSymbol(crop);           // ".", ",", "?", "+", "ñ", ...
 ```
 
@@ -102,7 +103,14 @@ leaf.readSymbol(crop);           // ".", ",", "?", "+", "ñ", ...
 | `reply(text)` | ~1 ms | nothing; `needsServer` is set for `out_of_scope` |
 | `readGlyph(28x28)` | ~2 ms | a **cropped** character — see below |
 | `readSymbol(28x28)` | ~2 ms | a cropped symbol |
-| `prepare(gray, w, h)` | ~1 ms | any grey crop, ink bright |
+| `prepare(gray, w, h, inkBright?)` | ~2 ms | any grey crop, either polarity |
+
+**`prepare()` reads the mask, not the picture.** It runs Otsu's threshold with the server's
+polarity corrections, because the models cannot tell a bright page from a bright stroke: a
+camera photo of a "T" read as "8" at 1.00 confidence before this step existed. Black ink on
+white paper, white marker on a blackboard, and washed-out pencil all produce the same
+ink-bright glyph, and the result is pixel-identical to the server's `ink_mask` on every test
+page. Pass `inkBright = true` to skip it if you already hold a binary mask.
 
 **`readGlyph` takes one character, not a page.** Splitting a photo into lines, words and glyphs
 is done with OpenCV projection profiles and morphological thresholds on the server
@@ -278,6 +286,7 @@ Measured on this repo — do not oversell it in the app:
 | One handwritten character, no server | 80.9% per character, measured on 20,000 held-out EMNIST glyphs |
 | Parity with the Python path | Features and probabilities agree to float32 rounding; 52/52 glyphs read identically |
 | Handwriting across a page | **Server only** — the phone has no line/word/glyph segmenter |
+| One character from a camera photo | works, both polarities, once you supply the crop |
 | Block-letter handwriting | Good on clean paper. `. , - ?` now recovered; `ñ` supported |
 | Phone photos | Perspective and ruled-line handling exist, **never tested on a real photo** |
 | Chat follow-ups | Works, no key needed |

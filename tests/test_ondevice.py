@@ -19,6 +19,8 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+from bern.portable_features import ink_mask
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 BUNDLES = REPO_ROOT / "models" / "ondevice"
 
@@ -184,3 +186,35 @@ def test_normalised_glyph_tracks_opencv() -> None:
         assert int(difference.max()) <= 1
         # Ink position is what the descriptor reads, so that part must be identical.
         assert np.array_equal(reference > 8, portable > 8) or int((reference > 8).sum()) == 0
+
+
+def test_ink_mask_marks_the_stroke_not_the_paper() -> None:
+    """The bug this guards: `prepare()` without a mask reads a photographed "T" as "8" at 1.00.
+
+    `normaliseGlyph` scales whatever exceeds 8, so on a camera photo it fits the paper to the
+    box and the character becomes a hole. The mask has to come first, and it has to work in
+    both polarities — a whiteboard photo is the same problem upside down.
+    """
+    from bern.portable_features import normalise_glyph
+
+    width, height = 160, 120
+    for paper, ink in ((245, 20), (15, 235)):
+        page = np.full((height, width), paper, np.uint8)
+        page[30:90, 60:80] = ink
+        page[20:34, 40:100] = ink
+
+        mask = ink_mask(page)
+        coverage = float((mask > 0).mean())
+        # The stroke is roughly 1,600 of 19,200 pixels; the page is more than ten times that.
+        assert 0.04 < coverage < 0.25, f"masked {coverage:.1%} of the page as ink"
+
+        glyph = normalise_glyph(mask)
+        # Enough ink survived the resize to be a character at all; the exact count depends on
+        # the stroke width chosen above and is not the property under test.
+        assert int((glyph > 8).sum()) > 150
+        # The ink must land in the middle of the frame, not against an edge. Scaling to 86% of
+        # the box is what leaves the margin, so a glyph touching a border means the mask found
+        # something the size of the page.
+        rows, cols = np.nonzero(glyph > 8)
+        assert rows.min() >= 1 and rows.max() <= 26
+        assert cols.min() >= 1 and cols.max() <= 26

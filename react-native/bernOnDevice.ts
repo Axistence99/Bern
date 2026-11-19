@@ -20,6 +20,7 @@
 
 import {
   glyphFeatures,
+  inkMask,
   normaliseGlyph,
   softmaxScores,
   unionRow,
@@ -257,8 +258,24 @@ export class BernOnDevice {
     return { char: ranked[0].label, confidence: ranked[0].confidence, candidates: ranked };
   }
 
-  /** Normalise an arbitrary crop to the 28x28 the models expect, straight from camera data. */
-  prepare(gray: Uint8Array | Float32Array | number[], width: number, height: number): Uint8Array {
-    return normaliseGlyph(gray, width, height);
+  /**
+   * Turn a camera crop into the 28x28 the models expect.
+   *
+   * Goes through `inkMask` first, so black ink on white paper and white ink on black paper both
+   * end up the same way round. Without it `normaliseGlyph` fits the *paper* to the box and the
+   * character becomes a hole in the middle of the glyph — which the model happily reads as some
+   * other character, at high confidence.
+   *
+   * `inkBright` skips the mask for callers whose image is already a binary mask, such as one
+   * produced by a segmentation step of your own.
+   */
+  prepare(
+    gray: Uint8Array | Float32Array | number[],
+    width: number,
+    height: number,
+    inkBright = false,
+  ): Uint8Array {
+    const source = inkBright ? gray : inkMask(gray, width, height);
+    return normaliseGlyph(source, width, height);
   }
 }

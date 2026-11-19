@@ -501,6 +501,15 @@ by 6.7e-08, and the two read 52/52 glyphs and 52/52 symbols identically. That is
 accumulation noise, not a behavioural difference. The check compiles the TypeScript with `tsc`
 and runs it under `node`; neither is needed at runtime.
 
+**The bug that the "is it ready" question surfaced.** `prepare()` originally called
+`normaliseGlyph` alone, which scales whatever exceeds 8 — on a camera photo that is the *paper*.
+A photographed "T" came back as **"8" at 1.00 confidence**: confident, wrong, and invisible in
+any test that used clean glyphs. `ink_mask` is now ported twice, to
+`bern/portable_features.py` and to `bernFeatures.ts` (`inkMask`), including Otsu, the
+inverted-page correction and the washed-out adaptive fallback. It agrees with cv2's `ink_mask`
+on every pixel of all six test pages. `prepare()` runs it by default; pass `inkBright = true` to
+skip it.
+
 **What the phone cannot do**, and the app must not pretend otherwise: split a photographed page
 into lines, words and characters (`segment_lines` and friends are OpenCV projection profiles,
 never ported), look anything up, correct a spelling against the dictionary, or answer outside

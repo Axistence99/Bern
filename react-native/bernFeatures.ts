@@ -65,6 +65,138 @@ function bilinearResize(image: ArrayLike<number>, inW: number, inH: number, outW
 }
 
 /**
+ * Otsu's threshold: the cut that best separates two populations of grey values.
+ *
+ * Between-class variance is maximised over every possible cut. That is the standard
+ * derivation, kept because the alternative — a fixed cut at 128 — fails on any photo whose
+ * exposure is off, which is most photos taken indoors.
+ */
+export function otsuThreshold(gray: Gray, length: number): number {
+  const histogram = new Float64Array(256);
+  for (let i = 0; i < length; i += 1) {
+    const value = at(gray, i);
+    histogram[value < 0 ? 0 : value > 255 ? 255 : Math.round(value)] += 1;
+  }
+
+  const total = length;
+  let sum = 0;
+  for (let level = 0; level < 256; level += 1) sum += level * histogram[level];
+
+  let sumBelow = 0;
+  let weightBelow = 0;
+  let bestVariance = -1;
+  let bestLevel = 0;
+  for (let level = 0; level < 256; level += 1) {
+    weightBelow += histogram[level];
+    if (weightBelow === 0) continue;
+    const weightAbove = total - weightBelow;
+    if (weightAbove === 0) break;
+
+    sumBelow += level * histogram[level];
+    const meanBelow = sumBelow / weightBelow;
+    const meanAbove = (sum - sumBelow) / weightAbove;
+    const variance = weightBelow * weightAbove * (meanBelow - meanAbove) * (meanBelow - meanAbove);
+    if (variance > bestVariance) {
+      bestVariance = variance;
+      bestLevel = level;
+    }
+  }
+  return bestLevel;
+}
+
+/**
+ * Turn a greyscale photograph into an ink-bright mask: white strokes on black.
+ *
+ * The models were trained on ink-bright 28x28 glyphs and cannot tell a bright page from a
+ * bright stroke — `normaliseGlyph` simply scales whatever is above 8. Feed it a camera photo of
+ * black ink on white paper and it fits the *paper* to the box with the character as a hole in
+ * the middle, then returns a confident, wrong answer. Measured: a photographed "T" read as "8"
+ * at 1.00 confidence before this step existed.
+ *
+ * Otsu picks a global cut, which is right for a page under even light. Two corrections are
+ * carried over from the server's `ink_mask` because they were needed in practice, not as
+ * defensive padding: a page that comes out mostly "ink" was photographed inverted, and one
+ * that comes out almost entirely empty is washed out and needs a local threshold instead.
+ */
+export function inkMask(gray: Gray, width: number, height: number): Uint8Array {
+  const length = width * height;
+  // cv2.GaussianBlur with a 3x3 kernel and sigma 0 derives sigma = 0.8 from the size, which
+  // gives these three taps. A box filter would be simpler and would threshold slightly
+  // differently; matching the kernel keeps the two implementations comparable.
+  const centre = 0.5221;
+  const side = 0.2389;
+
+  const horizontal = new Float32Array(length);
+  for (let y = 0; y < height; y += 1) {
+    const row = y * width;
+    for (let x = 0; x < width; x += 1) {
+      const left = at(gray, row + (x > 0 ? x - 1 : 0));
+      const middle = at(gray, row + x);
+      const right = at(gray, row + (x < width - 1 ? x + 1 : width - 1));
+      horizontal[row + x] = side * left + centre * middle + side * right;
+    }
+  }
+
+  const blurred = new Uint8Array(length);
+  for (let y = 0; y < height; y += 1) {
+    const up = (y > 0 ? y - 1 : 0) * width;
+    const here = y * width;
+    const down = (y < height - 1 ? y + 1 : height - 1) * width;
+    for (let x = 0; x < width; x += 1) {
+      const value = side * horizontal[up + x] + centre * horizontal[here + x] + side * horizontal[down + x];
+      blurred[here + x] = value < 0 ? 0 : value > 255 ? 255 : Math.round(value);
+    }
+  }
+
+  const cut = otsuThreshold(blurred, length);
+  const mask = new Uint8Array(length);
+  let ink = 0;
+  for (let i = 0; i < length; i += 1) {
+    if (blurred[i] <= cut) {
+      mask[i] = 255;
+      ink += 1;
+    }
+  }
+
+  const coverage = ink / length;
+  if (coverage > 0.5) {
+    // The page was inverted: white text on a dark background. Flip it.
+    for (let i = 0; i < length; i += 1) mask[i] = mask[i] === 0 ? 255 : 0;
+    ink = length - ink;
+  } else if (coverage < 0.002) {
+    // Faint pencil or a bad exposure, where a global cut wipes the page out. Use a local
+    // mean over a 31-pixel window with a 15-level bias, as the server does.
+    const radius = 15;
+    const integral = new Float64Array((width + 1) * (height + 1));
+    for (let y = 0; y < height; y += 1) {
+      let rowSum = 0;
+      for (let x = 0; x < width; x += 1) {
+        rowSum += blurred[y * width + x];
+        integral[(y + 1) * (width + 1) + x + 1] = integral[y * (width + 1) + x + 1] + rowSum;
+      }
+    }
+    const windowMean = (x: number, y: number): number => {
+      const x0 = Math.max(0, x - radius);
+      const y0 = Math.max(0, y - radius);
+      const x1 = Math.min(width - 1, x + radius);
+      const y1 = Math.min(height - 1, y + radius);
+      const total =
+        integral[(y1 + 1) * (width + 1) + x1 + 1]
+        - integral[y0 * (width + 1) + x1 + 1]
+        - integral[(y1 + 1) * (width + 1) + x0]
+        + integral[y0 * (width + 1) + x0];
+      return total / ((x1 - x0 + 1) * (y1 - y0 + 1));
+    };
+    for (let y = 0; y < height; y += 1) {
+      for (let x = 0; x < width; x += 1) {
+        mask[y * width + x] = blurred[y * width + x] < windowMean(x, y) - 15 ? 255 : 0;
+      }
+    }
+  }
+  return mask;
+}
+
+/**
  * Fit one glyph crop into a 28x28 square the way the server does.
  *
  * Tighten to the ink, scale so the longest side fills 86% of the box, centre it, resample

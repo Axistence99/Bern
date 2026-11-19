@@ -157,6 +157,90 @@ def glyph_features(gray_glyph: np.ndarray) -> np.ndarray:
     return np.concatenate([hog, zones.astype(np.float32), np.array([ink_ratio], dtype=np.float32)])
 
 
+def ink_mask(gray: np.ndarray) -> np.ndarray:
+    """Turn a greyscale photograph into an ink-bright mask: white strokes on black.
+
+    Mirrors :func:`bern.handwriting.ink_mask` without OpenCV. The models were trained on
+    ink-bright glyphs and cannot tell a bright page from a bright stroke — ``normalise_glyph``
+    scales whatever is above 8, so handed a photo of black ink on white paper it fits the
+    *paper* to the box and the character becomes a hole in the middle, which reads as some
+    other character at high confidence.
+
+    OpenCV's 3x3 Gaussian with sigma 0 implies sigma 0.8, giving taps of 0.2389 / 0.5221 /
+    0.2389. That is close enough to a box filter to be tempting and different enough to threshold
+    a pixel the other way; matching it keeps this comparable with the server.
+    """
+    gray = np.asarray(gray)
+    if gray.ndim == 3:
+        gray = gray.mean(axis=2)
+    # Quantise first: cv2 expects 8-bit input, and the Otsu histogram is over 256 levels.
+    source = np.clip(gray, 0, 255).astype(np.uint8).astype(np.float32)
+
+    taps = np.array([0.2389, 0.5221, 0.2389], dtype=np.float32)
+    padded = np.pad(source, 1, mode="edge")
+
+    # Horizontal pass: drop the padding rows, then slide three taps over columns 0..width-1 of
+    # the padded row, which needs slices [0:w], [1:w+1], [2:w+2].
+    width = source.shape[1]
+    middle = padded[1:-1, :]
+    horizontal = (middle[:, 0:width] * taps[0]
+                  + middle[:, 1:width + 1] * taps[1]
+                  + middle[:, 2:width + 2] * taps[2])
+    # Same vertically on the result, with replicated edges to match cv2's border handling.
+    height = source.shape[0]
+    vertical = np.pad(horizontal, ((1, 1), (0, 0)), mode="edge")
+    blurred = (vertical[0:height, :] * taps[0]
+               + vertical[1:height + 1, :] * taps[1]
+               + vertical[2:height + 2, :] * taps[2])
+    blurred = np.clip(np.round(blurred), 0, 255).astype(np.uint8)
+
+    histogram = np.bincount(blurred.ravel(), minlength=256).astype(np.float64)
+    total = histogram.sum()
+    levels = np.arange(256, dtype=np.float64)
+    weighted = levels * histogram
+    sum_total = weighted.sum()
+
+    weight_below = np.cumsum(histogram)
+    sum_below = np.cumsum(weighted)
+    weight_above = total - weight_below
+
+    valid = (weight_below > 0) & (weight_above > 0)
+    with np.errstate(invalid="ignore", divide="ignore"):
+        mean_below = sum_below / weight_below
+        mean_above = (sum_total - sum_below) / weight_above
+        between = weight_below * weight_above * (mean_below - mean_above) ** 2
+    between[~valid] = -1.0
+    cut = int(np.argmax(between))
+
+    mask = np.where(blurred <= cut, 255, 0).astype(np.uint8)
+    coverage = float((mask > 0).mean())
+    if coverage > 0.5:
+        mask = np.where(mask > 0, 0, 255).astype(np.uint8)
+    elif coverage < 0.002:
+        mask = _adaptive_threshold(blurred, radius=15, bias=15)
+    return mask
+
+
+def _adaptive_threshold(gray: np.ndarray, radius: int, bias: int) -> np.ndarray:
+    """Local-mean threshold over a ``2*radius+1`` window, via a summed-area table."""
+    height, width = gray.shape
+    integral = np.zeros((height + 1, width + 1), dtype=np.float64)
+    integral[1:, 1:] = np.cumsum(np.cumsum(gray.astype(np.float64), axis=0), axis=1)
+
+    rows = np.arange(height)
+    cols = np.arange(width)
+    y0 = np.maximum(0, rows - radius)
+    y1 = np.minimum(height - 1, rows + radius)
+    x0 = np.maximum(0, cols - radius)
+    x1 = np.minimum(width - 1, cols + radius)
+
+    total = (integral[np.ix_(y1 + 1, x1 + 1)] - integral[np.ix_(y0, x1 + 1)]
+             - integral[np.ix_(y1 + 1, x0)] + integral[np.ix_(y0, x0)])
+    counts = np.outer(y1 - y0 + 1, x1 - x0 + 1)
+    mean = total / counts
+    return np.where(gray < mean - bias, 255, 0).astype(np.uint8)
+
+
 def normalise_glyph(glyph: np.ndarray, size: int = GLYPH_SIZE) -> np.ndarray:
     """Fit one glyph crop into a ``size`` square the way the server does.
 

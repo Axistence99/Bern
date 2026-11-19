@@ -37,6 +37,7 @@ GLYPH_COUNT = 52
 #: around 1e-7 for features and up to 1e-5 for probabilities with the largest weight matrices.
 FEATURE_TOLERANCE = 1e-5
 PROBABILITY_TOLERANCE = 1e-4
+GLYPH_SHAPE = (28, 28)
 
 
 def find_typescript() -> str | None:
@@ -93,7 +94,31 @@ def make_inputs() -> dict:
         "a" * 50,
     ]
     assert len(glyphs) == GLYPH_COUNT
-    return {"glyphs": glyphs, "texts": texts}
+    return {"glyphs": glyphs, "texts": texts, "pages": make_pages()}
+
+
+def make_pages() -> list[dict]:
+    """Photographs to threshold: uneven light, noise, inverted, and washed out.
+
+    `inkMask` has to agree with the server's `ink_mask` on all of these, because a page the two
+    disagree about is a page where the phone and the desktop read a different character.
+    """
+    rng = np.random.default_rng(5)
+    height, width = 120, 160
+    pages = []
+    for variant in range(6):
+        rows, cols = np.mgrid[0:height, 0:width]
+        if variant == 5:
+            page = (200 + 6 * rng.random((height, width))).astype(np.uint8)
+            page[40:90, 50:80] = 195
+        else:
+            noise = rng.integers(-12, 12, (height, width)) if variant > 2 else 0
+            page = np.clip(150 + 90 * (1 - (rows / height) * 0.6) + noise, 0, 255).astype(np.uint8)
+            page[40:90, 50:80] = 25
+        if variant == 4:
+            page = 255 - page
+        pages.append({"width": width, "height": height, "pixels": page.ravel().tolist()})
+    return pages
 
 
 HARNESS = """
@@ -119,6 +144,8 @@ const read = (n) => JSON.parse(fs.readFileSync(__MODELS_DIR__ + '/' + n + '.json
     const r = bern.readSymbol(Uint8Array.from(g));
     out.symbols.push({ char: r.char, confidence: r.confidence });
   }
+  out.masks = input.pages.map((p) => Array.from(F.inkMask(Uint8Array.from(p.pixels), p.width, p.height)));
+  out.prepared = input.pages.map((p) => Array.from(bern.prepare(Uint8Array.from(p.pixels), p.width, p.height)));
   fs.writeFileSync(__OUTPUT_PATH__, JSON.stringify(out));
   console.log('ran ' + out.features.length + ' glyphs and ' + out.intents.length + ' messages');
 })();
@@ -238,6 +265,30 @@ def main() -> int:
     for text, expected, got in zip(inputs["texts"], predicted, delivered):
         if expected != got:
             print(f"    mismatch {text!r}: python={expected} typescript={got}")
+
+    # The ink mask decides which pixels are the character at all. A disagreement here is not a
+    # rounding difference: it is the phone reading a different shape.
+    from bern.handwriting import ink_mask
+    from bern.portable_features import normalise_glyph
+
+    mask_disagreements = 0
+    glyph_disagreements = 0
+    readings = []
+    for page, mask, prepared in zip(inputs["pages"], results["masks"], results["prepared"]):
+        pixels = np.array(page["pixels"], np.uint8).reshape(page["height"], page["width"])
+        reference = ink_mask(pixels)
+        delivered = np.array(mask, np.uint8).reshape(reference.shape)
+        mask_disagreements += int((np.asarray(reference > 0) != np.asarray(delivered > 0)).sum())
+
+        reference_glyph = normalise_glyph(reference)
+        delivered_glyph = np.array(prepared, np.uint8).reshape(GLYPH_SHAPE)
+        glyph_disagreements += int(np.abs(reference_glyph.astype(int) - delivered_glyph.astype(int)).max() > 1)
+        readings.append(delivered_glyph)
+
+    status = "ok" if mask_disagreements == 0 and glyph_disagreements == 0 else "FAIL"
+    print(f"  ink mask on photos  {len(inputs['pages'])} pages, {mask_disagreements} pixels differ, "
+          f"{glyph_disagreements} glyphs differ   {status}")
+    failures += status == "FAIL"
 
     for name, key, fold in (("glyph", "glyphs", True), ("symbol", "symbols", False)):
         bundle = json.loads((MODELS / f"{name}.json").read_text(encoding="utf-8"))
