@@ -2174,7 +2174,7 @@ function App() {
         if (!message && !photo)
             return;
         if (status !== "ready" || !runtime.current) {
-            setError("The model is still loading.");
+            setError("I am still loading.");
             return;
         }
         setError(null);
@@ -2198,7 +2198,7 @@ function App() {
             {
                 role: "bern",
                 id: `b${previous.length}`,
-                text: reply ? reply.text ?? "No stored answer for this intent." : null,
+                text: reply ? reply.text ?? "I do not have an answer stored for that one." : null,
                 intent: result ? result.intent : null,
                 confidence: result ? result.confidence : null,
                 alternatives: result ? result.alternatives : null,
@@ -2326,7 +2326,7 @@ function App() {
                     React.createElement("figure", { className: "tray-photo" },
                         React.createElement("img", { src: attachment.thumb, alt: "" })),
                     React.createElement("div", { className: "tray-read" },
-                        React.createElement("p", { className: "tray-note" }, "One character at a time \u2014 move the box onto a single letter."),
+                        React.createElement("p", { className: "tray-note" }, "I read one character at a time. Move the box onto a single letter."),
                         React.createElement("div", { className: "tray-preview" },
                             React.createElement("figure", { className: "tray-crop" },
                                 React.createElement("img", { src: attachment.preview.preview, alt: "The crop the model will read" }),
@@ -2350,23 +2350,23 @@ function App() {
                             React.createElement(CameraIcon, null)),
                         React.createElement("button", { type: "button", className: "tool", onClick: () => fileRef.current && fileRef.current.click(), disabled: status !== "ready" || busy, title: "Attach a file", "aria-label": "Attach a file" },
                             React.createElement(ClipIcon, null))),
-                    React.createElement("textarea", { ref: inputRef, value: draft, onChange: (event) => setDraft(event.target.value), onKeyDown: onKeyDown, rows: 1, placeholder: busy ? "Reading the image" : status === "ready" ? "Type a message" : "Loading model", disabled: status !== "ready", className: "field", "aria-label": "Your message" }),
+                    React.createElement("textarea", { ref: inputRef, value: draft, onChange: (event) => setDraft(event.target.value), onKeyDown: onKeyDown, rows: 1, placeholder: busy ? "reading the image" : status === "ready" ? "ask me anything" : "waking up", disabled: status !== "ready", className: "field", "aria-label": "Your message" }),
                     React.createElement("button", { type: "button", onClick: () => ask(), disabled: status !== "ready" || (!draft.trim() && !attachment), className: "send" }, "Ask")),
-                React.createElement("p", { className: "footnote" }, "Every reply is an answer the model already holds. Photos are read here, in this tab.")))));
+                React.createElement("p", { className: "footnote" }, "Every reply is an answer I already hold. Your photo is read here, in this tab.")))));
 }
 /* ------------------------------------------------------------------ header bits */
 function LoadState({ status }) {
     if (status === "loading")
-        return React.createElement("span", { className: "loadstate" }, "loading");
+        return React.createElement("span", { className: "loadstate" }, "waking up");
     if (status === "failed")
         return React.createElement("span", { className: "loadstate loadstate--fault" }, "failed");
-    return React.createElement("span", { className: "loadstate" }, "ready");
+    return React.createElement("span", { className: "loadstate" }, "listening");
 }
 /* ------------------------------------------------------------------ opening */
 function Opening({ onPick, disabled }) {
     return (React.createElement("section", { className: "opening" },
-        React.createElement("h2", { className: "opening-title" }, "Ask it something."),
-        React.createElement("p", { className: "opening-line" }, "It answers. It also tells you how sure it is."),
+        React.createElement("h2", { className: "opening-title" }, "Ask me something."),
+        React.createElement("p", { className: "opening-line" }, "I will tell you how sure I am about every answer."),
         React.createElement("ul", { className: "prompts", "aria-label": "Example questions" }, EXAMPLES.filter((example) => !example.miss).slice(0, 4).map((example) => (React.createElement("li", { key: example.text },
             React.createElement("button", { type: "button", className: "prompt", onClick: () => onPick(example.text), disabled: disabled },
                 React.createElement("span", { className: "prompt-text" }, example.text),
@@ -2392,10 +2392,10 @@ function Answer({ message, showScores, index }) {
         React.createElement("div", { className: "answer-body" },
             React.createElement(RichText, { text: message.text }),
             message.intent === "out_of_scope" ? (React.createElement("p", { className: "aside" },
-                "Bern's reply mentions a ",
+                "I mention a ",
                 React.createElement("b", null, "Teach Bern This"),
-                " button. That app can write a new phrase into the model; this page only loads one that has already been trained.")) : null,
-            message.needsServer ? (React.createElement("p", { className: "aside aside--warn" }, "That is only the opening line. The figures themselves live on the server, and this page carries no data of its own.")) : null),
+                " button. That button is in the desktop app, where it writes a new phrase into me. This page only loads me as I was trained.")) : null,
+            message.needsServer ? (React.createElement("p", { className: "aside aside--warn" }, "That is only my opening line. The figures themselves feed in from the server, and I carry no price data of my own here.")) : null),
         showScores ? (React.createElement(Readout, { confidence: message.confidence, intent: message.intent, alternatives: message.alternatives, low: low })) : null));
 }
 /**
@@ -2437,7 +2437,7 @@ function GlyphAnswer({ message, showScores }) {
     return (React.createElement("article", { className: "answer" },
         React.createElement("div", { className: "answer-body" },
             React.createElement("p", { className: "glyph-line" },
-                "The clearest character in that photo reads as",
+                "The clearest thing I can read in that photo is",
                 React.createElement("span", { className: "glyph-char" }, reading.best.char),
                 React.createElement("span", { className: low ? "glyph-verdict glyph-verdict--low" : "glyph-verdict" }, reading.best.confidence < CONFIDENT ? "guessing" : "confident")),
             showScores ? (React.createElement("div", { className: "glyph-readout" },
@@ -2453,7 +2453,7 @@ function GlyphAnswer({ message, showScores }) {
                         React.createElement("span", { className: "glyph-score" },
                             (candidate.confidence * 100).toFixed(1),
                             "%"))))))) : null,
-            React.createElement("p", { className: "aside" }, "That reader knows single characters, not words. The full handwriting pipeline \u2014 lines, words, then text \u2014 is the one in the Python package, and it is not on this page."))));
+            React.createElement("p", { className: "aside" }, "That is me reading a single character, not a word. The full handwriting pass \u2014 lines, then words, then text \u2014 runs in the Python package, not on this page."))));
 }
 /* ------------------------------------------------------------------ icons */
 /** Drawn rather than typed: an emoji camera renders differently on every platform and would be

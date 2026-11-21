@@ -390,7 +390,7 @@ function App() {
       const photo = attachment;
       if (!message && !photo) return;
       if (status !== "ready" || !runtime.current) {
-        setError("The model is still loading.");
+        setError("I am still loading.");
         return;
       }
       setError(null);
@@ -416,7 +416,7 @@ function App() {
         {
           role: "bern",
           id: `b${previous.length}`,
-          text: reply ? reply.text ?? "No stored answer for this intent." : null,
+          text: reply ? reply.text ?? "I do not have an answer stored for that one." : null,
           intent: result ? result.intent : null,
           confidence: result ? result.confidence : null,
           alternatives: result ? result.alternatives : null,
@@ -595,7 +595,7 @@ function App() {
               </figure>
               <div className="tray-read">
                 <p className="tray-note">
-                  One character at a time &mdash; move the box onto a single letter.
+                  I read one character at a time. Move the box onto a single letter.
                 </p>
                 <div className="tray-preview">
                   <figure className="tray-crop">
@@ -669,7 +669,9 @@ function App() {
               onChange={(event) => setDraft(event.target.value)}
               onKeyDown={onKeyDown}
               rows={1}
-              placeholder={busy ? "Reading the image" : status === "ready" ? "Type a message" : "Loading model"}
+              placeholder={
+                busy ? "reading the image" : status === "ready" ? "ask me anything" : "waking up"
+              }
               disabled={status !== "ready"}
               className="field"
               aria-label="Your message"
@@ -684,7 +686,7 @@ function App() {
             </button>
           </div>
           <p className="footnote">
-            Every reply is an answer the model already holds. Photos are read here, in this tab.
+            Every reply is an answer I already hold. Your photo is read here, in this tab.
           </p>
         </footer>
       </div>
@@ -695,9 +697,9 @@ function App() {
 /* ------------------------------------------------------------------ header bits */
 
 function LoadState({ status }) {
-  if (status === "loading") return <span className="loadstate">loading</span>;
+  if (status === "loading") return <span className="loadstate">waking up</span>;
   if (status === "failed") return <span className="loadstate loadstate--fault">failed</span>;
-  return <span className="loadstate">ready</span>;
+  return <span className="loadstate">listening</span>;
 }
 
 /* ------------------------------------------------------------------ opening */
@@ -705,8 +707,8 @@ function LoadState({ status }) {
 function Opening({ onPick, disabled }) {
   return (
     <section className="opening">
-      <h2 className="opening-title">Ask it something.</h2>
-      <p className="opening-line">It answers. It also tells you how sure it is.</p>
+      <h2 className="opening-title">Ask me something.</h2>
+      <p className="opening-line">I will tell you how sure I am about every answer.</p>
 
       {/* Four starters, not eight. They are a hint under the composer, not the page. */}
       <ul className="prompts" aria-label="Example questions">
@@ -761,15 +763,15 @@ function Answer({ message, showScores, index }) {
 
         {message.intent === "out_of_scope" ? (
           <p className="aside">
-            Bern's reply mentions a <b>Teach Bern This</b> button. That app can write a new
-            phrase into the model; this page only loads one that has already been trained.
+            I mention a <b>Teach Bern This</b> button. That button is in the desktop app, where
+            it writes a new phrase into me. This page only loads me as I was trained.
           </p>
         ) : null}
 
         {message.needsServer ? (
           <p className="aside aside--warn">
-            That is only the opening line. The figures themselves live on the server, and this
-            page carries no data of its own.
+            That is only my opening line. The figures themselves feed in from the server, and I
+            carry no price data of my own here.
           </p>
         ) : null}
       </div>
@@ -841,7 +843,7 @@ function GlyphAnswer({ message, showScores }) {
     <article className="answer">
       <div className="answer-body">
         <p className="glyph-line">
-          The clearest character in that photo reads as
+          The clearest thing I can read in that photo is
           <span className="glyph-char">{reading.best.char}</span>
           <span className={low ? "glyph-verdict glyph-verdict--low" : "glyph-verdict"}>
             {reading.best.confidence < CONFIDENT ? "guessing" : "confident"}
@@ -872,8 +874,8 @@ function GlyphAnswer({ message, showScores }) {
         ) : null}
 
         <p className="aside">
-          That reader knows single characters, not words. The full handwriting pipeline — lines,
-          words, then text — is the one in the Python package, and it is not on this page.
+          That is me reading a single character, not a word. The full handwriting pass — lines,
+          then words, then text — runs in the Python package, not on this page.
         </p>
       </div>
     </article>
