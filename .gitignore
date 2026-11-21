@@ -12,3 +12,6 @@ models/money_vision_model.joblib
 
 # Large downloaded datasets
 data/external/emnist/
+
+# Build cache for the browser demo (Tailwind binary, React UMD, compiled JSX)
+.cache/
