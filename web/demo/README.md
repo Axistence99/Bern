@@ -20,14 +20,19 @@ web/demo/
 
 `assets/` holds the same drawing at the sizes the page actually uses:
 
+The mascot is the **app logo in the top-right corner and nothing else**. The conversation owns
+the centre of the screen, so the empty state is a prompt rather than a picture, and replies have
+no avatar beside them.
+
 | File | Size | Used for |
 | --- | --- | --- |
-| `bern-dog.png` | 1353×1885 | full resolution, for other uses (share cards, README) |
-| `bern-dog-inline.png` | 366×510 | the hero on the empty screen, inlined at 2x |
-| `bern-dog-face.png` | 128×128 | the header mark and the avatar beside each reply |
-| `bern-dog-face-inline.png` | 80×80 | the inlined copy, 16 KB |
-| `bern-dog-avatar.png` | 256×256 | head and ears, if you want more context |
+| `bern-dog-face-inline.png` | 80×80 | the logo in the header, inlined at 16 KB |
+| `bern-dog-face.png` | 128×128 | the same crop at full resolution |
+| `bern-dog-avatar.png` | 256×256 | head and ears, if you ever want more context |
+| `bern-dog.png` | 1353×1885 | full figure, for a share card or a README |
 | `bern-dog-cutout.png` | 1353×1885 | the transparency itself, if you want to re-crop |
+
+Only the 80×80 logo is inlined into `index.html`; the rest are in the repo for reuse elsewhere.
 
 Cutting it out was not a threshold. The fur is pale enough that a distance-from-white test
 eats the dog, and a generous feather turns the nose pale so the white background shows through

@@ -210,11 +210,11 @@ def main() -> int:
     print("app ...", flush=True)
     app = compile_app(ensure_typescript())
     app = app.replace("__INTENT_BUNDLE__", "window.__BERN__.INTENT_BUNDLE")
-    app = app.replace("__MASCOT_HERO__", json.dumps(data_uri(ASSETS / "bern-dog-inline.png")))
+    # Only the logo is inlined now; the full-figure hero is no longer part of the page.
     app = app.replace("__MASCOT_FACE__", json.dumps(data_uri(ASSETS / "bern-dog-face-inline.png")))
     # Check the code, not the comment that documents the placeholders.
     unresolved = [
-        token for token in ("__INTENT_BUNDLE__", "__MASCOT_HERO__", "__MASCOT_FACE__") if token in app
+        token for token in ("__INTENT_BUNDLE__", "__MASCOT_FACE__") if token in app
     ]
     if unresolved:
         raise SystemExit(f"build placeholders survived substitution: {unresolved}")
