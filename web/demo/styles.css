@@ -100,7 +100,7 @@ body {
   border-bottom: 2px solid var(--ink);
 }
 
-.masthead-identity { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+
 
 .wordmark {
   margin: 0;
@@ -111,12 +111,7 @@ body {
   letter-spacing: -0.02em;
 }
 
-.strapline {
-  margin: 0;
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 0.02em;
-}
+
 
 .masthead-tools {
   display: flex;
@@ -129,7 +124,7 @@ body {
 .loadstate {
   font-size: var(--step--1);
   color: var(--signal);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 .loadstate::before {
@@ -191,9 +186,18 @@ body {
  * chat bubbles. */
 .turn {
   display: grid;
-  grid-template-columns: 64px 1fr;
-  gap: 12px;
-  align-items: start;
+  grid-template-columns: 40px 1fr;
+  gap: 0;
+  align-items: baseline;
+}
+
+/* Tucked against the left rule, at the very edge of the measure. Narrow on purpose: the number
+ * is a reference mark, not a column. */
+.turn-gutter {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-right: 10px;
 }
 
 .turn-gutter {
@@ -212,8 +216,7 @@ body {
 
 .turn-label {
   font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--muted);
 }
 
@@ -234,8 +237,8 @@ body {
   gap: 20px;
   align-items: start;
   padding-bottom: 22px;
+  padding-left: 40px;
   border-bottom: 1px solid var(--rule);
-  margin-left: 76px;
 }
 
 .answer:last-of-type { border-bottom: 0; }
@@ -301,9 +304,8 @@ body {
 .readout-unit { font-size: 0.42em; letter-spacing: 0; margin-left: 1px; }
 
 .readout-caption {
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0;
   color: var(--muted);
 }
 
@@ -313,8 +315,7 @@ body {
 
 .readout-row dt {
   font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--muted);
 }
 
@@ -350,14 +351,6 @@ body {
 /* ------------------------------------------------------------------ opening */
 
 .opening { padding: 4px 0 20px; }
-
-.eyebrow {
-  margin: 0 0 10px;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
 
 .opening-title {
   margin: 0;
@@ -417,9 +410,8 @@ body {
 .prompt-text { font-size: var(--step--1); }
 
 .prompt-expect {
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0;
   color: var(--muted);
   white-space: nowrap;
 }
@@ -514,9 +506,8 @@ body {
   background: var(--ink);
   color: var(--paper);
   font: inherit;
-  font-size: var(--step--1);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: var(--step-0);
+  letter-spacing: 0;
   cursor: pointer;
 }
 .send:hover:not(:disabled) { background: var(--signal); border-color: var(--signal); color: var(--paper); }
@@ -558,8 +549,7 @@ body {
 .tray-label {
   margin: 0;
   font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--muted);
 }
 
@@ -582,8 +572,7 @@ body {
 .tray-crop figcaption {
   margin-top: 4px;
   font-size: 9px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--muted);
   text-align: center;
 }
@@ -670,9 +659,8 @@ body {
 
 .glyph-caption {
   margin: 0 0 8px;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0;
   color: var(--muted);
 }
 

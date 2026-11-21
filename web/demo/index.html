@@ -110,7 +110,7 @@ body {
   border-bottom: 2px solid var(--ink);
 }
 
-.masthead-identity { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+
 
 .wordmark {
   margin: 0;
@@ -121,12 +121,7 @@ body {
   letter-spacing: -0.02em;
 }
 
-.strapline {
-  margin: 0;
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 0.02em;
-}
+
 
 .masthead-tools {
   display: flex;
@@ -139,7 +134,7 @@ body {
 .loadstate {
   font-size: var(--step--1);
   color: var(--signal);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 .loadstate::before {
@@ -201,9 +196,18 @@ body {
  * chat bubbles. */
 .turn {
   display: grid;
-  grid-template-columns: 64px 1fr;
-  gap: 12px;
-  align-items: start;
+  grid-template-columns: 40px 1fr;
+  gap: 0;
+  align-items: baseline;
+}
+
+/* Tucked against the left rule, at the very edge of the measure. Narrow on purpose: the number
+ * is a reference mark, not a column. */
+.turn-gutter {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-right: 10px;
 }
 
 .turn-gutter {
@@ -222,8 +226,7 @@ body {
 
 .turn-label {
   font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--muted);
 }
 
@@ -244,8 +247,8 @@ body {
   gap: 20px;
   align-items: start;
   padding-bottom: 22px;
+  padding-left: 40px;
   border-bottom: 1px solid var(--rule);
-  margin-left: 76px;
 }
 
 .answer:last-of-type { border-bottom: 0; }
@@ -311,9 +314,8 @@ body {
 .readout-unit { font-size: 0.42em; letter-spacing: 0; margin-left: 1px; }
 
 .readout-caption {
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0;
   color: var(--muted);
 }
 
@@ -323,8 +325,7 @@ body {
 
 .readout-row dt {
   font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--muted);
 }
 
@@ -360,14 +361,6 @@ body {
 /* ------------------------------------------------------------------ opening */
 
 .opening { padding: 4px 0 20px; }
-
-.eyebrow {
-  margin: 0 0 10px;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
 
 .opening-title {
   margin: 0;
@@ -427,9 +420,8 @@ body {
 .prompt-text { font-size: var(--step--1); }
 
 .prompt-expect {
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0;
   color: var(--muted);
   white-space: nowrap;
 }
@@ -524,9 +516,8 @@ body {
   background: var(--ink);
   color: var(--paper);
   font: inherit;
-  font-size: var(--step--1);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: var(--step-0);
+  letter-spacing: 0;
   cursor: pointer;
 }
 .send:hover:not(:disabled) { background: var(--signal); border-color: var(--signal); color: var(--paper); }
@@ -568,8 +559,7 @@ body {
 .tray-label {
   margin: 0;
   font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--muted);
 }
 
@@ -592,8 +582,7 @@ body {
 .tray-crop figcaption {
   margin-top: 4px;
   font-size: 9px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--muted);
   text-align: center;
 }
@@ -680,9 +669,8 @@ body {
 
 .glyph-caption {
   margin: 0 0 8px;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0;
   color: var(--muted);
 }
 
@@ -2319,9 +2307,7 @@ function App() {
     return (React.createElement("div", { className: "sheet" },
         React.createElement("div", { className: "frame" },
             React.createElement("header", { className: "masthead" },
-                React.createElement("div", { className: "masthead-identity" },
-                    React.createElement("h1", { className: "wordmark" }, "Bern"),
-                    React.createElement("p", { className: "strapline" }, "24-class intent classifier \u00B7 18,898 features \u00B7 runs in this tab")),
+                React.createElement("h1", { className: "wordmark" }, "Bern"),
                 React.createElement("div", { className: "masthead-tools" },
                     React.createElement(LoadState, { status: status, last: lastConfident }),
                     React.createElement("button", { type: "button", className: "control", onClick: () => setShowScores((value) => !value), "aria-pressed": showScores }, showScores ? "Readout on" : "Readout off"),
@@ -2340,8 +2326,7 @@ function App() {
                     React.createElement("figure", { className: "tray-photo" },
                         React.createElement("img", { src: attachment.thumb, alt: "" })),
                     React.createElement("div", { className: "tray-read" },
-                        React.createElement("p", { className: "tray-label" }, "What the model will be given"),
-                        React.createElement("p", { className: "tray-note" }, "One character at a time. Move the box onto a single letter or number."),
+                        React.createElement("p", { className: "tray-note" }, "One character at a time \u2014 move the box onto a single letter."),
                         React.createElement("div", { className: "tray-preview" },
                             React.createElement("figure", { className: "tray-crop" },
                                 React.createElement("img", { src: attachment.preview.preview, alt: "The crop the model will read" }),
@@ -2367,29 +2352,21 @@ function App() {
                             React.createElement(ClipIcon, null))),
                     React.createElement("textarea", { ref: inputRef, value: draft, onChange: (event) => setDraft(event.target.value), onKeyDown: onKeyDown, rows: 1, placeholder: busy ? "Reading the image" : status === "ready" ? "Type a message" : "Loading model", disabled: status !== "ready", className: "field", "aria-label": "Your message" }),
                     React.createElement("button", { type: "button", onClick: () => ask(), disabled: status !== "ready" || (!draft.trim() && !attachment), className: "send" }, "Ask")),
-                React.createElement("p", { className: "footnote" }, "Replies are the model's own stored answers. Photos go through the on-device character reader; nothing is uploaded.")))));
+                React.createElement("p", { className: "footnote" }, "Every reply is an answer the model already holds. Photos are read here, in this tab.")))));
 }
 /* ------------------------------------------------------------------ header bits */
-function LoadState({ status, last }) {
-    if (status === "loading") {
-        return React.createElement("span", { className: "loadstate loadstate--wait" }, "loading\u00A0weights");
-    }
-    if (status === "failed") {
-        return React.createElement("span", { className: "loadstate loadstate--fault" }, "model failed");
-    }
-    return (React.createElement("span", { className: "loadstate" },
-        "model ready",
-        last ? React.createElement("span", { className: "loadstate-last" },
-            " \u00B7 ",
-            last.elapsed.toFixed(1),
-            " ms") : null));
+function LoadState({ status }) {
+    if (status === "loading")
+        return React.createElement("span", { className: "loadstate" }, "loading");
+    if (status === "failed")
+        return React.createElement("span", { className: "loadstate loadstate--fault" }, "failed");
+    return React.createElement("span", { className: "loadstate" }, "ready");
 }
 /* ------------------------------------------------------------------ opening */
 function Opening({ onPick, disabled }) {
     return (React.createElement("section", { className: "opening" },
-        React.createElement("h2", { className: "opening-title" },
-            "Ask it something.",
-            React.createElement("span", { className: "opening-sub" }, "Or photograph a written character and watch it read.")),
+        React.createElement("h2", { className: "opening-title" }, "Ask it something."),
+        React.createElement("p", { className: "opening-line" }, "It answers. It also tells you how sure it is."),
         React.createElement("ul", { className: "prompts", "aria-label": "Example questions" }, EXAMPLES.filter((example) => !example.miss).slice(0, 4).map((example) => (React.createElement("li", { key: example.text },
             React.createElement("button", { type: "button", className: "prompt", onClick: () => onPick(example.text), disabled: disabled },
                 React.createElement("span", { className: "prompt-text" }, example.text),
@@ -2415,10 +2392,10 @@ function Answer({ message, showScores, index }) {
         React.createElement("div", { className: "answer-body" },
             React.createElement(RichText, { text: message.text }),
             message.intent === "out_of_scope" ? (React.createElement("p", { className: "aside" },
-                "It mentions a ",
+                "Bern's reply mentions a ",
                 React.createElement("b", null, "Teach Bern This"),
-                " button. That is in the desktop app, where the phrase is written into the model. This page only loads a trained one.")) : null,
-            message.needsServer ? (React.createElement("p", { className: "aside aside--warn" }, "That is only Bern's opening line. The figures come from the server, from data this page does not carry.")) : null),
+                " button. That app can write a new phrase into the model; this page only loads one that has already been trained.")) : null,
+            message.needsServer ? (React.createElement("p", { className: "aside aside--warn" }, "That is only the opening line. The figures themselves live on the server, and this page carries no data of its own.")) : null),
         showScores ? (React.createElement(Readout, { confidence: message.confidence, intent: message.intent, alternatives: message.alternatives, low: low })) : null));
 }
 /**
@@ -2461,7 +2438,8 @@ function GlyphAnswer({ message, showScores }) {
         React.createElement("div", { className: "answer-body" },
             React.createElement("p", { className: "glyph-line" },
                 "The clearest character in that photo reads as",
-                React.createElement("span", { className: "glyph-char" }, reading.best.char)),
+                React.createElement("span", { className: "glyph-char" }, reading.best.char),
+                React.createElement("span", { className: low ? "glyph-verdict glyph-verdict--low" : "glyph-verdict" }, reading.best.confidence < CONFIDENT ? "guessing" : "confident")),
             showScores ? (React.createElement("div", { className: "glyph-readout" },
                 React.createElement("img", { className: "glyph-crop", src: message.attachment.glyphPreview || message.attachment.preview, alt: "The 28 by 28 pixels the model read" }),
                 React.createElement("div", { className: "glyph-table" },
@@ -2469,9 +2447,7 @@ function GlyphAnswer({ message, showScores }) {
                         reading.agree,
                         " of ",
                         reading.total,
-                        " regions agreed \u00B7",
-                        " ",
-                        React.createElement("span", { className: low ? "glyph-verdict glyph-verdict--low" : "glyph-verdict" }, reading.best.confidence < CONFIDENT ? "guessing" : "confident")),
+                        " regions agreed"),
                     reading.best.candidates.slice(0, 4).map((candidate) => (React.createElement("div", { className: "glyph-row", key: candidate.label },
                         React.createElement("span", { className: "glyph-label" }, candidate.label === " " ? "space" : candidate.label),
                         React.createElement("span", { className: "glyph-score" },

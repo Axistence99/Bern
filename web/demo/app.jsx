@@ -534,12 +534,7 @@ function App() {
     <div className="sheet">
       <div className="frame">
         <header className="masthead">
-          <div className="masthead-identity">
-            <h1 className="wordmark">Bern</h1>
-            <p className="strapline">
-              24-class intent classifier &middot; 18,898 features &middot; runs in this tab
-            </p>
-          </div>
+          <h1 className="wordmark">Bern</h1>
 
           <div className="masthead-tools">
             <LoadState status={status} last={lastConfident} />
@@ -599,9 +594,8 @@ function App() {
                 <img src={attachment.thumb} alt="" />
               </figure>
               <div className="tray-read">
-                <p className="tray-label">What the model will be given</p>
                 <p className="tray-note">
-                  One character at a time. Move the box onto a single letter or number.
+                  One character at a time &mdash; move the box onto a single letter.
                 </p>
                 <div className="tray-preview">
                   <figure className="tray-crop">
@@ -690,8 +684,7 @@ function App() {
             </button>
           </div>
           <p className="footnote">
-            Replies are the model's own stored answers. Photos go through the on-device character
-            reader; nothing is uploaded.
+            Every reply is an answer the model already holds. Photos are read here, in this tab.
           </p>
         </footer>
       </div>
@@ -701,19 +694,10 @@ function App() {
 
 /* ------------------------------------------------------------------ header bits */
 
-function LoadState({ status, last }) {
-  if (status === "loading") {
-    return <span className="loadstate loadstate--wait">loading&nbsp;weights</span>;
-  }
-  if (status === "failed") {
-    return <span className="loadstate loadstate--fault">model failed</span>;
-  }
-  return (
-    <span className="loadstate">
-      model ready
-      {last ? <span className="loadstate-last"> &middot; {last.elapsed.toFixed(1)} ms</span> : null}
-    </span>
-  );
+function LoadState({ status }) {
+  if (status === "loading") return <span className="loadstate">loading</span>;
+  if (status === "failed") return <span className="loadstate loadstate--fault">failed</span>;
+  return <span className="loadstate">ready</span>;
 }
 
 /* ------------------------------------------------------------------ opening */
@@ -721,10 +705,8 @@ function LoadState({ status, last }) {
 function Opening({ onPick, disabled }) {
   return (
     <section className="opening">
-      <h2 className="opening-title">
-        Ask it something.
-        <span className="opening-sub">Or photograph a written character and watch it read.</span>
-      </h2>
+      <h2 className="opening-title">Ask it something.</h2>
+      <p className="opening-line">It answers. It also tells you how sure it is.</p>
 
       {/* Four starters, not eight. They are a hint under the composer, not the page. */}
       <ul className="prompts" aria-label="Example questions">
@@ -779,15 +761,15 @@ function Answer({ message, showScores, index }) {
 
         {message.intent === "out_of_scope" ? (
           <p className="aside">
-            It mentions a <b>Teach Bern This</b> button. That is in the desktop app, where the
-            phrase is written into the model. This page only loads a trained one.
+            Bern's reply mentions a <b>Teach Bern This</b> button. That app can write a new
+            phrase into the model; this page only loads one that has already been trained.
           </p>
         ) : null}
 
         {message.needsServer ? (
           <p className="aside aside--warn">
-            That is only Bern's opening line. The figures come from the server, from data this
-            page does not carry.
+            That is only the opening line. The figures themselves live on the server, and this
+            page carries no data of its own.
           </p>
         ) : null}
       </div>
@@ -861,6 +843,9 @@ function GlyphAnswer({ message, showScores }) {
         <p className="glyph-line">
           The clearest character in that photo reads as
           <span className="glyph-char">{reading.best.char}</span>
+          <span className={low ? "glyph-verdict glyph-verdict--low" : "glyph-verdict"}>
+            {reading.best.confidence < CONFIDENT ? "guessing" : "confident"}
+          </span>
         </p>
 
         {showScores ? (
@@ -872,10 +857,7 @@ function GlyphAnswer({ message, showScores }) {
             />
             <div className="glyph-table">
               <p className="glyph-caption">
-                {reading.agree} of {reading.total} regions agreed &middot;{" "}
-                <span className={low ? "glyph-verdict glyph-verdict--low" : "glyph-verdict"}>
-                  {reading.best.confidence < CONFIDENT ? "guessing" : "confident"}
-                </span>
+                {reading.agree} of {reading.total} regions agreed
               </p>
               {reading.best.candidates.slice(0, 4).map((candidate) => (
                 <div className="glyph-row" key={candidate.label}>

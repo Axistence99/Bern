@@ -37,3 +37,39 @@ Consequences that follow from that, and that later choices must serve:
   **one** warning (burnt orange) for "it is guessing" and "this needs the server". Nothing else.
 - Rules and spacing carry structure. No shadows. No gradients. Radius 0 or 2 px.
 - The copy states what the model did in measurable terms, not what it is.
+
+---
+
+## Second pass: the dashboard tell
+
+The first pass replaced a chat template with an instrument panel, then systematised it. A
+labelling system applied uniformly is its own generated look — it reads as a dashboard, which
+is the enterprise version of the same problem. What gave it away, measured:
+
+| Tell | Measured | Fixed by |
+| --- | --- | --- |
+| Spec strapline under the wordmark | 3 middot-joined clauses | deleted |
+| Letterspaced all-caps micro-labels | 10 `text-transform: uppercase`, 19 `letter-spacing` | 1 remains, on the status word |
+| Number decoration | 6 statement figures on one screen | 1, the confidence number |
+| Perfect symmetry | single evenly-inset column | record numbers now sit in a narrow gutter |
+| Emphasis by size only | readout numeral, same weight and colour family | verdict word sits beside it in lower case |
+| README prose in a reply slot | "It mentions a Teach Bern This button…" | rewritten to address the reader |
+| Two openings on the empty screen | headline + subhead | one line, plus a plain sentence |
+
+### The rule this pass settles
+
+**A label is a decision; a label system is a template.** One tracked caps label can be a
+deliberate voice. The same treatment on nine different elements is a component someone dropped
+in. The only uppercase left is the model's status word, and it is uppercase because it is a
+state machine value rather than a heading.
+
+**Numbers are evidence only where they can be checked.** `97.1%` next to a decision the reader
+can compare against the reply is evidence. `18,898 features` is texture. The strapline had
+three numbers and none of them could be checked from the page, which is exactly what makes a
+spec strapline read as marketing.
+
+### Names for the parts
+- **Overline** / eyebrow / micro-label — the small tracked caps label above a value.
+- **Strapline** / deck / standfirst — the sentence under a wordmark describing the product.
+
+Both were removed here; `README.md` describes what replaced them.
