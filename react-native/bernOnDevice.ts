@@ -9,7 +9,7 @@
  * evaluating it, return Bern's stored answer for everything else, read a single handwritten
  * character, read a handwritten symbol. What it cannot do: split a photographed page into
  * characters, look up prices, correct spellings with the dictionary, or answer anything outside
- * its 24 intents. Those need the server, and `bernApi.ts` still speaks to it.
+ * its 25 intents. Those need the server, and `bernApi.ts` still speaks to it.
  *
  * ```
  * const leaf = await BernOnDevice.load(intentJson, glyphJson, symbolJson);

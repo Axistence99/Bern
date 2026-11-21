@@ -140,7 +140,7 @@ Two things a bag-of-words model cannot do, handled honestly:
 | Ask | Without a key | With `BERN_LLM_API_KEY` |
 | --- | --- | --- |
 | `bakit mahal ang bigas?` | Says plainly it cannot explain causes, then gives the price data it does have | Explained |
-| A question outside the 24 intents | Declines and offers *Teach Bern This* | Answered |
+| A question outside the 25 intents | Declines and offers *Teach Bern This* | Answered |
 
 `engine` controls this: `"local"` never calls a model, `"llm"` and `"auto"` use one when a key
 is set and fall back to the local answer when it is not — or when the call fails. The web
@@ -249,7 +249,7 @@ leaf.readSymbol(twentyEightByTwentyEight); // { char: "ñ", ... }
 
 | Model | On the phone | Measured |
 | --- | --- | --- |
-| Intents (24 classes) | yes | the Python path's intents, reproduced from the same weights |
+| Intents (25 classes) | yes | the Python path's intents, reproduced from the same weights |
 | Arithmetic | yes | 30/30 agreement with `bern/engine.py` on value and purity |
 | Handwriting (62 classes) | yes, one character at a time | 80.9% on 20,000 held-out EMNIST glyphs |
 | Symbols (28 classes) | yes | 99.3% held out |

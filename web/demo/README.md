@@ -4,7 +4,7 @@
 it from anywhere: it needs no server, no network and no build step to *run*.
 
 It is not a mock. The intent classifier is the real one — `models/ondevice/intent.json`,
-24 classes, the same weights the phone and the server use — loaded into the page and evaluated
+25 classes, the same weights the phone and the server use — loaded into the page and evaluated
 in JavaScript. The replies are the ones stored with the model, so nothing is invented on the
 page to make it look better than it is.
 

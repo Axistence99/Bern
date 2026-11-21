@@ -1,6 +1,6 @@
 /* Bern — try the intent model.
  *
- * Everything runs on this page: the real 24-class classifier from models/ondevice/intent.json,
+ * Everything runs on this page: the real 25-class classifier from models/ondevice/intent.json,
  * evaluated in JavaScript. No server, no network. Same runtime the phone uses.
  *
  * Design notes live in DESIGN.md. The short version: the confidence number is the interface, so
@@ -282,7 +282,7 @@ const EXAMPLES = [
   { text: "write me a poem about the sea", expect: "out of scope", miss: true },
 ];
 
-/** Human names for the 24 classes. The id stays visible — this is a model, not a persona. */
+/** Human names for the 25 classes. The id stays visible — this is a model, not a persona. */
 const INTENT_LABELS = {
   ph_price_lookup: "Philippine price lookup",
   ph_price_catalog: "Price catalogue",
@@ -299,6 +299,7 @@ const INTENT_LABELS = {
   deployment_tips: "Deployment",
   ml_architecture: "How it works",
   identity: "Identity",
+  developer: "Who built me",
   capabilities: "Capabilities",
   greeting: "Greeting",
   gratitude: "Gratitude",

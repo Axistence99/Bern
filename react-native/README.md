@@ -17,7 +17,7 @@ Native and Expo both provide.
 | | Runs where | Needs a server | Answers from |
 | --- | --- | --- | --- |
 | `bernApi.ts` | Python server | yes | everything, including prices and file reading |
-| `bernOnDevice.ts` | the phone | no | its 24 intents, stored answers, single characters |
+| `bernOnDevice.ts` | the phone | no | its 25 intents, stored answers, single characters |
 
 **On the phone — `bernOnDevice.ts`.** The intent model, the handwriting model and the symbol
 model are 2.84 MB of weights, exported to `models/ondevice/*.json` and evaluated in TypeScript.
@@ -282,7 +282,7 @@ Measured on this repo — do not oversell it in the app:
 
 | Feature | State |
 | --- | --- |
-| Chat, no server | `bernOnDevice.ts`: 24 intents. Returns the intent and the stored answer, not a price |
+| Chat, no server | `bernOnDevice.ts`: 25 intents. Returns the intent and the stored answer, not a price |
 | One handwritten character, no server | 80.9% per character, measured on 20,000 held-out EMNIST glyphs |
 | Parity with the Python path | Features and probabilities agree to float32 rounding; 52/52 glyphs read identically |
 | Handwriting across a page | **Server only** — the phone has no line/word/glyph segmenter |

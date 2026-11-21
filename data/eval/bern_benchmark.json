@@ -89,7 +89,7 @@
   },
   {
    "text": "who made you",
-   "intent": "identity",
+   "intent": "developer",
    "contains": [],
    "split": "dev"
   },
