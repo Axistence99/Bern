@@ -41,6 +41,16 @@ it. The version here floods from the frame border only, so white *inside* the dr
 highlight, the gap between the legs — stays opaque, then softens just the boundary. It was
 composited on both `#020617` and `#ffffff` and checked by eye before it went in.
 
+## Where it is published
+
+https://axistence99.github.io/Bern/ — built by `.github/workflows/pages.yml` on every push that
+touches the demo, the runtime, the models or the build script.
+
+The workflow rebuilds from source rather than deploying the `index.html` committed here. A
+committed artifact can drift from its source, and this repository has already shipped a stale
+one once; the only way that stays fixed is if the published page is always the output of the
+current source. Nothing in the page is fetched at runtime, so it works at any subpath.
+
 ## Rebuilding
 
 ```bash
@@ -79,6 +89,16 @@ Type: **Instrument Serif** for display only (wordmark, the opening statement, th
 numerals), **IBM Plex Mono** for everything else — the instrument's labels, the model's output,
 and its own identifiers. The mono is the point: `out_of_scope` and `ph_price_lookup` are shown
 as themselves, not prettified into marketing copy.
+
+## Where it is published
+
+https://axistence99.github.io/Bern/ — built by `.github/workflows/pages.yml` on every push that
+touches the demo, the runtime, the models or the build script.
+
+The workflow rebuilds from source rather than deploying the `index.html` committed here. A
+committed artifact can drift from its source, and this repository has already shipped a stale
+one once; the only way that stays fixed is if the published page is always the output of the
+current source. Nothing in the page is fetched at runtime, so it works at any subpath.
 
 ## Rebuilding
 
