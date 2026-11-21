@@ -10,7 +10,8 @@ page to make it look better than it is.
 
 ```
 web/demo/
-├── app.jsx          the UI, React + Tailwind classes
+├── app.jsx          the UI, React
+├── styles.css       the stylesheet, hand-written, no framework
 ├── index.html       generated, everything inlined
 ├── assets/          Bern the mascot, cut out of a white background
 └── README.md        this file
@@ -59,8 +60,8 @@ What the build does:
 3. Inlines Instrument Serif and IBM Plex Mono as woff2, then concatenates `styles.css`.
 4. Inlines React, ReactDOM, the runtime, the model and the CSS into one HTML file.
 
-Nothing is fetched at runtime. The only `https://` strings in the output are the Tailwind
-licence comment inside React's build and example URLs inside Bern's own answers.
+Nothing is fetched at runtime. The only `https://` strings in the output are the licence
+comment inside React's minified build and example URLs inside Bern's own answers.
 
 ## Design
 
@@ -85,8 +86,8 @@ as themselves, not prettified into marketing copy.
 python3 scripts/build_web_demo.py
 ```
 
-Needs `node` and, the first time, downloads the Tailwind standalone binary and React's UMD
-builds into `.cache/` (gitignored). Neither is needed to view the page.
+Needs `node`. On first run it downloads React and the typefaces into `.cache/` (gitignored).
+None of it is needed to view the page.
 
 What the build does:
 
@@ -95,7 +96,7 @@ What the build does:
    that it touches no browser API — the same code runs on a phone.
 2. Compiles `app.jsx` to `React.createElement` calls with `tsc`. Inlining Babel would have added
    three megabytes to a page whose whole point is to load with nothing.
-3. Compiles Tailwind against `app.jsx`, dark mode on a class rather than the media query.
+3. Inlines Instrument Serif and IBM Plex Mono as woff2, then concatenates `styles.css`.
 4. Inlines React, ReactDOM, the runtime, the model and the CSS into one HTML file.
 
 Nothing is fetched at runtime. The only `https://` strings in the output are the Tailwind

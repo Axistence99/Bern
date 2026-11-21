@@ -3,8 +3,8 @@
 
 `web/demo/index.html` has to work with no network at all: it is opened from a `file://` URL or
 inside an iframe whose sandbox blocks external requests. So every dependency is inlined —
-React, ReactDOM, the compiled Bern runtime, the intent model and the Tailwind CSS — instead of
-loaded from a CDN, where none of it would arrive.
+React, ReactDOM, the compiled Bern runtime, the intent model, the two typefaces and the
+stylesheet — instead of loaded from a CDN, where none of it would arrive.
 
 The JavaScript sources are readable and committed (`app.jsx`, and the runtime comes from
 `react-native/bernFeatures.ts` + `bernOnDevice.ts`). This script is the only build step.
