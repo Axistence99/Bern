@@ -230,9 +230,19 @@ def main() -> int:
     if unresolved:
         raise SystemExit(f"build placeholders survived substitution: {unresolved}")
 
-    model = INTENT_MODEL.read_text(encoding="utf-8")
-    # json.dumps for the wrapper so the model text lands verbatim inside a JS literal.
-    runtime_script = "window.__BERN__ = { INTENT_BUNDLE: " + model + " };\n" + runtime
+    # The glyph and symbol bundles are the character readers; without them the photo path would
+    # silently be classifying images as intents, which is exactly the kind of wrong answer that
+    # still looks confident.
+    intent = INTENT_MODEL.read_text(encoding="utf-8")
+    glyph = (INTENT_MODEL.parent / "glyph.json").read_text(encoding="utf-8")
+    symbol = (INTENT_MODEL.parent / "symbol.json").read_text(encoding="utf-8")
+    runtime_script = (
+        "window.__BERN__ = {"
+        " INTENT_BUNDLE: " + intent + ","
+        " GLYPH_BUNDLE: " + glyph + ","
+        " SYMBOL_BUNDLE: " + symbol +
+        " };\n" + runtime
+    )
 
     html = PAGE.format(
         css=css,
