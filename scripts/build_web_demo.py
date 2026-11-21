@@ -245,6 +245,7 @@ def main() -> int:
     )
 
     html = PAGE.format(
+        favicon=data_uri(ASSETS / "favicon-32.png"),
         css=css,
         react=react["react.js"],
         react_dom=react["react-dom.js"],
@@ -263,6 +264,7 @@ PAGE = """<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bern — try the model</title>
+<link rel="icon" href="{favicon}">
 <style>
 {css}
 html, body {{ margin: 0; background: var(--paper); }}
