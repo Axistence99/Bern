@@ -255,7 +255,7 @@ PAGE = """<!doctype html>
 <title>Bern — try the model</title>
 <style>
 {css}
-html, body {{ margin: 0; }}
+html, body {{ margin: 0; background: #020617; }}
 </style>
 </head>
 <body>
