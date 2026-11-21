@@ -99,8 +99,8 @@ What the build does:
 3. Inlines Instrument Serif and IBM Plex Mono as woff2, then concatenates `styles.css`.
 4. Inlines React, ReactDOM, the runtime, the model and the CSS into one HTML file.
 
-Nothing is fetched at runtime. The only `https://` strings in the output are the Tailwind
-licence comment and example URLs inside Bern's own answers.
+Nothing is fetched at runtime. The only `https://` strings in the output are the licence comment
+inside React's build and example URLs inside Bern's own answers.
 
 ## What it shows, and what it deliberately does not
 
