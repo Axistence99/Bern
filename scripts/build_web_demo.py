@@ -17,6 +17,7 @@ Needs `node` and, on first run, downloads the Tailwind standalone binary into `.
 
 from __future__ import annotations
 
+import base64
 import json
 import os
 import shutil
@@ -29,6 +30,7 @@ REPO = Path(__file__).resolve().parent.parent
 DEMO = REPO / "web" / "demo"
 RUNTIME_SOURCES = [REPO / "react-native" / "bernFeatures.ts", REPO / "react-native" / "bernOnDevice.ts"]
 INTENT_MODEL = REPO / "models" / "ondevice" / "intent.json"
+ASSETS = DEMO / "assets"
 CACHE = REPO / ".cache"
 NODE_MODULES = CACHE / "node_modules"
 
@@ -132,6 +134,18 @@ def bundle_runtime(features: str, ondevice: str) -> str:
     )
 
 
+def data_uri(path: Path) -> str:
+    """Inline a PNG as a data URI.
+
+    The page has to work with no network, so the mascot cannot be a URL. The files used here
+    are the pre-shrunk `-inline` copies, committed at their display size rather than resized at
+    build time, which keeps this script free of Pillow.
+    """
+    if not path.exists():
+        raise SystemExit(f"missing mascot image {path}")
+    return "data:image/png;base64," + base64.b64encode(path.read_bytes()).decode("ascii")
+
+
 def compile_app(compiler: Path) -> str:
     """Compile app.jsx to plain ES2020 with `React.createElement` calls.
 
@@ -196,8 +210,12 @@ def main() -> int:
     print("app ...", flush=True)
     app = compile_app(ensure_typescript())
     app = app.replace("__INTENT_BUNDLE__", "window.__BERN__.INTENT_BUNDLE")
+    app = app.replace("__MASCOT_HERO__", json.dumps(data_uri(ASSETS / "bern-dog-inline.png")))
+    app = app.replace("__MASCOT_FACE__", json.dumps(data_uri(ASSETS / "bern-dog-face-inline.png")))
     # Check the code, not the comment that documents the placeholders.
-    unresolved = [token for token in ("__INTENT_BUNDLE__",) if token in app]
+    unresolved = [
+        token for token in ("__INTENT_BUNDLE__", "__MASCOT_HERO__", "__MASCOT_FACE__") if token in app
+    ]
     if unresolved:
         raise SystemExit(f"build placeholders survived substitution: {unresolved}")
 

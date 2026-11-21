@@ -12,6 +12,12 @@
 
 const { useState, useRef, useEffect, useMemo, useCallback } = React;
 
+/* Bern's mascot. Inlined as data URIs by scripts/build_web_demo.py so the page keeps working
+ * with no network; the PNGs themselves live in web/demo/assets/. */
+const MASCOT = __MASCOT_HERO__;
+/** Tight face crop: legs and ears are detail at 32 px, the eyes and nose are not. */
+const FACE = __MASCOT_FACE__;
+
 /* ------------------------------------------------------------------ model */
 
 const runtimeReady = (async () => {
@@ -209,9 +215,11 @@ function App() {
       <div className="mx-auto flex min-h-screen max-w-5xl flex-col px-4 sm:px-6">
         <header className="flex flex-col gap-3 border-b border-slate-200 py-4 sm:flex-row sm:items-center sm:justify-between dark:border-white/10">
           <div className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-base font-bold text-white shadow-lg shadow-indigo-500/25">
-              B
-            </div>
+            <img
+              src={FACE}
+              alt=""
+              className="h-10 w-10 shrink-0 rounded-xl object-cover object-top ring-1 ring-black/5 shadow-lg shadow-indigo-500/25 dark:ring-white/10"
+            />
             <div>
               <h1 className="text-base font-semibold leading-tight">Bern</h1>
               <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -333,8 +341,16 @@ function StatusPill({ status, latency }) {
 
 function EmptyState({ onPick, disabled }) {
   return (
-    <div className="mx-auto max-w-2xl py-6">
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-white/5">
+    <div className="mx-auto max-w-2xl py-4">
+      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-white/10 dark:bg-white/5">
+        <div className="relative flex items-end justify-center bg-gradient-to-b from-indigo-50 via-indigo-50/40 to-transparent pt-6 dark:from-indigo-500/10 dark:via-indigo-500/5">
+          <img
+            src={MASCOT}
+            alt="Bern, a friendly stuffed dog with a big nose"
+            className="h-56 w-auto drop-shadow-xl sm:h-64"
+          />
+        </div>
+        <div className="p-6 pt-4">
         <h2 className="text-lg font-semibold">Try it yourself</h2>
         <p className="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
           Type anything. Bern runs a 24-class intent model over it and answers with what it was
@@ -363,6 +379,7 @@ function EmptyState({ onPick, disabled }) {
             </button>
           ))}
         </div>
+        </div>
       </div>
     </div>
   );
@@ -382,9 +399,11 @@ function BernBubble({ message, showScores }) {
   const low = message.confidence < 0.35;
   return (
     <div className="flex gap-3">
-      <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 text-xs font-bold text-white">
-        B
-      </div>
+      <img
+        src={FACE}
+        alt=""
+        className="mt-0.5 h-8 w-8 shrink-0 rounded-lg object-cover object-top ring-1 ring-black/5 dark:ring-white/10"
+      />
       <div className="min-w-0 flex-1 space-y-2">
         <div className="rounded-2xl rounded-tl-sm border border-slate-200 bg-white px-4 py-3 text-sm leading-relaxed shadow-sm dark:border-white/10 dark:bg-white/5">
           <RichText text={message.text} />

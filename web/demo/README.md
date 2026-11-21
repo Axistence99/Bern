@@ -10,10 +10,30 @@ page to make it look better than it is.
 
 ```
 web/demo/
-├── app.jsx          the UI, React + Tailwind classes, ~450 lines
-├── index.html       generated: 2.8 MB, everything inlined
+├── app.jsx          the UI, React + Tailwind classes
+├── index.html       generated, everything inlined
+├── assets/          Bern the mascot, cut out of a white background
 └── README.md        this file
 ```
+
+## The mascot
+
+`assets/` holds the same drawing at the sizes the page actually uses:
+
+| File | Size | Used for |
+| --- | --- | --- |
+| `bern-dog.png` | 1353×1885 | full resolution, for other uses (share cards, README) |
+| `bern-dog-inline.png` | 366×510 | the hero on the empty screen, inlined at 2x |
+| `bern-dog-face.png` | 128×128 | the header mark and the avatar beside each reply |
+| `bern-dog-face-inline.png` | 80×80 | the inlined copy, 16 KB |
+| `bern-dog-avatar.png` | 256×256 | head and ears, if you want more context |
+| `bern-dog-cutout.png` | 1353×1885 | the transparency itself, if you want to re-crop |
+
+Cutting it out was not a threshold. The fur is pale enough that a distance-from-white test
+eats the dog, and a generous feather turns the nose pale so the white background shows through
+it. The version here floods from the frame border only, so white *inside* the drawing — the eye
+highlight, the gap between the legs — stays opaque, then softens just the boundary. It was
+composited on both `#020617` and `#ffffff` and checked by eye before it went in.
 
 ## Rebuilding
 
