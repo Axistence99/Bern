@@ -681,8 +681,10 @@ function App() {
               onClick={() => ask()}
               disabled={status !== "ready" || (!draft.trim() && !attachment)}
               className="send"
+              aria-label="Send"
+              title="Send"
             >
-              Ask
+              <ArrowIcon />
             </button>
           </div>
           <p className="footnote">
@@ -904,6 +906,21 @@ function ClipIcon() {
       <path
         d="M16.5 7.5 9 15a2.5 2.5 0 0 0 3.5 3.5l7-7a4.5 4.5 0 0 0-6.4-6.4l-7 7A6.5 6.5 0 0 0 15.4 21"
         fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/** Sends. An arrow rather than the word "Ask": the button sits at the end of a box you are
+ * already typing into, so the direction is the instruction. The word survives as its
+ * accessible name, because an arrow on its own tells a screen reader nothing. */
+function ArrowIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+      <path
+        d="M5 12h13M12.5 6.5 19 12l-6.5 5.5"
+        fill="none" stroke="currentColor" strokeWidth="1.7"
+        strokeLinecap="round" strokeLinejoin="round"
       />
     </svg>
   );
