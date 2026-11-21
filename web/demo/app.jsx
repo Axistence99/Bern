@@ -249,7 +249,8 @@ function splitBlocks(text) {
 
 function inline(text) {
   const parts = [];
-  const pattern = /(\*\*[^*]+\*\*|`[^`]+`)/g;
+  // Lazy, not `[^*]+`: bold spans can contain a literal asterisk, and multiplication is one.
+  const pattern = /(\*\*.+?\*\*|`[^`]+`)/g;
   let cursor = 0;
   let match;
   let key = 0;

@@ -5,11 +5,11 @@
  * JavaScript. No Python, no network, no OpenCV — just the weights and the arithmetic that was
  * fitted against them.
  *
- * What this can do on its own: recognise a message's intent and return Bern's stored answer,
- * read a single handwritten character, read a handwritten symbol. What it cannot do: split a
- * photographed page into characters, look up prices, correct spellings with the dictionary, or
- * answer anything outside its 24 intents. Those need the server, and `bernApi.ts` still speaks
- * to it.
+ * What this can do on its own: recognise a message's intent, answer arithmetic by actually
+ * evaluating it, return Bern's stored answer for everything else, read a single handwritten
+ * character, read a handwritten symbol. What it cannot do: split a photographed page into
+ * characters, look up prices, correct spellings with the dictionary, or answer anything outside
+ * its 24 intents. Those need the server, and `bernApi.ts` still speaks to it.
  *
  * ```
  * const leaf = await BernOnDevice.load(intentJson, glyphJson, symbolJson);
@@ -19,13 +19,41 @@
  */
 
 import {
+  evaluateMath,
+  extractMathExpression,
+  formatMathValue,
   glyphFeatures,
   inkMask,
+  isPureMath,
   normaliseGlyph,
   softmaxScores,
   unionRow,
   type VectorizerSpec,
 } from './bernFeatures';
+
+/**
+ * Answer an arithmetic message, or null if it holds no expression.
+ *
+ * Two shapes of answer, because the question has two shapes. `10 + 10` gets the result and
+ * nothing else — the reader typed the expression and can check it. `how much is 12 x 12` gets
+ * the expression back beside the number, because the words had to be read to find it and a bare
+ * `144` would not show what was understood.
+ */
+export function computeArithmetic(message: string): string | null {
+  const expression = extractMathExpression(message);
+  if (!expression) return null;
+
+  const value = evaluateMath(expression);
+  if (value === null) return null;
+
+  const answer = formatMathValue(value);
+  const shown = expression.trim();
+
+  if (isPureMath(message)) {
+    return `**${shown}** = **${answer}**`;
+  }
+  return `**${answer}**`;
+}
 
 /** The exported bundle, as JSON. Bundlers can `require` it directly. */
 export interface IntentBundle {
@@ -231,15 +259,33 @@ export class BernOnDevice {
    * content is missing. Show the text as a holding message and call the server, or show
    * nothing and say why. Do not present it as the answer.
    */
+  /**
+   * Bern's answer to a message.
+   *
+   * Arithmetic is evaluated here rather than looked up: the `calculator` intent ships a stored
+   * offer ("Let me run the numbers for you!") because a stored answer cannot contain a number
+   * that depends on the question. `needsServer` is cleared when we can produce the result
+   * ourselves, so the caller does not chase a server it no longer needs.
+   */
   reply(message: string): { intent: string; confidence: number; text: string | null; needsServer: boolean } {
     const result = this.classify(message);
     const stored = this.intentBundle.intent_responses[result.intent];
-    const text = stored && stored.length > 0 ? stored[0] : null;
+    let text = stored && stored.length > 0 ? stored[0] : null;
+    let needsServer = this.intentBundle.server_backed.includes(result.intent);
+
+    if (result.intent === 'calculator') {
+      const computed = computeArithmetic(message);
+      if (computed) {
+        text = computed;
+        needsServer = false;
+      }
+    }
+
     return {
       intent: result.intent,
       confidence: result.confidence,
       text,
-      needsServer: this.intentBundle.server_backed.includes(result.intent),
+      needsServer,
     };
   }
 
