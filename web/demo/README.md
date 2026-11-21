@@ -46,6 +46,45 @@ composited on both `#020617` and `#ffffff` and checked by eye before it went in.
 python3 scripts/build_web_demo.py
 ```
 
+Needs `node`. On first run it downloads React and three OFL typefaces into `.cache/`
+(gitignored). None of it is needed to view the page.
+
+What the build does:
+
+1. Compiles `react-native/bernFeatures.ts` + `bernOnDevice.ts` to ES2020 and flattens the two
+   modules into one IIFE. The runtime is compiled **without** the DOM lib, which is the check
+   that it touches no browser API — the same code runs on a phone.
+2. Compiles `app.jsx` to `React.createElement` calls with `tsc`. Inlining Babel would have added
+   three megabytes to a page whose whole point is to load with nothing.
+3. Inlines Instrument Serif and IBM Plex Mono as woff2, then concatenates `styles.css`.
+4. Inlines React, ReactDOM, the runtime, the model and the CSS into one HTML file.
+
+Nothing is fetched at runtime. The only `https://` strings in the output are the Tailwind
+licence comment inside React's build and example URLs inside Bern's own answers.
+
+## Design
+
+`DESIGN.md` holds the audit and the direction: **the confidence number is the interface.**
+Three structural consequences, so a later change can be checked against them:
+
+- Every reply is a two-column record — words on the left, a fixed-width readout on the right —
+  not a chat bubble. The readout's numeral is the largest thing on the screen.
+- Colour means one of two things: green *known*, burnt orange *guessing or needs the server*.
+  There is no third use of colour anywhere on the page.
+- Structure comes from rules and spacing. There are no shadows, no gradients, and one radius
+  (0) with two 2px exceptions on the composer rule and the aside borders.
+
+Type: **Instrument Serif** for display only (wordmark, the opening statement, the confidence
+numerals), **IBM Plex Mono** for everything else — the instrument's labels, the model's output,
+and its own identifiers. The mono is the point: `out_of_scope` and `ph_price_lookup` are shown
+as themselves, not prettified into marketing copy.
+
+## Rebuilding
+
+```bash
+python3 scripts/build_web_demo.py
+```
+
 Needs `node` and, the first time, downloads the Tailwind standalone binary and React's UMD
 builds into `.cache/` (gitignored). Neither is needed to view the page.
 

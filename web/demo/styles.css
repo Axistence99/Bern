@@ -1,0 +1,554 @@
+/* Bern demo — design tokens and structure.
+ *
+ * Direction (DESIGN.md): a laboratory bench, not a chat toy. The confidence number is the
+ * interface. Structure comes from rules and spacing, not shadows; colour is a signal.
+ *
+ * Two faces, two jobs:
+ *   Instrument Serif — display only. The wordmark and the readout numerals.
+ *   IBM Plex Mono    — everything else. The instrument's labels, and the model's own output.
+ * Both are inlined as woff2 at build time; nothing is fetched.
+ */
+
+:root {
+  --paper: #f6f4ee;
+  --paper-sunk: #efece3;
+  --ink: #1a1815;
+  --ink-soft: #4a463e;
+  --muted: #777167;
+  --rule: #d6d1c4;
+  --rule-strong: #b9b2a2;
+  --signal: #1f6f4a;      /* known — a desaturated signal green, not a success-store green */
+  --signal-soft: #e4ece6;
+  --warn: #a8481a;        /* guessing, or needs the server. Burnt orange, not error red. */
+  --warn-soft: #f4e8df;
+
+  --step--1: 12px;
+  --step-0: 14px;
+  --step-1: 16px;
+  --step-2: 20px;
+  --step-3: 26px;
+  --step-4: 38px;
+  --step-5: 56px;
+
+  --mono: "Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+}
+
+[data-theme="ink"] {
+  --paper: #131210;
+  --paper-sunk: #1b1916;
+  --ink: #f2efe6;
+  --ink-soft: #c3bdb0;
+  --muted: #8a8478;
+  --rule: #2e2a24;
+  --rule-strong: #464036;
+  --signal: #7fbf9a;
+  --signal-soft: #1b2a22;
+  --warn: #e4915c;
+  --warn-soft: #2b2018;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "tnum" 1;
+}
+
+::selection { background: var(--ink); color: var(--paper); }
+
+.sheet {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+/* A single measure — 78 characters wide — rather than a responsive container that widens with
+ * the viewport. Reading happens down one column. */
+.frame {
+  /* flex-basis 0 + min-width 0 is what stops a centred flex child from growing to fit its
+   * widest descendant; without it a long unbroken line widens the whole page. */
+  flex: 0 1 820px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  border-left: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  padding: 0 clamp(16px, 4vw, 40px);
+}
+
+/* ------------------------------------------------------------------ masthead */
+
+.masthead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 0 10px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.masthead-identity { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+
+.wordmark {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: var(--step-4);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+.strapline {
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.masthead-tools {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 0 0 auto;
+  padding-bottom: 3px;
+}
+
+.loadstate {
+  font-size: var(--step--1);
+  color: var(--signal);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.loadstate::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  vertical-align: 1px;
+  background: currentColor;
+}
+.loadstate--wait { color: var(--muted); }
+.loadstate--fault { color: var(--warn); }
+.loadstate-last { color: var(--muted); text-transform: none; letter-spacing: 0; }
+
+/* Controls are text, underlined on hover. No boxes: a box would claim the same weight as a
+ * reply, and the footer's field is the only thing on the page shaped like an input. */
+.control {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0 0 1px;
+  font: inherit;
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+  cursor: pointer;
+  border-bottom: 1px solid var(--rule-strong);
+}
+.control:hover { color: var(--ink); border-bottom-color: var(--ink); }
+.control:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+.control[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+
+/* The mark hangs off the top rule, unboxed, the way a plate is set on a page. No ring, no
+ * radius, no shadow: it is ink on the ground like everything else. */
+.logo {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  display: block;
+  /* Sits against the rule, aligned to the right edge of the controls. */
+  margin-bottom: -1px;
+}
+[data-theme="ink"] .logo { filter: invert(1); }
+
+/* ------------------------------------------------------------------ transcript */
+
+.transcript {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 26px 0 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* A turn is a two-column record: the gutter holds the position and who spoke, the field holds
+ * the words. This is the layout of a lab notebook, and it is what stops replies reading as
+ * chat bubbles. */
+.turn {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.turn-gutter {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding-top: 2px;
+}
+
+.turn-index {
+  font-family: var(--serif);
+  font-size: var(--step-2);
+  line-height: 1;
+  color: var(--rule-strong);
+}
+
+.turn-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.turn-text {
+  margin: 0;
+  font-size: var(--step-2);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+/* ------------------------------------------------------------------ answer */
+
+.answer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: start;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--rule);
+  margin-left: 76px;
+}
+
+.answer:last-of-type { border-bottom: 0; }
+
+.answer-body { min-width: 0; font-size: var(--step-0); color: var(--ink-soft); }
+.answer-body p { margin: 0 0 10px; }
+.answer-body p:last-child { margin-bottom: 0; }
+
+.strong { font-weight: 600; color: var(--ink); }
+
+.inline-code,
+.code-block {
+  font-family: var(--mono);
+  background: var(--paper-sunk);
+  border: 1px solid var(--rule);
+}
+.inline-code { padding: 0 4px; font-size: 0.94em; }
+.code-block {
+  margin: 10px 0;
+  padding: 10px 12px;
+  overflow-x: auto;
+  font-size: var(--step--1);
+  line-height: 1.5;
+  border-left: 2px solid var(--ink);
+}
+
+.aside {
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 2px solid var(--rule-strong);
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+.aside--warn { border-left-color: var(--warn); color: var(--warn); }
+.aside b { color: inherit; font-weight: 600; }
+
+/* ------------------------------------------------------------------ readout */
+
+/* The focal point. Fixed width so the numeral lines up from one answer to the next, which is
+ * the whole point of comparing them. */
+.readout {
+  width: 186px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 16px;
+  border-left: 1px solid var(--rule);
+}
+
+.readout-figure { display: flex; align-items: baseline; gap: 8px; }
+
+.readout-value {
+  font-family: var(--serif);
+  font-size: var(--step-4);
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+  color: var(--signal);
+  font-variant-numeric: tabular-nums;
+}
+
+.readout--low .readout-value { color: var(--warn); }
+
+.readout-unit { font-size: 0.42em; letter-spacing: 0; margin-left: 1px; }
+
+.readout-caption {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.readout-table { margin: 0; display: flex; flex-direction: column; gap: 6px; }
+
+.readout-row { display: flex; flex-direction: column; gap: 0; }
+
+.readout-row dt {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.readout-row dd {
+  margin: 0;
+  font-size: var(--step--1);
+  line-height: 1.3;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+/* The human name sits under the id rather than beside it: two flex columns at this width
+ * force "Philippine price lookup" into four one-word lines. */
+.readout-name {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.readout-row--next dd { display: flex; justify-content: space-between; gap: 8px; }
+.readout-row--next .readout-name { display: inline; }
+
+/* One hairline bar: a scalar, read left to right, not a progress bar wearing a pill. */
+.readout-bar {
+  display: block;
+  height: 2px;
+  background: var(--rule);
+}
+.readout-bar > span { display: block; height: 100%; background: var(--signal); }
+.readout--low .readout-bar > span { background: var(--warn); }
+
+/* ------------------------------------------------------------------ opening */
+
+.opening { padding: 8px 0 20px; }
+
+.eyebrow {
+  margin: 0 0 10px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.opening-title {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: var(--step-5);
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.opening-sub {
+  display: block;
+  font-size: var(--step-2);
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+.opening-body {
+  max-width: 56ch;
+  margin: 18px 0 0;
+  font-size: var(--step-0);
+  color: var(--ink-soft);
+}
+
+/* A numbered list of real prompts, each labelled with the answer it should provoke. The label
+ * is the honest part: you can check the model against it. */
+.prompts {
+  list-style: none;
+  margin: 26px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.prompt {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  align-items: baseline;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 0;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  background: none;
+  font: inherit;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+}
+.prompt:hover { background: var(--paper-sunk); }
+.prompt:hover .prompt-text { text-decoration: underline; text-underline-offset: 3px; }
+.prompt:focus-visible { outline: 2px solid var(--signal); outline-offset: -2px; }
+.prompt:disabled { color: var(--muted); cursor: progress; }
+
+.prompt-index {
+  font-family: var(--serif);
+  font-size: var(--step-1);
+  color: var(--rule-strong);
+}
+
+.prompt-text { font-size: var(--step-0); }
+
+.prompt-expect {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.prompt--miss .prompt-expect { color: var(--warn); }
+
+/* ------------------------------------------------------------------ composer */
+
+.composer {
+  position: sticky;
+  bottom: 0;
+  background: var(--paper);
+  padding: 14px 0 18px;
+}
+
+/* A double rule, heavier than the content hairline: the boundary between reading and writing. */
+.composer-rule {
+  display: block;
+  height: 0;
+  border-top: 2px solid var(--ink);
+  margin-bottom: 12px;
+}
+
+.composer-row { display: flex; gap: 10px; align-items: stretch; }
+
+.field {
+  flex: 1;
+  min-height: 46px;
+  max-height: 140px;
+  padding: 12px 0;
+  border: 0;
+  border-bottom: 1px solid var(--rule-strong);
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--step-1);
+  resize: none;
+}
+.field::placeholder { color: var(--muted); }
+.field:focus { outline: none; border-bottom-color: var(--ink); }
+.field:disabled { opacity: 0.6; }
+
+/* Solid ink, no shadow, square. The only filled shape on the page, because it is the only
+ * irreversible action. */
+.send {
+  padding: 0 22px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  font: inherit;
+  font-size: var(--step--1);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.send:hover:not(:disabled) { background: var(--signal); border-color: var(--signal); color: var(--paper); }
+.send:disabled { background: none; color: var(--muted); border-color: var(--rule); cursor: not-allowed; }
+.send:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+.footnote {
+  margin: 10px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+  max-width: 70ch;
+}
+
+/* ------------------------------------------------------------------ fault */
+
+.fault {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 2px solid var(--warn);
+  color: var(--warn);
+  font-size: var(--step--1);
+}
+.fault-mark { font-weight: 600; margin-right: 4px; }
+
+/* ------------------------------------------------------------------ narrow */
+
+@media (max-width: 720px) {
+  .frame { border: 0; padding: 0 16px; }
+
+  .masthead {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 14px 0 10px;
+  }
+  /* The strapline can wrap on a phone; keeping it on one line is what pushed the header
+   * wider than the viewport. */
+  .strapline { white-space: normal; }
+  .masthead-tools { flex-wrap: wrap; row-gap: 10px; padding-bottom: 0; }
+  .logo { width: 26px; height: 26px; }
+  .wordmark { font-size: var(--step-3); }
+  .masthead-tools { gap: 10px; }
+  .loadstate-last { display: none; }
+
+  .opening-title { font-size: var(--step-4); }
+  .opening-sub { font-size: var(--step-1); }
+
+  .prompt { grid-template-columns: 30px 1fr; row-gap: 2px; }
+  .prompt-expect { grid-column: 2; }
+
+  .turn { grid-template-columns: 34px 1fr; gap: 8px; }
+  .turn-text { font-size: var(--step-1); }
+
+  /* The readout stops being a side column and becomes a strip under the answer, with the
+   * numeral and the decision side by side — same information, same reading order. */
+  .answer { grid-template-columns: 1fr; margin-left: 42px; gap: 12px; }
+
+  /* Two rows rather than one: the numeral and its verdict on the first, the decision table on
+   * the second. Three columns at 340px broke "out_of_scope" across a line break. */
+  .readout {
+    width: auto;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 6px 14px;
+    padding: 10px 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .readout-value { font-size: var(--step-3); }
+  .readout-table { grid-column: 1 / -1; flex-direction: row; gap: 24px; }
+  .readout-row { flex: 0 1 auto; }
+  .readout-row dd { overflow-wrap: normal; }
+  .readout-bar { display: none; }
+}

@@ -11,8 +11,8 @@ The JavaScript sources are readable and committed (`app.jsx`, and the runtime co
 
     python3 scripts/build_web_demo.py
 
-Needs `node` and, on first run, downloads the Tailwind standalone binary into `.cache/`
-(gitignored). Neither is needed to *serve* the demo, only to rebuild it.
+Needs `node`. On first run it downloads React and two OFL typefaces into `.cache/`
+(gitignored). None of it is needed to *view* the demo, only to rebuild it.
 """
 
 from __future__ import annotations
@@ -34,7 +34,12 @@ ASSETS = DEMO / "assets"
 CACHE = REPO / ".cache"
 NODE_MODULES = CACHE / "node_modules"
 
-TAILWIND_URL = "https://github.com/tailwindlabs/tailwindcss/releases/download/v4.3.5/tailwindcss-linux-x64"
+FONT_URLS = {
+    "instrument-serif.woff2": "https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-6zUTjg.woff2",
+    "plex-mono-400.woff2": "https://fonts.gstatic.com/s/ibmplexmono/v23/-F63fjptAgt5VM-kVkqdyU8n1i8q1w.woff2",
+    "plex-mono-600.woff2": "https://fonts.gstatic.com/s/ibmplexmono/v23/-F6qfjptAgt5VM-kVkqdyU8n3vAOwlBFgg.woff2",
+}
+
 REACT_URLS = {
     "react.js": "https://unpkg.com/react@18.3.1/umd/react.production.min.js",
     "react-dom.js": "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js",
@@ -62,75 +67,36 @@ def ensure_react() -> dict[str, str]:
     return sources
 
 
-def ensure_tailwind() -> Path:
-    binary = CACHE / "tailwindcss"
-    if not binary.exists():
-        print("  downloading the Tailwind standalone binary (107 MB) ...", flush=True)
-        with urllib.request.urlopen(TAILWIND_URL, timeout=300) as response:
-            binary.write_bytes(response.read())
-        binary.chmod(0o755)
-    return binary
+def ensure_fonts() -> dict[str, str]:
+    """Fetch the two typefaces once and cache them.
 
-
-def ensure_typescript() -> Path:
-    """The same compiler the parity check uses; installed into the cache, not the repo."""
-    compiler = NODE_MODULES / ".bin" / "tsc"
-    if not compiler.exists():
-        print("  installing typescript ...", flush=True)
-        CACHE.mkdir(exist_ok=True)
-        run(["npm", "install", "--silent", "--no-audit", "--no-fund", "--prefix", str(CACHE), "typescript"])
-    return compiler
-
-
-def compile_runtime() -> tuple[str, str]:
-    """Compile the React Native TypeScript to one ES module the browser can import.
-
-    `--lib ES2020` is deliberate: the runtime must not touch any browser API, and compiling it
-    without the DOM lib is what proves that.
+    Both are OFL-licensed. They are inlined rather than linked because the page must render
+    correctly with no network — a webfont that fails to load is worse than no webfont, since
+    the fallback stack changes every measurement in the layout.
     """
-    compiler = ensure_typescript()
-    out = CACHE / "runtime"
-    if out.exists():
-        shutil.rmtree(out)
-    run([
-        str(compiler), "--outDir", str(out), "--module", "ES2020", "--target", "ES2020",
-        "--lib", "ES2020", "--strict", "--skipLibCheck",
-        *[str(source) for source in RUNTIME_SOURCES],
-    ])
-    features = (out / "bernFeatures.js").read_text(encoding="utf-8")
-    ondevice = (out / "bernOnDevice.js").read_text(encoding="utf-8")
-    # The two files import each other by name; one module is simpler to inline.
-    ondevice = ondevice.replace("from './bernFeatures'", "from './bernFeatures.js'")
-    return features, ondevice
+    CACHE.mkdir(exist_ok=True)
+    faces = {}
+    for name, url in FONT_URLS.items():
+        path = CACHE / name
+        if not path.exists():
+            print(f"  downloading {name} ...", flush=True)
+            with urllib.request.urlopen(url, timeout=120) as response:
+                path.write_bytes(response.read())
+        faces[name] = base64.b64encode(path.read_bytes()).decode("ascii")
+    return faces
 
 
-def bundle_runtime(features: str, ondevice: str) -> str:
-    """Stitch the two ES modules into one script, scoped so nothing leaks onto `window`.
-
-    The two files import from each other by module name. Rather than teach the browser to
-    resolve that, both are concatenated inside a single IIFE with the import statement removed
-    and the exports stripped — the names are already in scope for each other.
-    """
-    parts = []
-    for source in (features, ondevice):
-        for line in source.splitlines():
-            if line.startswith("import "):
-                continue
-            if line.startswith("export class "):
-                line = line[len("export "):]
-            elif line.startswith("export function "):
-                line = line[len("export "):]
-            elif line.startswith("export const "):
-                line = line[len("export "):]
-            parts.append(line)
-
-    body = "\n".join(parts)
-    return (
-        "window.__BERN_RUNTIME__ = (function () {\n"
-        "\"use strict\";\n"
-        + body
-        + "\nreturn { BernOnDevice, glyphFeatures, inkMask, normaliseGlyph, softmaxScores, unionRow };\n"
-        "})();\n"
+def font_face_css(faces: dict[str, str]) -> str:
+    """@font-face rules with the binaries embedded."""
+    rules = [
+        ("Instrument Serif", 400, "normal", faces["instrument-serif.woff2"]),
+        ("Plex Mono", 400, "normal", faces["plex-mono-400.woff2"]),
+        ("Plex Mono", 600, "normal", faces["plex-mono-600.woff2"]),
+    ]
+    return "\n".join(
+        f"@font-face{{font-family:'{family}';font-style:{style};font-weight:{weight};"
+        f"font-display:block;src:url(data:font/woff2;base64,{payload}) format('woff2');}}"
+        for family, weight, style, payload in rules
     )
 
 
@@ -164,12 +130,16 @@ def compile_app(compiler: Path) -> str:
         "// @ts-nocheck\n" + (DEMO / "app.jsx").read_text(encoding="utf-8"),
         encoding="utf-8",
     )
-    run([
+    # `--noEmitOnError` is deliberately absent and the exit status is checked instead: tsc can
+    # emit half-compiled output while returning non-zero, and a page built from stale JSX fails
+    # silently in the browser rather than here.
+    result = subprocess.run([
         str(compiler), "--jsx", "react", "--jsxFactory", "React.createElement",
         "--target", "ES2020", "--module", "ES2020", "--lib", "ES2020,DOM",
-        "--allowJs", "false", "--skipLibCheck", "--noEmitOnError", "false",
-        "--outDir", str(source_dir), str(staged),
-    ])
+        "--allowJs", "false", "--skipLibCheck", "--outDir", str(source_dir), str(staged),
+    ], capture_output=True, text=True)
+    if result.returncode != 0:
+        raise SystemExit(f"app.jsx did not compile:\n{result.stdout}{result.stderr}")
     emitted = source_dir / "app.js"
     if not emitted.exists():
         raise SystemExit("TypeScript emitted no output for app.jsx")
@@ -177,19 +147,61 @@ def compile_app(compiler: Path) -> str:
     return "\n".join(line for line in compiled.splitlines() if not line.startswith("export "))
 
 
-def build_tailwind() -> str:
-    """Compile Tailwind against the demo sources, dark mode driven by a class."""
-    binary = ensure_tailwind()
-    entry = CACHE / "tailwind-input.css"
-    entry.write_text(
-        '@import "tailwindcss";\n'
-        f'@source "{DEMO / "app.jsx"}";\n'
-        '@custom-variant dark (&:where(.dark, .dark *));\n',
-        encoding="utf-8",
+def ensure_typescript() -> Path:
+    """The same compiler the parity check uses; installed into the cache, not the repo."""
+    compiler = NODE_MODULES / ".bin" / "tsc"
+    if not compiler.exists():
+        print("  installing typescript ...", flush=True)
+        CACHE.mkdir(exist_ok=True)
+        run(["npm", "install", "--silent", "--no-audit", "--no-fund", "--prefix", str(CACHE), "typescript"])
+    return compiler
+
+
+def compile_runtime() -> tuple[str, str]:
+    """Compile the React Native TypeScript to plain script.
+
+    `--lib ES2020` is deliberate: the runtime must not touch any browser API, and compiling it
+    without the DOM lib is what proves that.
+    """
+    compiler = ensure_typescript()
+    out = CACHE / "runtime"
+    if out.exists():
+        shutil.rmtree(out)
+    run([
+        str(compiler), "--outDir", str(out), "--module", "ES2020", "--target", "ES2020",
+        "--lib", "ES2020", "--strict", "--skipLibCheck",
+        *[str(source) for source in RUNTIME_SOURCES],
+    ])
+    features = (out / "bernFeatures.js").read_text(encoding="utf-8")
+    ondevice = (out / "bernOnDevice.js").read_text(encoding="utf-8")
+    ondevice = ondevice.replace("from './bernFeatures'", "from './bernFeatures.js'")
+    return features, ondevice
+
+
+def bundle_runtime(features: str, ondevice: str) -> str:
+    """Stitch the two ES modules into one script, scoped so nothing leaks onto `window`.
+
+    The two files import from each other by module name. Rather than teach the browser to
+    resolve that, both are concatenated inside a single IIFE with the import statement removed
+    and the exports stripped — the names are already in scope for each other.
+    """
+    parts = []
+    for source in (features, ondevice):
+        for line in source.splitlines():
+            if line.startswith("import "):
+                continue
+            if line.startswith("export "):
+                line = line[len("export "):]
+            parts.append(line)
+
+    body = "\n".join(parts)
+    return (
+        "window.__BERN_RUNTIME__ = (function () {\n"
+        "\"use strict\";\n"
+        + body
+        + "\nreturn { BernOnDevice, glyphFeatures, inkMask, normaliseGlyph, softmaxScores, unionRow };\n"
+        "})();\n"
     )
-    output = CACHE / "tailwind-output.css"
-    run([str(binary), "-i", str(entry), "-o", str(output), "--minify"])
-    return output.read_text(encoding="utf-8")
 
 
 def main() -> int:
@@ -204,14 +216,13 @@ def main() -> int:
     features, ondevice = compile_runtime()
     runtime = bundle_runtime(features, ondevice)
 
-    print("tailwind ...", flush=True)
-    css = build_tailwind()
+    print("styles ...", flush=True)
+    css = font_face_css(ensure_fonts()) + "\n" + (DEMO / "styles.css").read_text(encoding="utf-8")
 
     print("app ...", flush=True)
     app = compile_app(ensure_typescript())
     app = app.replace("__INTENT_BUNDLE__", "window.__BERN__.INTENT_BUNDLE")
-    # Only the logo is inlined now; the full-figure hero is no longer part of the page.
-    app = app.replace("__MASCOT_FACE__", json.dumps(data_uri(ASSETS / "bern-dog-face-inline.png")))
+    app = app.replace("__MASCOT_FACE__", json.dumps(data_uri(ASSETS / "logo-mark.png")))
     # Check the code, not the comment that documents the placeholders.
     unresolved = [
         token for token in ("__INTENT_BUNDLE__", "__MASCOT_FACE__") if token in app
@@ -237,14 +248,14 @@ def main() -> int:
 
 
 PAGE = """<!doctype html>
-<html lang="en" class="dark">
+<html lang="en" data-theme="ink">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bern — try the model</title>
 <style>
 {css}
-html, body {{ margin: 0; background: #020617; }}
+html, body {{ margin: 0; }}
 </style>
 </head>
 <body>
