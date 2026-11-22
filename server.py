@@ -157,6 +157,38 @@ class DatasetHandler(BaseHandler):
         self.write_json(bern_ai.get_dataset())
 
 
+class LearnHandler(BaseHandler):
+    """POST /api/learn - state a fact; it is checked against Bern's data before storage."""
+
+    def post(self) -> None:
+        try:
+            body = self.parse_json_body()
+            message = str(body.get("message") or body.get("text") or "").strip()
+            if not message:
+                self.write_json({"error": "Provide a message stating a fact."}, status_code=400)
+                return
+            result = bern_ai.learn_claim(
+                message,
+                session_id=str(body.get("session_id") or "default"),
+                override=bool(body.get("override")),
+            )
+            self.write_json(result)
+        except ValueError as exc:
+            self.write_json({"error": str(exc)}, status_code=400)
+
+
+class LearnedHandler(BaseHandler):
+    """GET /api/learned - what has been learned, and how each claim was rated."""
+
+    def get(self) -> None:
+        from bern import memory
+
+        self.write_json({
+            "claims": memory.stored_claims(),
+            "counts": memory.count_by_verdict(),
+        })
+
+
 class TrainHandler(BaseHandler):
     def post(self) -> None:
         try:
@@ -617,6 +649,8 @@ def make_app() -> tornado.web.Application:
             (r"/api/dataset", DatasetHandler),
             (r"/api/training-report", TrainingReportHandler),
             (r"/api/train", TrainHandler),
+            (r"/api/learn", LearnHandler),
+            (r"/api/learned", LearnedHandler),
             (r"/api/intents/([^/]+)", IntentDetailHandler),
             (r"/api/ph-prices", PHPricesHandler),
             (r"/api/ph-prices/skus", PHSkuCatalogHandler),

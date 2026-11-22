@@ -323,7 +323,10 @@ def test_repetition_complaint_is_understood_and_answered_honestly(engine):
     assert result["intent"] == "conversation_state"
     assert not result["needs_training"]
     assert not result["reply"].startswith("**I can't explain why**")
-    assert "stored" in result["reply"].lower() or "retriev" in result["reply"].lower()
+    # The four variants rotate: this must hold for all of them, not just the one that happened
+    # to come up. Each explains the mechanism rather than apologising vaguely.
+    lowered = result["reply"].lower()
+    assert any(word in lowered for word in ("stored", "retriev", "match your words", "topic"))
 
 
 @pytest.mark.parametrize("message", [

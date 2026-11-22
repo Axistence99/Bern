@@ -897,6 +897,23 @@ class BernAI:
             metrics = self.retrain()
             return {"status": "trained", "tag": clean_tag, "metrics": metrics, "reassigned": reassigned}
 
+    def learn_claim(self, message: str, session_id: str = "default",
+                    override: bool = False) -> dict[str, Any]:
+        """Check a fact the user stated, and keep it only if the check allows.
+
+        A claim about a price or a nutrition figure is compared against Bern's curated tables.
+        Anything else is kept as *unverified* - never as fact, because Bern has no source for it
+        and saying "checked" without one would be a lie dressed as diligence.
+
+        Args:
+            message: What the user typed.
+            session_id: Who said it.
+            override: Keep a claim that contradicts Bern's data. The disagreement is recorded.
+        """
+        from bern import memory
+
+        return memory.learn(message, session_id=session_id, override=override)
+
     def delete_intent(self, tag: str) -> dict[str, Any]:
         with self._lock:
             dataset = load_dataset(self.dataset_path)
