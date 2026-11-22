@@ -264,7 +264,16 @@
         "how do i get started with bern",
         "give me a quick tour",
         "what are the things i can ask",
-        "ano ang mga puwede kong gawin dito"
+        "ano ang mga puwede kong gawin dito",
+        "why can you not do that",
+        "why cant you answer that",
+        "why do you not know that",
+        "why do you refuse",
+        "why did you refuse that",
+        "what are you unable to do",
+        "what can you not do",
+        "what are your limits",
+        "what are your limitations"
       ],
       "responses": [
         "Prices of Philippine goods, nutrition facts, counting peso bills from a photo, studied from your notes, and arithmetic. That is the whole list — I am small and I do not pretend otherwise.\n\nAsk me one of them and I will answer it directly.",
@@ -1885,7 +1894,12 @@
         "u understand my prompts",
         "understand me",
         "you understand what i mean",
-        "can you understand my sentences"
+        "can you understand my sentences",
+        "can you follow a full sentence",
+        "can you understand a sentence",
+        "do you understand sentences",
+        "can you understand whole sentences",
+        "do you read whole sentences"
       ],
       "responses": [
         "Yes — but 'understand' is doing a lot of work there, so let me be exact. I read your words, match them against phrases I was trained on, and answer from what I hold. If you say something I have not been taught, I miss it.\n\nTry me on something normal and I will tell you when I am guessing rather than answering.",
@@ -1957,7 +1971,16 @@
         "what did i say",
         "what did i just ask",
         "repeat what i said",
-        "what was my question"
+        "what was my question",
+        "that is not the answer i wanted",
+        "you answered a different question",
+        "read my question again",
+        "you missed what i asked",
+        "that does not answer me",
+        "try answering what i actually asked",
+        "i asked something else",
+        "that is beside the point",
+        "you are not addressing my question"
       ],
       "responses": [
         "Fair — then I got it wrong. Tell me the question again in your own words, or say what I answered that you did not want, and I will match it more carefully.\n\nI would rather take the correction than repeat a wrong answer.",
@@ -2006,12 +2029,45 @@
         "are you listening to me",
         "are you hearing me",
         "you there",
-        "you still there"
+        "you still there",
+        "why your reply is repetitive",
+        "why is your reply repetitive",
+        "why are your replies repetitive",
+        "your reply is repetitive",
+        "your replies are repetitive",
+        "your answer is repetitive",
+        "your answers are repetitive",
+        "why do you repeat yourself",
+        "why do you keep repeating",
+        "why do you keep saying that",
+        "why is your answer always the same",
+        "your answer is always the same",
+        "your reply is always the same",
+        "you say the same thing every time",
+        "same answer again",
+        "you gave me the same answer",
+        "that is the same reply as before",
+        "why so repetitive",
+        "stop being repetitive",
+        "be less repetitive",
+        "vary your answers",
+        "why is your reply long",
+        "your reply is too long",
+        "that is too long",
+        "shorter please",
+        "be brief",
+        "keep it short",
+        "answer in one sentence",
+        "can you be more concise",
+        "dont write so much",
+        "why are you writing so much",
+        "your answer is a wall of text"
       ],
       "responses": [
-        "Fair enough. Straight talk: I answer from a fixed set of trained intents, so my replies can read like a leaflet. I cannot freeform chat the way a language model does.\n\nWhat I can do is answer the things I know without dressing them up. Ask me plainly.",
-        "I am here, and I am listening — within limits. I only know the topics I was trained on, so I can sound stiff when a question lands near one of them.\n\nI will drop the ceremony. Ask me what you actually want to know.",
-        "No, not only exact questions — but close enough that it can feel that way. I match meaning by word and letter patterns, so the same question phrased freshly usually still lands.\n\nThe stiffness is me covering for the fact that I have fixed answers. I will keep it shorter."
+        "Because I have one stored answer per topic. Ask the same thing twice and you get the same words — there is nothing generating a fresh sentence in me.\n\nThe three or four variants I do have rotate, which is the most variation available. Anything more needs a language model.",
+        "I am not composing replies; I am retrieving them. One topic, one answer, and the same words every time.\n\nIf it reads repetitive, that is literally what is happening, and saying it plainly is more use than pretending otherwise.",
+        "Every reply of mine is text stored in advance against a topic. Repetition is not a style choice — it is the mechanism.\n\nShort answers help. So does rephrasing the question, which lands on a different stored reply.",
+        "Two reasons. I match your words to a topic rather than reading the sentence, and I return whatever text is parked behind that topic.\n\nBoth of those are the same sentence every time you ask the same way. Ask differently and it changes."
       ]
     },
     {

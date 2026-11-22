@@ -313,3 +313,28 @@ def test_asking_whether_a_file_arrived_reaches_the_file_intent(engine):
     # And the genuine comprehension questions must still land where they did.
     for message in ("do you understand me", "can you understand my prompts"):
         assert engine.chat(message)["intent"] == "comprehension_check"
+
+
+def test_repetition_complaint_is_understood_and_answered_honestly(engine):
+    """"why your reply is repetitive" scored 0.17 and was refused, because "repetitive" was
+    never a word it had seen. It also must not be prefixed with "I can't explain why" - this is
+    one cause Bern genuinely can explain."""
+    result = engine.chat("why your reply is repetitive")
+    assert result["intent"] == "conversation_state"
+    assert not result["needs_training"]
+    assert not result["reply"].startswith("**I can't explain why**")
+    assert "stored" in result["reply"].lower() or "retriev" in result["reply"].lower()
+
+
+@pytest.mark.parametrize("message", [
+    "your answer is always the same", "why do you keep saying that", "be brief",
+    "your reply is too long", "stop being repetitive",
+])
+def test_repetition_and_verbosity_complaints_route(engine, message):
+    assert engine.chat(message)["intent"] == "conversation_state"
+
+
+def test_a_reason_outside_self_knowledge_still_admits_it_cannot_explain(engine):
+    """The exemption above must not spread: Bern cannot reason about rice prices."""
+    reply = engine.chat("why is rice expensive")["reply"]
+    assert reply.startswith("**I can't explain why**")

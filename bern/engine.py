@@ -187,6 +187,19 @@ def extract_user_name(message: str, strong_only: bool = False) -> str | None:
 
 # Rejection ("I don't know this yet") thresholds. The defaults are calibrated by cross-validation in scripts/train_bern.py
 # and stored with the model (bundle["gating"]).
+#: Intents whose stored reply already gives a cause, so the "I can't explain why" prefix would be
+#: a lie. Asking "why is your reply repetitive" is a question about Bern itself, and Bern knows
+#: the answer to that one.
+SELF_EXPLAINING_INTENTS: frozenset[str] = frozenset({
+    "conversation_state",
+    "comprehension_check",
+    "conversation_repair",
+    "answer_check",
+    "ml_architecture",
+    "identity",
+})
+
+
 DEFAULT_GATING: dict[str, float] = {
     "low_conf": 0.40,       # reject when blended confidence is below this, however close the match
     "low_conf_sim": 0.36,
@@ -480,10 +493,14 @@ class BernAI:
             generated = self._llm_answer(message, result, subject, session_id)
             if generated is not None:
                 result = generated
-            elif wants_reason:
+            elif wants_reason and str(result.get("intent")) not in SELF_EXPLAINING_INTENTS:
                 # No model available, and the message asks for a reason. Answering it with a
                 # price table looks like an answer while being a non-answer, so say plainly
                 # what Bern cannot do and keep the facts that are still useful.
+                #
+                # The intents in SELF_EXPLAINING_INTENTS are exempt because their stored reply
+                # already explains a cause. Prefixing "I can't explain why" onto an answer that
+                # does explain why - "why is your reply repetitive" - was simply untrue.
                 result["reply"] = (
                     "**I can't explain why** — I'm a small model and I have no way to reason "
                     "about causes.\n\nHere is what I do know:\n\n" + str(result.get("reply", ""))
