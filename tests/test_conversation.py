@@ -341,3 +341,33 @@ def test_a_reason_outside_self_knowledge_still_admits_it_cannot_explain(engine):
     """The exemption above must not spread: Bern cannot reason about rice prices."""
     reply = engine.chat("why is rice expensive")["reply"]
     assert reply.startswith("**I can't explain why**")
+
+
+class TestNameHandling:
+    """The browser port answered every name question with "Got it — nice to meet you!".
+
+    That line is the stored reply for the intent, so it was returned whether or not anything
+    had been learned - including for "do you know my name", where the honest answer is that it
+    does not. These cases pin the server's behaviour, which the port now mirrors.
+    """
+
+    def test_asking_before_telling_is_refused_plainly(self, engine):
+        reply = engine.chat("do you know my name")["reply"]
+        assert "don't know your name" in reply or "not told me" in reply
+
+    def test_telling_then_asking_returns_the_name(self, engine):
+        engine.chat("my name is Bro", session_id="name-test")
+        reply = engine.chat("what is my name", session_id="name-test")["reply"]
+        assert "Bro" in reply
+
+    def test_call_me_stores_the_name(self, engine):
+        engine.chat("call me Jo", session_id="name-test-2")
+        assert "Jo" in engine.chat("do you remember my name", session_id="name-test-2")["reply"]
+
+    def test_a_state_is_not_a_name(self, engine):
+        assert engine.chat("i am tired")["intent"] != "user_name" or \
+            "tired" not in engine.chat("i am tired")["reply"]
+
+    @pytest.mark.parametrize("message", ["ako si Ana", "tawagin mo akong Jay"])
+    def test_tagalog_name_forms_are_understood(self, engine, message):
+        assert "Ana" in engine.chat(message)["reply"] or "Jay" in engine.chat(message)["reply"]

@@ -198,6 +198,52 @@ function foldCaseTwins(scores: Float32Array, classes: string[]): Float32Array {
 }
 
 /**
+ * Pull a person's name out of "my name is Juan", "ako si Ana", "call me bro", "i'm Pedro".
+ *
+ * The on-device port had no name handling at all, so every one of those questions returned the
+ * single stored line "Got it — nice to meet you!" - including "do you know my name", which is
+ * the one case where the honest answer is that it does not. Mirrors `extract_user_name` in
+ * `bern/engine.py`, including the blocked words that stop "i am tired" becoming a name.
+ */
+const NAME_STRONG = [
+  /(?:my name is actually|my name is|my name's|name's|name is|you can call me|you may call me|just call me|please call me|call me|they call me|everyone calls me|my friends call me|people call me|i'm known as|i am known as|i am called|i'm called|im called)\s+/i,
+  /(?:ako po si|ako si|pangalan ko po ay|pangalan ko ay|pangalan ko si|ang pangalan ko po ay|ang pangalan ko ay|ang pangalan ko si|name ko si|name ko ay|tawagin mo akong|tawagin mo ako ng|ang tawag sa akin ay|tawag sa akin ay|ang tawag nila sa akin ay)\s+/i,
+];
+const NAME_WEAK = /(?:\bi am|\bi'm|\bim|\bthis is|\bit's)\s+([A-Z][a-zA-Z\-']{1,24})/;
+const NAME_BLOCKED = new Set([
+  'good', 'fine', 'okay', 'ok', 'tired', 'happy', 'here', 'back', 'leaving', 'sure', 'ready',
+  'not', 'a', 'an', 'the', 'called', 'known', 'actually', 'bern', 'from', 'hungry', 'sad', 'new',
+  'just', 'also', 'so', 'very', 'still', 'going', 'looking', 'trying', 'learning', 'developer',
+  'student', 'filipino', 'pinoy', 'using', 'building', 'making', 'testing', 'asking', 'wondering',
+  'interested', 'curious', 'bored', 'sick', 'busy', 'late', 'early', 'done', 'glad', 'sorry',
+  'thinking', 'wanting', 'in', 'at', 'on', 'with', 'your', 'my',
+]);
+
+export function extractUserName(message: string): string | null {
+  const text = message.trim();
+  const candidates: string[] = [];
+  for (const prefix of NAME_STRONG) {
+    const pattern = new RegExp(prefix.source + "([A-Za-z][A-Za-z\\-']{1,24})", 'i');
+    const match = pattern.exec(text);
+    if (match) candidates.push(match[1]);
+  }
+  const weak = NAME_WEAK.exec(text);
+  if (weak) candidates.push(weak[1]);
+  for (const candidate of candidates) {
+    if (!NAME_BLOCKED.has(candidate.toLowerCase())) {
+      return candidate[0].toUpperCase() + candidate.slice(1);
+    }
+  }
+  return null;
+}
+
+/** Whether the message is asking what Bern already knows, rather than telling it. */
+export function isNameQuestion(message: string): boolean {
+  return /\b(do you (know|remember)|what('s| is)|who am i|alam mo ba|ano (ang )?(pangalan|name))\b/i
+    .test(message);
+}
+
+/**
  * Below this the nearest intent is only a guess, so `reply` refuses instead of answering.
  *
  * Measured, not guessed: on eight prompts with no right answer and seventeen real ones,
@@ -276,6 +322,9 @@ export class BernOnDevice {
    * that depends on the question. `needsServer` is cleared when we can produce the result
    * ourselves, so the caller does not chase a server it no longer needs.
    */
+  /** The name the user gave, for this object. Cleared only by a new instance. */
+  private userName: string | null = null;
+
   reply(message: string): { intent: string; confidence: number; text: string | null; needsServer: boolean } {
     const result = this.classify(message);
     const stored = this.intentBundle.intent_responses[result.intent];
@@ -305,6 +354,35 @@ export class BernOnDevice {
         text = computed;
         needsServer = false;
       }
+    }
+
+    // "my name is bro, call me bro" and "do you know my name" are the same intent, and the
+    // stored line answered both with "Got it — nice to meet you!". It cannot know the answer to
+    // the second unless it kept the first, so it keeps it and answers from what it has.
+    // Greet by name once it has one, the way the server does. Knowing a name and never using
+    // it is the difference between remembering and merely storing.
+    if (result.intent === 'greeting' && this.userName && text) {
+      // The stored greeting opens with its own "Hey!" - prefixing another made "Hey Bro! Hey!
+      // I'm Bern". Drop the original opening when the name is going in front of it.
+      text = `Hey ${this.userName}! ` + text.replace(/^(hey|hello|hi)[!,.]?\s*/i, '');
+    }
+
+    if (result.intent === 'user_name') {
+      const told = extractUserName(message);
+      if (told) this.userName = told;
+      if (told) {
+        text = `Got it — I'll call you ${told}.`;
+      } else if (isNameQuestion(message)) {
+        text = this.userName
+          ? `You told me your name is ${this.userName}.`
+          : "You have not told me your name yet. Say \"my name is ...\" and I will use it while "
+            + "this page is open.";
+      } else {
+        text = this.userName
+          ? `I have your name as ${this.userName}.`
+          : 'Tell me your name like "my name is Ana" and I will remember it for this conversation.';
+      }
+      needsServer = false;
     }
 
     return {
