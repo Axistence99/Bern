@@ -309,6 +309,13 @@ body {
   color: var(--muted);
 }
 
+.readout-label {
+  margin: -2px 0 10px;
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
 .readout-table { margin: 0; display: flex; flex-direction: column; gap: 6px; }
 
 .readout-row { display: flex; flex-direction: column; gap: 0; }
@@ -630,6 +637,41 @@ body {
   overflow-wrap: anywhere;
 }
 
+/* ------------------------------------------------------------------ page reading */
+
+.page-read {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+}
+
+.page-read-head {
+  margin: 0 0 8px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.page-lines { width: 100%; border-collapse: collapse; }
+
+.page-lines td {
+  padding: 3px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--step--1);
+  vertical-align: baseline;
+}
+
+.page-line-index { width: 30px; color: var(--rule-strong); font-variant-numeric: tabular-nums; }
+.page-line-text { color: var(--ink); overflow-wrap: anywhere; }
+
+.page-note {
+  margin: 14px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  font-size: 11px;
+  color: var(--warn);
+  line-height: 1.55;
+}
+
 /* ------------------------------------------------------------------ glyph answer */
 
 .glyph-line { margin: 0; font-size: var(--step-1); color: var(--ink-soft); }
@@ -756,7 +798,14 @@ body {
   .tray-photo img { width: 72px; height: 72px; }
 
   .readout-value { font-size: var(--step-3); }
-  .readout-table { grid-column: 1 / -1; flex-direction: row; gap: 24px; }
+  .readout-label {
+  margin: -2px 0 10px;
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.readout-table { grid-column: 1 / -1; flex-direction: row; gap: 24px; }
   .readout-row { flex: 0 1 auto; }
   .readout-row dd { overflow-wrap: normal; }
   .readout-bar { display: none; }
