@@ -33,6 +33,7 @@ import json
 import os
 import urllib.error
 import urllib.request
+from collections import OrderedDict
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -290,6 +291,22 @@ def _mock_exam_from(quiz: list[dict[str, Any]], true_false: list[dict[str, Any]]
     return {"title": "Mock exam", "sections": sections, "answer_key": answer_key}
 
 
+#: Used when the local classifier has nothing and a model is configured. This is deliberately
+#: not the tutor prompt: a general question ("who wrote hamlet", "explain photosynthesis") is
+#: not homework from the student's own notes, and answering it in tutor voice - "here is what
+#: your notes say" - would invent a source that does not exist.
+CHAT_SYSTEM_PROMPT = """You are Bern, a small AI assistant built by Axistence99 running on \
+a local classifier with a language model handling the questions the classifier cannot.
+
+Answer the user directly and plainly. Speak in the first person. Keep it short unless the \
+question genuinely needs length. Answer in the language the user writes in - English, Filipino \
+or Taglish.
+
+Two things matter more than sounding helpful:
+- If you do not know, say so. Do not invent a fact, a number, a citation or a source.
+- You have no access to the user's files, their device, or the internet. Do not claim to."""
+
+
 TUTOR_SYSTEM_PROMPT = """You are a patient tutor for a Filipino student, answering in the \
 language the student uses (English, Filipino or Taglish).
 
@@ -297,6 +314,76 @@ Ground every answer in the provided notes. If the notes do not cover the questio
 plainly and then answer from general knowledge, marking that part as not from their notes. \
 Keep answers short and concrete. End with one short check question unless the student is \
 just asking for a definition."""
+
+
+@dataclass
+class ChatSession:
+    """A general conversation, carrying what was already said.
+
+    :class:`TutorSession` answers one question about a fixed set of notes and is not kept
+    between turns. This one is kept: every request replays the recent transcript, which is what
+    makes "and what about the second one?" mean something. The window is capped because an
+    unbounded history eventually costs more than the answer is worth.
+
+    The module-level :func:`session` registry exists for one reason: ``BernAI.chat`` creates
+    no object it could hold onto, so conversations are kept by session id here. Without it
+    every turn started from nothing no matter what the user had already said.
+    """
+
+    system_prompt: str = CHAT_SYSTEM_PROMPT
+    history: list[dict[str, str]] = field(default_factory=list[dict[str, str]])
+    max_turns: int = 12
+
+    def ask(self, question: str, config: LLMConfig | None = None) -> dict[str, Any]:
+        """Answer one question, carrying the conversation so far.
+
+        Returns:
+            ``{"answer", "engine"}``. ``engine`` is ``"llm"`` or ``"none"``.
+
+        Raises:
+            LLMError: only when a model *is* configured but the call fails. Callers that want
+            to fall back instead should catch it.
+        """
+        config = config or LLMConfig()
+        if not config.available:
+            return {"answer": "", "engine": "none"}
+
+        messages: list[dict[str, str]] = [{"role": "system", "content": self.system_prompt}]
+        messages.extend(self.history[-(self.max_turns * 2):])
+        messages.append({"role": "user", "content": question})
+
+        answer = _chat(messages, config=config).strip()
+        self.history.append({"role": "user", "content": question})
+        self.history.append({"role": "assistant", "content": answer})
+        return {"answer": answer, "engine": "llm"}
+
+    def reset(self) -> None:
+        self.history.clear()
+
+
+#: Live conversations, keyed by session id. Bounded so a long-running server cannot grow
+#: without limit; the oldest conversation is dropped first, which only costs that user's
+#: history and never correctness.
+_SESSIONS: OrderedDict[str, ChatSession] = OrderedDict()
+_MAX_SESSIONS = 128
+
+
+def session(session_id: str = "default") -> ChatSession:
+    """Return the conversation for this id, creating it if needed."""
+    existing = _SESSIONS.get(session_id)
+    if existing is not None:
+        _SESSIONS.move_to_end(session_id)
+        return existing
+    created = ChatSession()
+    _SESSIONS[session_id] = created
+    while len(_SESSIONS) > _MAX_SESSIONS:
+        _SESSIONS.popitem(last=False)
+    return created
+
+
+def forget(session_id: str = "default") -> None:
+    """Drop one conversation, so the next turn starts clean."""
+    _SESSIONS.pop(session_id, None)
 
 
 @dataclass

@@ -292,7 +292,9 @@ export class BernOnDevice {
         intent: 'unknown',
         confidence: result.confidence,
         text: `I do not know this one. My closest guess was \`${guessed}\` at ${percent}%, which `
-          + 'is not enough to answer from. Say it differently, or ask me something I was trained on.',
+          + 'is not enough to answer from.\n\nGeneral questions need a language model. This '
+          + 'page carries only the trained classifier, so it has none - the same question sent '
+          + 'to a server with one configured is answered properly.',
         needsServer: false,
       };
     }

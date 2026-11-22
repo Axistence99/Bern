@@ -428,6 +428,15 @@ class BernAI:
         except ExtractionError as exc:
             raise ValueError(str(exc)) from exc
 
+    @staticmethod
+    def _llm_configured() -> bool:
+        """Whether a language model is wired up. Consulted only when building a refusal."""
+        try:
+            from bern import llm
+        except Exception:
+            return False
+        return llm.is_available()
+
     @property
     def gating(self) -> dict[str, float]:
         return {**DEFAULT_GATING, **self.bundle.get("gating", {})}
@@ -468,7 +477,7 @@ class BernAI:
 
         wants_reason = wants_explanation(message)
         if use_llm and engine in ("llm", "auto") and (result.get("needs_training") or wants_reason):
-            generated = self._llm_answer(message, result, subject)
+            generated = self._llm_answer(message, result, subject, session_id)
             if generated is not None:
                 result = generated
             elif wants_reason:
@@ -493,7 +502,7 @@ class BernAI:
         return result
 
     def _llm_answer(self, message: str, local: dict[str, Any],
-                    subject: str | None) -> dict[str, Any] | None:
+                    subject: str | None, session_id: str = "default") -> dict[str, Any] | None:
         """Try the language model; return ``None`` to keep the local answer.
 
         The local answer is passed in as grounding, so the model can quote Bern's own price
@@ -512,7 +521,15 @@ class BernAI:
 
         question = message if subject is None else f"{message} (about {subject})"
         try:
-            answer = llm.TutorSession(notes=context).ask(question)["answer"].strip()
+            if context:
+                # Grounded in Bern's own figures: a fresh session is correct here, because the
+                # reply being explained is the subject, not the earlier conversation.
+                answer = llm.ChatSession().ask(f"{question}\n\nGround your answer in this, "
+                                              f"which Bern already produced:\n{context}")["answer"].strip()
+            else:
+                # A general question. This one must remember the conversation, or "and the
+                # second one?" has nothing to refer to.
+                answer = llm.session(session_id).ask(question)["answer"].strip()
         except Exception:
             # A model that is down must not take the chat down with it.
             return None
@@ -677,6 +694,11 @@ class BernAI:
                     f"I'm **Bern**, and I don't recognize this topic confidently yet "
                     f"(top guess: `{intent}` at {round(confidence * 100)}%).\n\n"
                     f"Click **Teach Bern This** below or visit the **Train Bern** tab to teach me how to answer this!"
+                )
+            if not self._llm_configured():
+                unknown_reply += (
+                    "\n\nI only answer what I was trained on. General questions need a "
+                    "language model, which is not configured on this install."
                 )
             return {
                 "reply": unknown_reply,
