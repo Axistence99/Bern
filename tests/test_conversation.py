@@ -266,3 +266,32 @@ def test_answering_normally_does_not_break_the_old_intents(engine):
     assert engine.chat("10 + 10")["reply"].find("20") >= 0
     assert engine.chat("who developed you")["intent"] == "developer"
     assert engine.chat("magkano ang itlog")["intent"] in ("ph_price_lookup", "unknown")
+
+
+def test_no_reply_is_an_essay(engine):
+    """A question deserves an answer, not a leaflet.
+
+    "what can you do" once returned 1,116 characters that opened "Here is what I can do right
+    now: 1. ..." and buried the answer. Asked twice it returned the same wall, because the
+    bundle stored a single variant while the dataset held three. Both are checked here: the
+    ceiling on length, and that the variants actually reach the model.
+    """
+    for tag, responses in engine.bundle["intent_responses"].items():
+        assert len(responses) >= 1, tag
+        for reply in responses:
+            assert len(reply) < 700, f"{tag} reply is {len(reply)} chars: {reply[:70]}"
+
+
+def test_answers_to_the_same_question_vary(engine):
+    """One stored variant means the identical wall every time. Three means it reads like talk."""
+    stored = engine.bundle["intent_responses"]
+    assert len(stored["capabilities"]) == 3
+    assert len(stored["greeting"]) >= 2
+
+
+def test_capabilities_answers_in_one_line(engine):
+    reply = engine.chat("what can you do")["reply"]
+    assert len(reply) < 400
+    assert reply.count("\n") <= 2, "a capability list is not a paragraph"
+    for noise in ("1. **", "2. **", "/api/", "React Native"):
+        assert noise not in reply, f"capabilities still recites {noise!r}"

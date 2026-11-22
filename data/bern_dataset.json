@@ -267,7 +267,9 @@
         "ano ang mga puwede kong gawin dito"
       ],
       "responses": [
-        "Here is what I (**Bern**) can do right now:\n1. **Philippine Goods Price Expert:** Ask me 2026 palengke vs supermarket prices (`magkano ang itlog?`, `price of pork liempo`, `2kg rice, 1 tray eggs, 1L cooking oil`, or `what can ₱500 buy?`).\n2. **Philippine Food Nutrition Expert:** Calories & macros for **1,500+ FNRI PhilFCT foods**, USDA staples (ground beef), **4,000+ PH packaged/canned products**, Filipino dishes (`calories ng bopis`, `nutrition of pork adobo`, `beef pares calories`), plus **McDo & Jollibee** (`Big Mac calories`, `Chickenjoy nutrition`) and whole meals (`2 pc chickenjoy and 1 cup rice`).\n3. **Philippine Money Vision Counter:** Open the **Peso Photo Counter** tab to snap a camera photo or upload an image of Philippine bills (`₱20`–`₱1,000` paper & polymer) and coins (`₱20`, `₱10`, `₱5`, `₱1`, `25¢`) and count the exact total!\n4. **Live ML Chat & Training:** Inspect confidence scores, solve math (`calculate 245 * 18`), and teach me new skills live.\n5. **React Native & REST API:** Connect me to your mobile app via `/api/chat`, `/api/ph-prices`, `/api/nutrition`, and `/api/count-money`."
+        "Prices of Philippine goods, nutrition facts, counting peso bills from a photo, studied from your notes, and arithmetic. That is the whole list — I am small and I do not pretend otherwise.\n\nAsk me one of them and I will answer it directly.",
+        "Five things: palengke and supermarket prices, calories and macros, counting peso from a photo, turning your notes into quizzes, and math.\n\nNothing else. Ask about one and I will get to the point.",
+        "I can look up prices, look up nutrition, count money in a picture, make study material from a file, and do arithmetic.\n\nThat is it. If you ask me something outside those, I will say so rather than guess."
       ]
     },
     {
@@ -338,7 +340,8 @@
         "do you overfit"
       ],
       "responses": [
-        "Under the hood I'm a real Python `scikit-learn` pipeline:\n- **Features:** word n-grams `(1, 2)` + character n-grams `(3, 5)` via TF-IDF — the character part makes me tolerant of typos and Taglish spellings.\n- **Classifier:** regularized `LogisticRegression` over all intents, blended with cosine similarity to the nearest training phrase for a calibrated confidence.\n- **Knowing what I don't know:** an `out_of_scope` class plus vocabulary-coverage checks flag topics I haven't learned, so you can teach me.\n- **Evaluation:** every training run reports a stratified held-out score and cross-validation (`models/metrics.json`), plus a separate held-out benchmark in `models/training_report.json`.\n- **Experts:** price, nutrition (FNRI PhilFCT, USDA, Open Food Facts) and peso-vision (OpenCV + scikit-learn) modules answer domain questions; the classifier routes to them.\n- **Persistence:** weights are saved to `models/bern_model.joblib` so any server or app can load me instantly."
+        "I am TF-IDF and logistic regression over about 1,700 example phrases — not a neural network. Word and character n-grams feed a classifier that picks one of 29 intents; the answer is whatever is stored behind it.\n\nThat is why I am fast and why I only know what I was trained on.",
+        "Word and letter patterns go into a logistic-regression classifier, which picks an intent. Nothing deeper than that.\n\nThe consequence worth knowing: I match phrasing, I do not reason. Reword far enough and I will miss."
       ]
     },
     {
@@ -398,7 +401,8 @@
         "how do i test the api from my phone in expo"
       ],
       "responses": [
-        "Connecting me (**Bern**) to React Native or Expo is a plain `fetch`: `POST /api/chat` with `{\"message\": \"Hello Bern\"}` and render `data.reply`.\n\nReady-to-use files live in `bern-ai/react-native/`:\n- `bernApi.ts` — typed client (`askBern`, `getPhilippinePrices`, `searchNutrition`, `estimateMeal`, `countMoneyFromFileUri` ...)\n- `BernChatScreen.tsx` — chat screen\n- `BernNutritionScreen.tsx` — food search with a meal-calorie basket\n- `BernMoneyScannerScreen.tsx` — Expo Camera / image-picker peso counter\n\nSet `BERN_API_URL` (`http://10.0.2.2:8000` for the Android emulator, `http://<your-PC-IP>:8000` on a phone, or your HTTPS URL in production). The **React Native & REST API** tab shows the code and a live tester."
+        "One `fetch`: `POST /api/chat` with `{\"message\": \"...\"}` and render `data.reply`. That is the whole integration.\n\nReady-made files are in `react-native/` — a typed client plus chat, nutrition and money-scan screens — and the **React Native & REST API** tab shows the code.",
+        "Send `POST /api/chat` with `{\"message\": \"hello\"}` and read `data.reply`. Set `BERN_API_URL` to your host (`10.0.2.2:8000` on an Android emulator).\n\nThe `react-native/` folder has the typed client and screens if you want them."
       ]
     },
     {
@@ -474,7 +478,8 @@
         "what are the available rest methods"
       ],
       "responses": [
-        "My Tornado REST API (CORS enabled) exposes these JSON endpoints:\n- `POST /api/chat` — send `{\"message\": \"...\", \"session_id\": \"app-1\"}` and get `reply`, `intent`, `confidence`, `top_signals`, `inference_ms`.\n- `POST /api/predict` — raw intent classification with the confidence breakdown.\n- `GET /api/ph-prices?q=bigas` and `GET /api/ph-prices/skus?q=sardines` — Philippine prices and 1,800+ retail SKUs.\n- `GET /api/nutrition?q=adobo`, `GET /api/nutrition/item?id=...&grams=200`, `POST /api/nutrition/meal` — calories, macros and meal totals.\n- `POST /api/count-money` — multipart `image` or JSON `image_base64` → peso total with labeled boxes.\n- `POST /api/train` and `DELETE /api/intents/<tag>` — teach or remove intents (I retrain instantly).\n- `GET /api/metrics`, `/api/dataset`, `/api/datasets`, `/api/health` — accuracy, data and liveness.\n\nTry it: `curl -X POST <server>/api/chat -H \"Content-Type: application/json\" -d '{\"message\":\"calories ng bopis\"}'`"
+        "Four endpoints: `POST /api/chat` for a reply, `GET /api/ph-prices`, `POST /api/nutrition`, and `POST /api/count-money` with an image.\n\nWant the request and response shapes for one of them?",
+        "`POST /api/chat` takes `{\"message\": \"...\"}` and returns the reply plus confidence. Prices, nutrition and money counting each have their own route.\n\nSay which one and I will give you its exact shape."
       ]
     },
     {
@@ -537,7 +542,8 @@
         "how do i remove a skill i added"
       ],
       "responses": [
-        "You can train me live in three ways:\n1. **Quick Teach (in Chat):** when I'm unsure, click **Teach Bern This** on my reply, type the intent name and response, and I'll retrain instantly.\n2. **Train Bern tab / API:** add a new intent (example phrases + replies) or extend an existing one, then click **Train Model Now** (or `POST /api/train`).\n3. **From the command line:** edit `data/bern_dataset.json` and run `python3 -m bern.trainer`, then `python3 -m bern.benchmark` to check I didn't get worse.\n\nTip: 10–30 varied phrases per intent (English, Tagalog, typos) help my classifier generalize."
+        "Tell me the phrase that should trigger an answer, and the answer itself. That is one new example.\n\nRepeated a few times it becomes a skill; the **Train Bern** tab does it without code.",
+        "Two things: what you would type, and what I should say back. Say it a few times with variation and I learn the pattern.\n\nOr use the **Train Bern** tab if you would rather not use the API."
       ]
     },
     {
@@ -1069,7 +1075,8 @@
         "how do i get a public url for the api"
       ],
       "responses": [
-        "To take **Bern** live for real React Native users:\n1. **Host the Python server** on Render, Railway, Fly.io, or a VPS (`python3 server.py`, set the `PORT` environment variable). Bern runs `scikit-learn` on CPU, so a tiny instance is enough — no GPU needed.\n2. **Use HTTPS** so iOS (ATS) and Android allow network requests cleanly.\n3. **Add authentication / an API key** on your server before going public, and never embed secret keys inside mobile client code.\n4. Keep `models/` and `data/` with the server (≈ 70 MB with the downloaded datasets)."
+        "The `Dockerfile` is the shortest path — build it, run it, put it behind HTTPS. A small VPS is enough; the model is under 3 MB.\n\nJust remember there is no authentication on the API, so do not expose it publicly as-is.",
+        "Build the image, run the container, point a reverse proxy at it. `SHARE.md` has the exact commands.\n\nThe gap worth knowing: the API has no auth and no rate limit, so put it behind something that does."
       ]
     },
     {
@@ -1357,7 +1364,8 @@
         "sukatin ang pera sa picture"
       ],
       "responses": [
-        "You can use my **Peso Photo Counter** right now!\n1. Open the **Peso Photo Counter** tab at the top.\n2. Click **Open Camera** to snap a live picture, **Upload Photo** to select an image of your Philippine bills (`₱20`–`₱1,000` paper & polymer) and coins (`₱20`, `₱10`, `₱5`, `₱1`, `25¢`), or click **Try Sample PH Money Photo**.\n3. I'll detect each bill & coin, draw labeled boxes so you can verify every piece, compute the exact PHP total, and show what Philippine groceries it can buy!\n\n_Tip:_ Lay bills and coins flat & separated on a plain surface for highest accuracy. You can also connect your React Native camera directly via `POST /api/count-money`."
+        "Open the **Peso Photo Counter** tab, then take a photo or upload one. I box each bill and coin so you can check them, and total it in pesos.\n\nLay them flat and apart — overlapping notes are where I slip.",
+        "Photograph your bills and coins in the **Peso Photo Counter** tab and I will total them, drawing a box on each piece so you can verify the count.\n\nPlain background, flat, not overlapping."
       ]
     },
     {
