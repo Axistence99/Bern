@@ -1,8 +1,13 @@
-# Builds the demo from source and publishes it to GitHub Pages.
+# Builds the demo from source and publishes it to the gh-pages branch.
 #
-# The build is deterministic apart from the fonts and React it downloads on first run, so the
-# workflow rebuilds rather than deploying the copy committed under web/demo/. A committed
-# artifact can drift from its source; this repository has already shipped a stale one once.
+# It publishes to a branch rather than through actions/deploy-pages because this repository's
+# `github-pages` environment is restricted to the gh-pages branch, so a workflow deploy from
+# `main` is rejected ("Branch main is not allowed to deploy to github-pages due to environment
+# protection rules"). Pushing the branch goes through the Pages build that is already wired up,
+# and keeps deployment automatic instead of depending on someone remembering to run it.
+#
+# The page is rebuilt rather than copied from the committed web/demo/index.html: a committed
+# artifact drifts from its source, and this repository has shipped a stale one once.
 name: Publish demo
 
 on:
@@ -17,17 +22,14 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
-# One deploy at a time; a newer push should not queue behind an older build.
 concurrency:
-  group: pages
+  group: publish-demo
   cancel-in-progress: true
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -40,11 +42,10 @@ jobs:
         with:
           node-version: "20"
 
-      # The build installs TypeScript into .cache/ itself; it needs no Python dependencies.
       - name: Build the demo
         run: python3 scripts/build_web_demo.py
 
-      # A page that silently failed to build would deploy the previous index.html, so check the
+      # A page that silently failed to build would publish the previous index.html, so check the
       # output is a whole page with the runtime and the model actually inside it.
       - name: Check the output
         run: |
@@ -58,21 +59,27 @@ jobs:
           for leftover in ("__INTENT_BUNDLE__", "__MASCOT_FACE__"):
               assert leftover not in page, f"unsubstituted placeholder {leftover}"
           assert page.count('type: "file"') >= 2, "composer inputs missing"
-          print(f"index.html {size/1024/1024:.2f} MB, markers present")
+          assert page.count('capture: "environment"') >= 1, "camera input missing"
+          print(f"index.html {size/1024/1024:.2f} MB, checks passed")
           PY
 
-      - uses: actions/configure-pages@v5
+      - name: Publish to gh-pages
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/site" && mkdir -p "$RUNNER_TEMP/site"
+          cp web/demo/index.html "$RUNNER_TEMP/site/index.html"
+          # The same page for unknown paths, so a stray link lands on the demo, not a GitHub 404.
+          cp web/demo/index.html "$RUNNER_TEMP/site/404.html"
+          # Pages would otherwise run the output through Jekyll.
+          : > "$RUNNER_TEMP/site/.nojekyll"
 
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: web/demo
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          rm -rf "$RUNNER_TEMP/ghp" && mkdir -p "$RUNNER_TEMP/ghp"
+          cd "$RUNNER_TEMP/ghp"
+          git init --quiet --initial-branch=gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cp "$RUNNER_TEMP"/site/* .
+          git add -A
+          git commit -q -m "deploy: rebuild the demo from ${GITHUB_SHA::7}"
+          git push --force "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" gh-pages:gh-pages
+          echo "Published ${GITHUB_SHA::7}"
