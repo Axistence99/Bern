@@ -331,7 +331,12 @@ body {
   font-size: var(--step--1);
   line-height: 1.3;
   color: var(--ink);
-  overflow-wrap: anywhere;
+  /* Intent tags are identifiers, not prose: "conversation_repair" was breaking to
+     "conversation_repai / r" once the longer conversation intents arrived. Wrap at the
+     underscore if it must, never mid-word. */
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
 }
 
 /* The human name sits under the id rather than beside it: two flex columns at this width
@@ -343,8 +348,16 @@ body {
   line-height: 1.3;
 }
 
-.readout-row--next dd { display: flex; justify-content: space-between; gap: 8px; }
-.readout-row--next .readout-name { display: inline; }
+/* Side by side, a 19-character intent tag plus its percentage does not fit 186px, and
+   `justify-content: space-between` had no way to wrap — the number was clipped to "0.1" at
+   the column edge. Stacked, both are always readable. */
+.readout-row--next dd { display: block; }
+/* The runner-up stacks like the primary row. Inline, a 19-character intent tag plus its
+   percentage overflowed the 186px readout and the number was clipped to "0.1". */
+.readout-row--next .readout-name {
+  display: block;
+  margin: 2px 0 0;
+}
 
 /* One hairline bar: a scalar, read left to right, not a progress bar wearing a pill. */
 .readout-bar {

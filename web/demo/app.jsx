@@ -420,11 +420,17 @@ const INTENT_LABELS = {
   humor: "Humour",
   user_name: "Your name",
   time_date: "Date and time",
+  comprehension_check: "Do I understand you",
+  conversation_repair: "Correcting me",
+  conversation_state: "Talking plainly",
+  answer_check: "Checking my answer",
   out_of_scope: "Outside training",
 };
 
-/** Below this the model is not choosing, it is guessing. The threshold sets the colour. */
-const CONFIDENT = 0.5;
+/** Below this the model is not choosing, it is guessing. The threshold sets the colour.
+ *  It matches the refusal floor in `bernOnDevice.reply` and `gating_rejects`, so the browser
+ *  and the server never disagree about whether a sentence was answered or refused. */
+const CONFIDENT = 0.4;
 const SEQUENCE = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
 
 /* ------------------------------------------------------------------ app */

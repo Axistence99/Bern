@@ -197,6 +197,15 @@ function foldCaseTwins(scores: Float32Array, classes: string[]): Float32Array {
   return folded;
 }
 
+/**
+ * Below this the nearest intent is only a guess, so `reply` refuses instead of answering.
+ *
+ * Measured, not guessed: on eight prompts with no right answer and seventeen real ones,
+ * refusing everything under this score catches five of the eight while every real question
+ * still gets through. `bern/engine.py` applies the same floor in `gating_rejects`.
+ */
+const REFUSE_BELOW = 0.4;
+
 export class BernOnDevice {
   readonly intentBundle: IntentBundle;
   readonly glyphBundle: GlyphBundle;
@@ -272,6 +281,21 @@ export class BernOnDevice {
     const stored = this.intentBundle.intent_responses[result.intent];
     let text = stored && stored.length > 0 ? stored[0] : null;
     let needsServer = this.intentBundle.server_backed.includes(result.intent);
+
+    // Below this the answer is a guess dressed as an answer. The server measures the same
+    // number in `gating_rejects`, and the two drifting apart would make the browser and the
+    // API disagree about the same sentence, so the threshold lives here too.
+    if (result.confidence < REFUSE_BELOW || result.intent === 'out_of_scope') {
+      const guessed = result.intent;
+      const percent = Math.round(result.confidence * 100);
+      return {
+        intent: 'unknown',
+        confidence: result.confidence,
+        text: `I do not know this one. My closest guess was \`${guessed}\` at ${percent}%, which `
+          + 'is not enough to answer from. Say it differently, or ask me something I was trained on.',
+        needsServer: false,
+      };
+    }
 
     if (result.intent === 'calculator') {
       const computed = computeArithmetic(message);

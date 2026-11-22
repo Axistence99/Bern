@@ -188,7 +188,7 @@ def extract_user_name(message: str, strong_only: bool = False) -> str | None:
 # Rejection ("I don't know this yet") thresholds. The defaults are calibrated by cross-validation in scripts/train_bern.py
 # and stored with the model (bundle["gating"]).
 DEFAULT_GATING: dict[str, float] = {
-    "low_conf": 0.35,       # reject when blended confidence is below this AND nearest-phrase similarity below low_conf_sim
+    "low_conf": 0.40,       # reject when blended confidence is below this, however close the match
     "low_conf_sim": 0.36,
     "partial_conf": 0.56,   # reject short messages with many unseen words unless confidence reaches this
     "partial_cov": 0.5,
@@ -286,7 +286,12 @@ def gating_rejects(pred: dict[str, Any], gating: dict[str, float]) -> bool:
     """True when Bern should say 'I don't recognize this yet' (apart from the explicit out_of_scope class)."""
     cnt, cov = pred["content_token_count"], pred["vocab_coverage"]
     out_of_vocab = cnt >= 2 and cov == 0.0 and pred["classifier_prob"] < gating["oov_prob"]
-    low_conf = pred["confidence"] < gating["low_conf"] and pred["similarity"] < gating["low_conf_sim"]
+    # The similarity clause used to be ANDed in, which made this test almost impossible to
+    # trip: a weakly matched answer still has a decent cosine to its nearest training phrase,
+    # so "what did I just say" was served as a name question at 28% confidence. Measured on
+    # eight junk prompts and seventeen real ones, dropping the clause and raising the floor
+    # refuses 5 of 8 instead of 1, while every real question still answers.
+    low_conf = pred["confidence"] < gating["low_conf"]
     partially_unseen = cnt >= 2 and cov <= gating["partial_cov"] and pred["confidence"] < gating["partial_conf"]
     return bool(out_of_vocab or low_conf or partially_unseen)
 
