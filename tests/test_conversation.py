@@ -295,3 +295,21 @@ def test_capabilities_answers_in_one_line(engine):
     assert reply.count("\n") <= 2, "a capability list is not a paragraph"
     for noise in ("1. **", "2. **", "/api/", "React Native"):
         assert noise not in reply, f"capabilities still recites {noise!r}"
+
+
+def test_asking_whether_a_file_arrived_reaches_the_file_intent(engine):
+    """"can you understand files i sent" was answered with the "do you understand me" reply.
+
+    The file intent was trained only on commands - "read this pdf", "extract text from this
+    file" - and a question about an attachment shares none of those words except "file", while
+    sharing "understand" with a whole class of comprehension phrases. The question about the
+    file lost to the question about the model.
+    """
+    for message in ("can you understand files i sent", "did you get my file",
+                    "can you see my pdf", "did you receive the file"):
+        result = engine.chat(message)
+        assert result["intent"] == "file_scan", f"{message!r} -> {result['intent']}"
+
+    # And the genuine comprehension questions must still land where they did.
+    for message in ("do you understand me", "can you understand my prompts"):
+        assert engine.chat(message)["intent"] == "comprehension_check"

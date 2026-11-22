@@ -1808,10 +1808,33 @@
         "open this pdf",
         "basahin mo ang dokumento",
         "read my lecture file",
-        "ocr this document"
+        "ocr this document",
+        "can you understand files i sent",
+        "can you read files i sent",
+        "did you get my file",
+        "did you receive my file",
+        "did my file go through",
+        "did my attachment go through",
+        "i sent you a file",
+        "i attached a file",
+        "can you see my file",
+        "can you see my pdf",
+        "can you open my document",
+        "can you read files",
+        "what files can you read",
+        "do you support files",
+        "can you accept files",
+        "can you read an attachment",
+        "can you read what i sent",
+        "did you read my file",
+        "is my file there",
+        "can you check this file",
+        "read the file i attached",
+        "what can you do with files"
       ],
       "responses": [
-        "Upload the file to `POST /api/extract` (multipart `file`) and I'll return the text. PDFs, Word documents, images of handwriting, and plain text all work."
+        "Yes — attach it and I will pull the text out. PDF, DOCX, plain text, or a photo of writing.\n\nI show you what the file actually says. I do not summarise it into something it does not say.",
+        "Send it and I will read the text: PDFs with a text layer, Word documents, plain text, and photos of handwriting.\n\nIf the file is a scan with no text layer, I read it as a picture instead, which is less reliable."
       ]
     },
     {
