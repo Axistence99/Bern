@@ -1,2539 +1,2539 @@
 {
- "name": "Bern held-out routing benchmark",
- "created": "2026-11-11",
- "description": "Realistic English / Taglish messages written independently of the training data. 'dev' items are used for error analysis while training; 'test' items are only scored for the final report. expected intent 'unknown' means Bern must say it does not know (needs_training=true). 'test2' was written after the first full training run, before any rejection-threshold tuning: a fresh hold-out scored once at the end.",
- "items": [
-  {
-   "text": "hello po",
-   "intent": "greeting",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "good morning bern",
-   "intent": "greeting",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "kumusta",
-   "intent": "greeting",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "yo bern",
-   "intent": "greeting",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "magandang hapon",
-   "intent": "greeting",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "hi bern anyone home",
-   "intent": "greeting",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "helo bern",
-   "intent": "greeting",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "sup",
-   "intent": "greeting",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "musta na",
-   "intent": "greeting",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "good afternoon po",
-   "intent": "greeting",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "hello bern kumusta ka",
-   "intent": "greeting",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "hiya",
-   "intent": "greeting",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "kamusta bern",
-   "intent": "greeting",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "hey bern whats good",
-   "intent": "greeting",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "who made you",
-   "intent": "developer",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "what should i call you",
-   "intent": "identity",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "are you a robot",
-   "intent": "identity",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "sino ka ba",
-   "intent": "identity",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "ano ang pangalan mo",
-   "intent": "identity",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "tell me about bern",
-   "intent": "identity",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "are you chatgpt",
-   "intent": "identity",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "what are you exactly",
-   "intent": "identity",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "ikaw ba si bern",
-   "intent": "identity",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "anong klaseng ai ka",
-   "intent": "identity",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "what's bern",
-   "intent": "identity",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "tell me who you are",
-   "intent": "identity",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "what can you help me with",
-   "intent": "capabilities",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "ano ang kaya mong gawin",
-   "intent": "capabilities",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "list your features",
-   "intent": "capabilities",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "what are your skills",
-   "intent": "capabilities",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "can you do more than chat",
-   "intent": "capabilities",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "help me what should i ask you",
-   "intent": "capabilities",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "anong magagawa mo",
-   "intent": "capabilities",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "what topics can you handle",
-   "intent": "capabilities",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "ano ang mga kaya mo",
-   "intent": "capabilities",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "give me a rundown of your abilities",
-   "intent": "capabilities",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "how do you work internally",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "what algorithm are you using",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "explain your model",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "are you using tfidf",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "what library powers you",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "do you use neural networks",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "paano ka gumagana",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "what is under the hood",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "are you using deep learning",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "what machine learning model are you",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "how does your classifier decide the intent",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "is scikit-learn what you run on",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "how do i hook you up to expo",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "can i use you in my mobile app",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "react native example for bern",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "how to call bern from my expo app",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "i want to add you to my android app",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "show me the rn code",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "paano i-connect sa react native",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "does bern work with expo go",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "fetch example for react native",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "can i embed you in an ios app",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "how do i add the chat screen to my app",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "gusto kong gamitin ka sa mobile app ko",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "which endpoints do you have",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "how do i send a message through the api",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "what does the chat endpoint return",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "list your rest routes",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "give me a curl example",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "what json should i post",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "api documentation please",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "is cors enabled on your server",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "ano ang mga endpoint mo",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "how do i call the nutrition endpoint",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "what is the request format for your api",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "show me the http api",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "how do i teach you something new",
-   "intent": "train_help",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "can i add my own questions",
-   "intent": "train_help",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "how to retrain you",
-   "intent": "train_help",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "i want to train you with new data",
-   "intent": "train_help",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "paano kita tuturuan",
-   "intent": "train_help",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "teach bern",
-   "intent": "train_help",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "your answer was wrong how do i correct you",
-   "intent": "train_help",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "how do i add a new intent",
-   "intent": "train_help",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "how many examples do you need to learn",
-   "intent": "train_help",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "pwede ba kitang turuan",
-   "intent": "train_help",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "how can i make you smarter",
-   "intent": "train_help",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "calculate 245 * 18",
-   "intent": "calculator",
-   "contains": [
-    "4410"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "what is 15% of 200",
-   "intent": "calculator",
-   "contains": [
-    "30"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "12 x 12",
-   "intent": "calculator",
-   "contains": [
-    "144"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "what's 1000 divided by 8",
-   "intent": "calculator",
-   "contains": [
-    "125"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "sum of 45 and 67",
-   "intent": "calculator",
-   "contains": [
-    "112"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "compute (5+3)*4",
-   "intent": "calculator",
-   "contains": [
-    "32"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "pakicompute 150 * 3",
-   "intent": "calculator",
-   "contains": [
-    "450"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "how much is 99 minus 18",
-   "intent": "calculator",
-   "contains": [
-    "81"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "calculate 2^10",
-   "intent": "calculator",
-   "contains": [
-    "1024"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "what is 7 * 8 + 5",
-   "intent": "calculator",
-   "contains": [
-    "61"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "add 5 and 3",
-   "intent": "calculator",
-   "contains": [
-    "8"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "what is 20% of 350",
-   "intent": "calculator",
-   "contains": [
-    "70"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "25 times 4",
-   "intent": "calculator",
-   "contains": [
-    "100"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "what is 9 * 9",
-   "intent": "calculator",
-   "contains": [
-    "81"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "calculate 50 + 25",
-   "intent": "calculator",
-   "contains": [
-    "75"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "solve 144 / 12",
-   "intent": "calculator",
-   "contains": [
-    "12"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "anong oras na",
-   "intent": "time_date",
-   "contains": [
-    "Asia/Manila"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "what's today's date",
-   "intent": "time_date",
-   "contains": [
-    "Asia/Manila"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "current time in manila",
-   "intent": "time_date",
-   "contains": [
-    "Asia/Manila"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "ano ang petsa ngayon",
-   "intent": "time_date",
-   "contains": [
-    "Asia/Manila"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "time please",
-   "intent": "time_date",
-   "contains": [
-    "Asia/Manila"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "what's the time right now in the philippines",
-   "intent": "time_date",
-   "contains": [
-    "Asia/Manila"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "anong petsa ngayon",
-   "intent": "time_date",
-   "contains": [
-    "Asia/Manila"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "what's the current date and time",
-   "intent": "time_date",
-   "contains": [
-    "Asia/Manila"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "ano oras na po",
-   "intent": "time_date",
-   "contains": [
-    "Asia/Manila"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "date today?",
-   "intent": "time_date",
-   "contains": [
-    "Asia/Manila"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "my name is Juan",
-   "intent": "user_name",
-   "contains": [
-    "Juan"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "call me Maria",
-   "intent": "user_name",
-   "contains": [
-    "Maria"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "i'm Pedro",
-   "intent": "user_name",
-   "contains": [
-    "Pedro"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "ako si Ana",
-   "intent": "user_name",
-   "contains": [
-    "Ana"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "what's my name",
-   "intent": "user_name",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "pangalan ko ay Luis",
-   "intent": "user_name",
-   "contains": [
-    "Luis"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "you can call me Ben",
-   "intent": "user_name",
-   "contains": [
-    "Ben"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "my name is Carlos",
-   "intent": "user_name",
-   "contains": [
-    "Carlos"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "pangalan ko si Ella",
-   "intent": "user_name",
-   "contains": [
-    "Ella"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "name's Jose",
-   "intent": "user_name",
-   "contains": [
-    "Jose"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "i am called Rina",
-   "intent": "user_name",
-   "contains": [
-    "Rina"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "remember that i'm Nico",
-   "intent": "user_name",
-   "contains": [
-    "Nico"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "kumusta ka",
-   "intent": "small_talk",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "how's it going",
-   "intent": "small_talk",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "what's up with you",
-   "intent": "small_talk",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "how is your day",
-   "intent": "small_talk",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "how are you doing today bern",
-   "intent": "small_talk",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "ok ka lang ba",
-   "intent": "small_talk",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "kamusta ang araw mo",
-   "intent": "small_talk",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "how have you been",
-   "intent": "small_talk",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "kumusta naman ang araw mo",
-   "intent": "small_talk",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "you good",
-   "intent": "small_talk",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "how are things with you",
-   "intent": "small_talk",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "may joke ka ba",
-   "intent": "humor",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "got any jokes about ai",
-   "intent": "humor",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "pakitawa mo ako",
-   "intent": "humor",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "tell me a programming joke",
-   "intent": "humor",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "i need a laugh",
-   "intent": "humor",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "magbiro ka naman",
-   "intent": "humor",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "tell me something funny about machine learning",
-   "intent": "humor",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "any dad jokes",
-   "intent": "humor",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "joke naman diyan",
-   "intent": "humor",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "can you crack a joke",
-   "intent": "humor",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "pampatawa naman",
-   "intent": "humor",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "give me a funny one-liner",
-   "intent": "humor",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "salamat",
-   "intent": "gratitude",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "maraming salamat po",
-   "intent": "gratitude",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "ty bern",
-   "intent": "gratitude",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "that was helpful thanks",
-   "intent": "gratitude",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "salamat bern ang galing",
-   "intent": "gratitude",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "thanks a lot bern",
-   "intent": "gratitude",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "maraming salamat sa tulong",
-   "intent": "gratitude",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "salamat po",
-   "intent": "gratitude",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "many thanks",
-   "intent": "gratitude",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "grateful for the help",
-   "intent": "gratitude",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "goodbye bern",
-   "intent": "goodbye",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "paalam",
-   "intent": "goodbye",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "sige bye",
-   "intent": "goodbye",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "gotta go",
-   "intent": "goodbye",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "ingat",
-   "intent": "goodbye",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "talk to you tomorrow",
-   "intent": "goodbye",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "hanggang sa muli",
-   "intent": "goodbye",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "goodbye for now",
-   "intent": "goodbye",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "see ya",
-   "intent": "goodbye",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "i have to leave now",
-   "intent": "goodbye",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "babay",
-   "intent": "goodbye",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "how do i deploy you",
-   "intent": "deployment_tips",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "where can i host you",
-   "intent": "deployment_tips",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "put bern online for my app",
-   "intent": "deployment_tips",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "production hosting for the api",
-   "intent": "deployment_tips",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "which server should i use for bern",
-   "intent": "deployment_tips",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "how to make you available to real users",
-   "intent": "deployment_tips",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "can i run you on render or railway",
-   "intent": "deployment_tips",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "paano ilagay online ang server mo",
-   "intent": "deployment_tips",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "what do i need to go live",
-   "intent": "deployment_tips",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "is it safe to publish the api publicly",
-   "intent": "deployment_tips",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "magkano ang bigas",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "price of pork liempo today",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "how much is a kilo of chicken",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "magkano ang itlog ngayon",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "presyo ng sibuyas",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "how much is cooking oil",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "magkano kilo ng galunggong",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "price of sugar in the philippines",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "magkano ang sardinas",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "presyo ng bawang",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "magkano po ang kamatis",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "how much is evaporated milk",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "magkano ang pandesal",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "what's the price of canned tuna",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "tuyo price per bundle",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "show me all meat prices",
-   "intent": "ph_price_catalog",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "list vegetable prices",
-   "intent": "ph_price_catalog",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "give me the price list for groceries",
-   "intent": "ph_price_catalog",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "palengke vs supermarket price comparison",
-   "intent": "ph_price_catalog",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "what are the common grocery prices",
-   "intent": "ph_price_catalog",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "show canned goods prices",
-   "intent": "ph_price_catalog",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "list of prices of rice and bread",
-   "intent": "ph_price_catalog",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "philippine price list please",
-   "intent": "ph_price_catalog",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "listahan ng presyo ng gulay",
-   "intent": "ph_price_catalog",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "compare palengke and supermarket",
-   "intent": "ph_price_catalog",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "kasya ba ang 1000 pesos sa isang linggo",
-   "intent": "ph_budget_calc",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "2kg rice, 1 tray eggs, 1L oil how much",
-   "intent": "ph_budget_calc",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "budget 300 pesos what groceries",
-   "intent": "ph_budget_calc",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "ano ang mabibili ng 200 pesos",
-   "intent": "ph_budget_calc",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "how much for 1 kilo pork and 2 kilo rice",
-   "intent": "ph_budget_calc",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "i have 150 pesos what can i buy",
-   "intent": "ph_budget_calc",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "magkano lahat 3 itlog at 1 kilo bigas",
-   "intent": "ph_budget_calc",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "plan my grocery with 800 pesos",
-   "intent": "ph_budget_calc",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "estimate cost of 5 kilos rice and 1 tray of eggs",
-   "intent": "ph_budget_calc",
-   "contains": [
-    "₱"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "what groceries fit in 250 pesos",
-   "intent": "ph_budget_calc",
-   "contains": [
-    "₱"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "count my money from a photo",
-   "intent": "ph_money_counter",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "how do i use the camera to count pesos",
-   "intent": "ph_money_counter",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "can you count bills",
-   "intent": "ph_money_counter",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "ilang pera ang nasa picture",
-   "intent": "ph_money_counter",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "paano gamitin ang peso counter",
-   "intent": "ph_money_counter",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "upload a picture of coins to count",
-   "intent": "ph_money_counter",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "identify philippine bills",
-   "intent": "ph_money_counter",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "i want to scan my cash",
-   "intent": "ph_money_counter",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "can you tell how much money is in this photo",
-   "intent": "ph_money_counter",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "bilangin mo ang pera ko",
-   "intent": "ph_money_counter",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "does bern recognize peso coins",
-   "intent": "ph_money_counter",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "pwede ba i-scan ang pera gamit camera",
-   "intent": "ph_money_counter",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "calories in garlic",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "nutrition facts of chicken breast",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "how many calories in a jollibee spaghetti",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "kcal of rice",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "carbs of pandesal",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "ground beef nutrition",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "is sinigang high in sodium",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "mcdo chicken calories",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "how much fat in pork belly",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "nutrisyon ng gatas",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "calories of 1 cup rice and 2 eggs",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "century tuna nutrition facts",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "sodium in toyo",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "corned beef calories per serving",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "compare calories of adobo and sinigang",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "how many calories are in pares",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "canned sardines nutrition",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "ilang calories ang sibuyas",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test"
-  },
-  {
-   "text": "fat content of chickenjoy",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "dev"
-  },
-  {
-   "text": "who won the nba finals",
-   "intent": "unknown",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "write a poem about the ocean",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "how do i fix my car engine",
-   "intent": "unknown",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "what's the capital of australia",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "translate good morning to japanese",
-   "intent": "unknown",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "what's the weather tomorrow",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "recommend a movie to watch",
-   "intent": "unknown",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "how do i bake chocolate chip cookies",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "explain quantum physics to me",
-   "intent": "unknown",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "who is the president of france",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "latest bitcoin price",
-   "intent": "unknown",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "how to lose 10 kilos in a week",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "best phone to buy this year",
-   "intent": "unknown",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "help me with my chemistry homework",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "what is the meaning of life",
-   "intent": "unknown",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "sing me a song",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "diagnose my headache",
-   "intent": "unknown",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "how to apply for a passport",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "when is the next typhoon",
-   "intent": "unknown",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "plan my vacation to cebu",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "what is the speed of light",
-   "intent": "unknown",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "who painted the mona lisa",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "how do i learn guitar",
-   "intent": "unknown",
-   "contains": [],
-   "split": "dev"
-  },
-  {
-   "text": "tell me a story about a dragon",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test"
-  },
-  {
-   "text": "hi hi bern",
-   "intent": "greeting",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "good morning po",
-   "intent": "greeting",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "hey hello",
-   "intent": "greeting",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "magandang gabi sa iyo",
-   "intent": "greeting",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "hello bern, good day",
-   "intent": "greeting",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "what is bern exactly",
-   "intent": "identity",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "are you a human or a bot",
-   "intent": "identity",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "ano ba ang bern ai",
-   "intent": "identity",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "who developed you",
-   "intent": "identity",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "tell me what you're called",
-   "intent": "identity",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "what can you actually do",
-   "intent": "capabilities",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "ano ang mga features mo",
-   "intent": "capabilities",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "can you list what you're able to do",
-   "intent": "capabilities",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "what kind of questions can i ask you",
-   "intent": "capabilities",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "what are you able to help with",
-   "intent": "capabilities",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "which algorithm do you use to understand text",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "are you based on a neural network",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how do you turn my sentence into numbers",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "what's inside your model",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "do you rely on keywords or machine learning",
-   "intent": "ml_architecture",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how can i use bern with expo",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "show me how to call you from react native",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "i need a tsx screen for chatting with bern",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how do i integrate the money scanner in my expo project",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "can my android app talk to you",
-   "intent": "react_native_integration",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "what endpoints can my app call",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "show me an example post request",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "what does the response json look like",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how do i query nutrition via http",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "list of api urls please",
-   "intent": "api_usage",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how can i add a new question and answer",
-   "intent": "train_help",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "i want bern to learn my own phrases",
-   "intent": "train_help",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how do i correct you when you're wrong",
-   "intent": "train_help",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "what is the best way to improve your accuracy",
-   "intent": "train_help",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "can i add new training examples",
-   "intent": "train_help",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "what is 13 * 7",
-   "intent": "calculator",
-   "contains": [
-    "91"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "calculate 250 / 5",
-   "intent": "calculator",
-   "contains": [
-    "50"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "pakicompute ang 33 + 67",
-   "intent": "calculator",
-   "contains": [
-    "100"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "what is 40% of 90",
-   "intent": "calculator",
-   "contains": [
-    "36"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "17 plus 26",
-   "intent": "calculator",
-   "contains": [
-    "43"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "what's the time in manila",
-   "intent": "time_date",
-   "contains": [
-    "Asia/Manila"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "anong oras na ngayon",
-   "intent": "time_date",
-   "contains": [
-    "Asia/Manila"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "what is today's date please",
-   "intent": "time_date",
-   "contains": [
-    "Asia/Manila"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "tell me the day and date",
-   "intent": "time_date",
-   "contains": [
-    "Asia/Manila"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "my name is Bianca",
-   "intent": "user_name",
-   "contains": [
-    "Bianca"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "ako po si Jerome",
-   "intent": "user_name",
-   "contains": [
-    "Jerome"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "you can call me Dan",
-   "intent": "user_name",
-   "contains": [
-    "Dan"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "do you know my name",
-   "intent": "user_name",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how's your day been",
-   "intent": "small_talk",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "kumusta ka ngayong gabi",
-   "intent": "small_talk",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "are you doing alright",
-   "intent": "small_talk",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how are you feeling today bern",
-   "intent": "small_talk",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "tell me a funny joke about computers",
-   "intent": "humor",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "pakatawa mo naman ako",
-   "intent": "humor",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "got any good jokes",
-   "intent": "humor",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "make me laugh a little",
-   "intent": "humor",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "thank you so much bern",
-   "intent": "gratitude",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "salamat sa lahat",
-   "intent": "gratitude",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "thanks for helping me",
-   "intent": "gratitude",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "maraming salamat po sa sagot",
-   "intent": "gratitude",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "bye for now bern",
-   "intent": "goodbye",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "paalam na po",
-   "intent": "goodbye",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "see you next time",
-   "intent": "goodbye",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how can i host this for my users",
-   "intent": "deployment_tips",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "what's the easiest way to deploy bern online",
-   "intent": "deployment_tips",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "where should i run the server in production",
-   "intent": "deployment_tips",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "paano i-host ang bern para sa app ko",
-   "intent": "deployment_tips",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how much is a kilo of tomatoes",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "magkano ang pork chop",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "presyo ng itlog ngayon",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "price of white sugar per kilo",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "magkano na ang bawang",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "how much is a bottle of cooking oil",
-   "intent": "ph_price_lookup",
-   "contains": [
-    "₱"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "show me the prices of all vegetables",
-   "intent": "ph_price_catalog",
-   "contains": [
-    "₱"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "list all grocery price categories",
-   "intent": "ph_price_catalog",
-   "contains": [
-    "₱"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "gusto kong makita ang listahan ng presyo",
-   "intent": "ph_price_catalog",
-   "contains": [
-    "₱"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "price list for meat and fish",
-   "intent": "ph_price_catalog",
-   "contains": [
-    "₱"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "what can i buy with 450 pesos",
-   "intent": "ph_budget_calc",
-   "contains": [
-    "₱"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "how much for 3 kilos rice and 2 kilos chicken",
-   "intent": "ph_budget_calc",
-   "contains": [
-    "₱"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "kasya ba ang 600 pesos sa groceries",
-   "intent": "ph_budget_calc",
-   "contains": [
-    "₱"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "estimate 2 trays of eggs and 5 kilos of rice",
-   "intent": "ph_budget_calc",
-   "contains": [
-    "₱"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "budget for 700 pesos, what groceries",
-   "intent": "ph_budget_calc",
-   "contains": [
-    "₱"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "can you count the peso bills in my photo",
-   "intent": "ph_money_counter",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how do i scan coins with my camera",
-   "intent": "ph_money_counter",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "ilang pera ang kasama sa larawan",
-   "intent": "ph_money_counter",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "use my phone to count my cash",
-   "intent": "ph_money_counter",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how many calories in fried chicken",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "nutrition of boiled egg",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "calories ng pandesal",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "protein in pork chop",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "kcal of a cup of rice",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "how much sodium is in canned sardines",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "mcdo mcnuggets calories",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "calories in jollibee chickenjoy",
-   "intent": "ph_nutrition_lookup",
-   "contains": [
-    "kcal"
-   ],
-   "split": "test2"
-  },
-  {
-   "text": "who is the prime minister of canada",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "what is the best programming language",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "tell me about the history of the philippines",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "what's the weather in davao",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how do i make pancakes",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "convert 100 dollars to pesos",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "when does the sun rise",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "recommend a good restaurant in cebu",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "what is the capital of thailand",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how can i improve my english",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "sino ang nag-imbento ng telepono",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how to fix a slow computer",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "who is the best soccer player",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "magkano ang bagong kotse",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "give me a workout routine",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how to meditate for beginners",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "how to take care of a cat",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "what are the symptoms of covid",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "when is the next holiday in the philippines",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "write a birthday message for my friend",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  },
-  {
-   "text": "what is inflation",
-   "intent": "unknown",
-   "contains": [],
-   "split": "test2"
-  }
- ]
+  "name": "Bern held-out routing benchmark",
+  "created": "2026-11-11",
+  "description": "Realistic English / Taglish messages written independently of the training data. 'dev' items are used for error analysis while training; 'test' items are only scored for the final report. expected intent 'unknown' means Bern must say it does not know (needs_training=true). 'test2' was written after the first full training run, before any rejection-threshold tuning: a fresh hold-out scored once at the end.",
+  "items": [
+    {
+      "text": "hello po",
+      "intent": "greeting",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "good morning bern",
+      "intent": "greeting",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "kumusta",
+      "intent": "greeting",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "yo bern",
+      "intent": "greeting",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "magandang hapon",
+      "intent": "greeting",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "hi bern anyone home",
+      "intent": "greeting",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "helo bern",
+      "intent": "greeting",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "sup",
+      "intent": "greeting",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "musta na",
+      "intent": "greeting",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "good afternoon po",
+      "intent": "greeting",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "hello bern kumusta ka",
+      "intent": "greeting",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "hiya",
+      "intent": "greeting",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "kamusta bern",
+      "intent": "greeting",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "hey bern whats good",
+      "intent": "greeting",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "who made you",
+      "intent": "developer",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "what should i call you",
+      "intent": "identity",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "are you a robot",
+      "intent": "identity",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "sino ka ba",
+      "intent": "identity",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "ano ang pangalan mo",
+      "intent": "identity",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "tell me about bern",
+      "intent": "identity",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "are you chatgpt",
+      "intent": "identity",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "what are you exactly",
+      "intent": "identity",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "ikaw ba si bern",
+      "intent": "identity",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "anong klaseng ai ka",
+      "intent": "identity",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "what's bern",
+      "intent": "identity",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "tell me who you are",
+      "intent": "identity",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "what can you help me with",
+      "intent": "capabilities",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "ano ang kaya mong gawin",
+      "intent": "capabilities",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "list your features",
+      "intent": "capabilities",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "what are your skills",
+      "intent": "capabilities",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "can you do more than chat",
+      "intent": "capabilities",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "help me what should i ask you",
+      "intent": "capabilities",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "anong magagawa mo",
+      "intent": "capabilities",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "what topics can you handle",
+      "intent": "capabilities",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "ano ang mga kaya mo",
+      "intent": "capabilities",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "give me a rundown of your abilities",
+      "intent": "capabilities",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "how do you work internally",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "what algorithm are you using",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "explain your model",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "are you using tfidf",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "what library powers you",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "do you use neural networks",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "paano ka gumagana",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "what is under the hood",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "are you using deep learning",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "what machine learning model are you",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "how does your classifier decide the intent",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "is scikit-learn what you run on",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "how do i hook you up to expo",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "can i use you in my mobile app",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "react native example for bern",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "how to call bern from my expo app",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "i want to add you to my android app",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "show me the rn code",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "paano i-connect sa react native",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "does bern work with expo go",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "fetch example for react native",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "can i embed you in an ios app",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "how do i add the chat screen to my app",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "gusto kong gamitin ka sa mobile app ko",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "which endpoints do you have",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "how do i send a message through the api",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "what does the chat endpoint return",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "list your rest routes",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "give me a curl example",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "what json should i post",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "api documentation please",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "is cors enabled on your server",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "ano ang mga endpoint mo",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "how do i call the nutrition endpoint",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "what is the request format for your api",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "show me the http api",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "how do i teach you something new",
+      "intent": "train_help",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "can i add my own questions",
+      "intent": "train_help",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "how to retrain you",
+      "intent": "train_help",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "i want to train you with new data",
+      "intent": "train_help",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "paano kita tuturuan",
+      "intent": "train_help",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "teach bern",
+      "intent": "train_help",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "your answer was wrong how do i correct you",
+      "intent": "train_help",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "how do i add a new intent",
+      "intent": "train_help",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "how many examples do you need to learn",
+      "intent": "train_help",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "pwede ba kitang turuan",
+      "intent": "train_help",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "how can i make you smarter",
+      "intent": "train_help",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "calculate 245 * 18",
+      "intent": "calculator",
+      "contains": [
+        "4410"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "what is 15% of 200",
+      "intent": "calculator",
+      "contains": [
+        "30"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "12 x 12",
+      "intent": "calculator",
+      "contains": [
+        "144"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "what's 1000 divided by 8",
+      "intent": "calculator",
+      "contains": [
+        "125"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "sum of 45 and 67",
+      "intent": "calculator",
+      "contains": [
+        "112"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "compute (5+3)*4",
+      "intent": "calculator",
+      "contains": [
+        "32"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "pakicompute 150 * 3",
+      "intent": "calculator",
+      "contains": [
+        "450"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "how much is 99 minus 18",
+      "intent": "calculator",
+      "contains": [
+        "81"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "calculate 2^10",
+      "intent": "calculator",
+      "contains": [
+        "1024"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "what is 7 * 8 + 5",
+      "intent": "calculator",
+      "contains": [
+        "61"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "add 5 and 3",
+      "intent": "calculator",
+      "contains": [
+        "8"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "what is 20% of 350",
+      "intent": "calculator",
+      "contains": [
+        "70"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "25 times 4",
+      "intent": "calculator",
+      "contains": [
+        "100"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "what is 9 * 9",
+      "intent": "calculator",
+      "contains": [
+        "81"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "calculate 50 + 25",
+      "intent": "calculator",
+      "contains": [
+        "75"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "solve 144 / 12",
+      "intent": "calculator",
+      "contains": [
+        "12"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "anong oras na",
+      "intent": "time_date",
+      "contains": [
+        "Asia/Manila"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "what's today's date",
+      "intent": "time_date",
+      "contains": [
+        "Asia/Manila"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "current time in manila",
+      "intent": "time_date",
+      "contains": [
+        "Asia/Manila"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "ano ang petsa ngayon",
+      "intent": "time_date",
+      "contains": [
+        "Asia/Manila"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "time please",
+      "intent": "time_date",
+      "contains": [
+        "Asia/Manila"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "what's the time right now in the philippines",
+      "intent": "time_date",
+      "contains": [
+        "Asia/Manila"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "anong petsa ngayon",
+      "intent": "time_date",
+      "contains": [
+        "Asia/Manila"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "what's the current date and time",
+      "intent": "time_date",
+      "contains": [
+        "Asia/Manila"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "ano oras na po",
+      "intent": "time_date",
+      "contains": [
+        "Asia/Manila"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "date today?",
+      "intent": "time_date",
+      "contains": [
+        "Asia/Manila"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "my name is Juan",
+      "intent": "user_name",
+      "contains": [
+        "Juan"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "call me Maria",
+      "intent": "user_name",
+      "contains": [
+        "Maria"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "i'm Pedro",
+      "intent": "user_name",
+      "contains": [
+        "Pedro"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "ako si Ana",
+      "intent": "user_name",
+      "contains": [
+        "Ana"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "what's my name",
+      "intent": "user_name",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "pangalan ko ay Luis",
+      "intent": "user_name",
+      "contains": [
+        "Luis"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "you can call me Ben",
+      "intent": "user_name",
+      "contains": [
+        "Ben"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "my name is Carlos",
+      "intent": "user_name",
+      "contains": [
+        "Carlos"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "pangalan ko si Ella",
+      "intent": "user_name",
+      "contains": [
+        "Ella"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "name's Jose",
+      "intent": "user_name",
+      "contains": [
+        "Jose"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "i am called Rina",
+      "intent": "user_name",
+      "contains": [
+        "Rina"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "remember that i'm Nico",
+      "intent": "user_name",
+      "contains": [
+        "Nico"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "kumusta ka",
+      "intent": "small_talk",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "how's it going",
+      "intent": "small_talk",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "what's up with you",
+      "intent": "small_talk",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "how is your day",
+      "intent": "small_talk",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "how are you doing today bern",
+      "intent": "small_talk",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "ok ka lang ba",
+      "intent": "small_talk",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "kamusta ang araw mo",
+      "intent": "small_talk",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "how have you been",
+      "intent": "small_talk",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "kumusta naman ang araw mo",
+      "intent": "small_talk",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "you good",
+      "intent": "small_talk",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "how are things with you",
+      "intent": "small_talk",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "may joke ka ba",
+      "intent": "humor",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "got any jokes about ai",
+      "intent": "humor",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "pakitawa mo ako",
+      "intent": "humor",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "tell me a programming joke",
+      "intent": "humor",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "i need a laugh",
+      "intent": "humor",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "magbiro ka naman",
+      "intent": "humor",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "tell me something funny about machine learning",
+      "intent": "humor",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "any dad jokes",
+      "intent": "humor",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "joke naman diyan",
+      "intent": "humor",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "can you crack a joke",
+      "intent": "humor",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "pampatawa naman",
+      "intent": "humor",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "give me a funny one-liner",
+      "intent": "humor",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "salamat",
+      "intent": "gratitude",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "maraming salamat po",
+      "intent": "gratitude",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "ty bern",
+      "intent": "gratitude",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "that was helpful thanks",
+      "intent": "gratitude",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "salamat bern ang galing",
+      "intent": "gratitude",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "thanks a lot bern",
+      "intent": "gratitude",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "maraming salamat sa tulong",
+      "intent": "gratitude",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "salamat po",
+      "intent": "gratitude",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "many thanks",
+      "intent": "gratitude",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "grateful for the help",
+      "intent": "gratitude",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "goodbye bern",
+      "intent": "goodbye",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "paalam",
+      "intent": "goodbye",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "sige bye",
+      "intent": "goodbye",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "gotta go",
+      "intent": "goodbye",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "ingat",
+      "intent": "goodbye",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "talk to you tomorrow",
+      "intent": "goodbye",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "hanggang sa muli",
+      "intent": "goodbye",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "goodbye for now",
+      "intent": "goodbye",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "see ya",
+      "intent": "goodbye",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "i have to leave now",
+      "intent": "goodbye",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "babay",
+      "intent": "goodbye",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "how do i deploy you",
+      "intent": "deployment_tips",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "where can i host you",
+      "intent": "deployment_tips",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "put bern online for my app",
+      "intent": "deployment_tips",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "production hosting for the api",
+      "intent": "deployment_tips",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "which server should i use for bern",
+      "intent": "deployment_tips",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "how to make you available to real users",
+      "intent": "deployment_tips",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "can i run you on render or railway",
+      "intent": "deployment_tips",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "paano ilagay online ang server mo",
+      "intent": "deployment_tips",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "what do i need to go live",
+      "intent": "deployment_tips",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "is it safe to publish the api publicly",
+      "intent": "deployment_tips",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "magkano ang bigas",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "price of pork liempo today",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "how much is a kilo of chicken",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "magkano ang itlog ngayon",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "presyo ng sibuyas",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "how much is cooking oil",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "magkano kilo ng galunggong",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "price of sugar in the philippines",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "magkano ang sardinas",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "presyo ng bawang",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "magkano po ang kamatis",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "how much is evaporated milk",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "magkano ang pandesal",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "what's the price of canned tuna",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "tuyo price per bundle",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "show me all meat prices",
+      "intent": "ph_price_catalog",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "list vegetable prices",
+      "intent": "ph_price_catalog",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "give me the price list for groceries",
+      "intent": "ph_price_catalog",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "palengke vs supermarket price comparison",
+      "intent": "ph_price_catalog",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "what are the common grocery prices",
+      "intent": "ph_price_catalog",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "show canned goods prices",
+      "intent": "ph_price_catalog",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "list of prices of rice and bread",
+      "intent": "ph_price_catalog",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "philippine price list please",
+      "intent": "ph_price_catalog",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "listahan ng presyo ng gulay",
+      "intent": "ph_price_catalog",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "compare palengke and supermarket",
+      "intent": "ph_price_catalog",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "kasya ba ang 1000 pesos sa isang linggo",
+      "intent": "ph_budget_calc",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "2kg rice, 1 tray eggs, 1L oil how much",
+      "intent": "ph_budget_calc",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "budget 300 pesos what groceries",
+      "intent": "ph_budget_calc",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "ano ang mabibili ng 200 pesos",
+      "intent": "ph_budget_calc",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "how much for 1 kilo pork and 2 kilo rice",
+      "intent": "ph_budget_calc",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "i have 150 pesos what can i buy",
+      "intent": "ph_budget_calc",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "magkano lahat 3 itlog at 1 kilo bigas",
+      "intent": "ph_budget_calc",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "plan my grocery with 800 pesos",
+      "intent": "ph_budget_calc",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "estimate cost of 5 kilos rice and 1 tray of eggs",
+      "intent": "ph_budget_calc",
+      "contains": [
+        "₱"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "what groceries fit in 250 pesos",
+      "intent": "ph_budget_calc",
+      "contains": [
+        "₱"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "count my money from a photo",
+      "intent": "ph_money_counter",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "how do i use the camera to count pesos",
+      "intent": "ph_money_counter",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "can you count bills",
+      "intent": "ph_money_counter",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "ilang pera ang nasa picture",
+      "intent": "ph_money_counter",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "paano gamitin ang peso counter",
+      "intent": "ph_money_counter",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "upload a picture of coins to count",
+      "intent": "ph_money_counter",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "identify philippine bills",
+      "intent": "ph_money_counter",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "i want to scan my cash",
+      "intent": "ph_money_counter",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "can you tell how much money is in this photo",
+      "intent": "ph_money_counter",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "bilangin mo ang pera ko",
+      "intent": "ph_money_counter",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "does bern recognize peso coins",
+      "intent": "ph_money_counter",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "pwede ba i-scan ang pera gamit camera",
+      "intent": "ph_money_counter",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "calories in garlic",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "nutrition facts of chicken breast",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "how many calories in a jollibee spaghetti",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "kcal of rice",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "carbs of pandesal",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "ground beef nutrition",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "is sinigang high in sodium",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "mcdo chicken calories",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "how much fat in pork belly",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "nutrisyon ng gatas",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "calories of 1 cup rice and 2 eggs",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "century tuna nutrition facts",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "sodium in toyo",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "corned beef calories per serving",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "compare calories of adobo and sinigang",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "how many calories are in pares",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "canned sardines nutrition",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "ilang calories ang sibuyas",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test"
+    },
+    {
+      "text": "fat content of chickenjoy",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "dev"
+    },
+    {
+      "text": "who won the nba finals",
+      "intent": "unknown",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "write a poem about the ocean",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "how do i fix my car engine",
+      "intent": "unknown",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "what's the capital of australia",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "translate good morning to japanese",
+      "intent": "unknown",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "what's the weather tomorrow",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "recommend a movie to watch",
+      "intent": "unknown",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "how do i bake chocolate chip cookies",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "explain quantum physics to me",
+      "intent": "unknown",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "who is the president of france",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "latest bitcoin price",
+      "intent": "unknown",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "how to lose 10 kilos in a week",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "best phone to buy this year",
+      "intent": "unknown",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "help me with my chemistry homework",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "what is the meaning of life",
+      "intent": "unknown",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "sing me a song",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "diagnose my headache",
+      "intent": "unknown",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "how to apply for a passport",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "when is the next typhoon",
+      "intent": "unknown",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "plan my vacation to cebu",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "what is the speed of light",
+      "intent": "unknown",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "who painted the mona lisa",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "how do i learn guitar",
+      "intent": "unknown",
+      "contains": [],
+      "split": "dev"
+    },
+    {
+      "text": "tell me a story about a dragon",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test"
+    },
+    {
+      "text": "hi hi bern",
+      "intent": "greeting",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "good morning po",
+      "intent": "greeting",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "hey hello",
+      "intent": "greeting",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "magandang gabi sa iyo",
+      "intent": "greeting",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "hello bern, good day",
+      "intent": "greeting",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "what is bern exactly",
+      "intent": "identity",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "are you a human or a bot",
+      "intent": "identity",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "ano ba ang bern ai",
+      "intent": "identity",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "who developed you",
+      "intent": "developer",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "tell me what you're called",
+      "intent": "identity",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "what can you actually do",
+      "intent": "capabilities",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "ano ang mga features mo",
+      "intent": "capabilities",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "can you list what you're able to do",
+      "intent": "capabilities",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "what kind of questions can i ask you",
+      "intent": "capabilities",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "what are you able to help with",
+      "intent": "capabilities",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "which algorithm do you use to understand text",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "are you based on a neural network",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how do you turn my sentence into numbers",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "what's inside your model",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "do you rely on keywords or machine learning",
+      "intent": "ml_architecture",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how can i use bern with expo",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "show me how to call you from react native",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "i need a tsx screen for chatting with bern",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how do i integrate the money scanner in my expo project",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "can my android app talk to you",
+      "intent": "react_native_integration",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "what endpoints can my app call",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "show me an example post request",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "what does the response json look like",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how do i query nutrition via http",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "list of api urls please",
+      "intent": "api_usage",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how can i add a new question and answer",
+      "intent": "train_help",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "i want bern to learn my own phrases",
+      "intent": "train_help",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how do i correct you when you're wrong",
+      "intent": "train_help",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "what is the best way to improve your accuracy",
+      "intent": "train_help",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "can i add new training examples",
+      "intent": "train_help",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "what is 13 * 7",
+      "intent": "calculator",
+      "contains": [
+        "91"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "calculate 250 / 5",
+      "intent": "calculator",
+      "contains": [
+        "50"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "pakicompute ang 33 + 67",
+      "intent": "calculator",
+      "contains": [
+        "100"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "what is 40% of 90",
+      "intent": "calculator",
+      "contains": [
+        "36"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "17 plus 26",
+      "intent": "calculator",
+      "contains": [
+        "43"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "what's the time in manila",
+      "intent": "time_date",
+      "contains": [
+        "Asia/Manila"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "anong oras na ngayon",
+      "intent": "time_date",
+      "contains": [
+        "Asia/Manila"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "what is today's date please",
+      "intent": "time_date",
+      "contains": [
+        "Asia/Manila"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "tell me the day and date",
+      "intent": "time_date",
+      "contains": [
+        "Asia/Manila"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "my name is Bianca",
+      "intent": "user_name",
+      "contains": [
+        "Bianca"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "ako po si Jerome",
+      "intent": "user_name",
+      "contains": [
+        "Jerome"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "you can call me Dan",
+      "intent": "user_name",
+      "contains": [
+        "Dan"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "do you know my name",
+      "intent": "user_name",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how's your day been",
+      "intent": "small_talk",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "kumusta ka ngayong gabi",
+      "intent": "small_talk",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "are you doing alright",
+      "intent": "small_talk",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how are you feeling today bern",
+      "intent": "small_talk",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "tell me a funny joke about computers",
+      "intent": "humor",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "pakatawa mo naman ako",
+      "intent": "humor",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "got any good jokes",
+      "intent": "humor",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "make me laugh a little",
+      "intent": "humor",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "thank you so much bern",
+      "intent": "gratitude",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "salamat sa lahat",
+      "intent": "gratitude",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "thanks for helping me",
+      "intent": "gratitude",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "maraming salamat po sa sagot",
+      "intent": "gratitude",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "bye for now bern",
+      "intent": "goodbye",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "paalam na po",
+      "intent": "goodbye",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "see you next time",
+      "intent": "goodbye",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how can i host this for my users",
+      "intent": "deployment_tips",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "what's the easiest way to deploy bern online",
+      "intent": "deployment_tips",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "where should i run the server in production",
+      "intent": "deployment_tips",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "paano i-host ang bern para sa app ko",
+      "intent": "deployment_tips",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how much is a kilo of tomatoes",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "magkano ang pork chop",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "presyo ng itlog ngayon",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "price of white sugar per kilo",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "magkano na ang bawang",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "how much is a bottle of cooking oil",
+      "intent": "ph_price_lookup",
+      "contains": [
+        "₱"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "show me the prices of all vegetables",
+      "intent": "ph_price_catalog",
+      "contains": [
+        "₱"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "list all grocery price categories",
+      "intent": "ph_price_catalog",
+      "contains": [
+        "₱"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "gusto kong makita ang listahan ng presyo",
+      "intent": "ph_price_catalog",
+      "contains": [
+        "₱"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "price list for meat and fish",
+      "intent": "ph_price_catalog",
+      "contains": [
+        "₱"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "what can i buy with 450 pesos",
+      "intent": "ph_budget_calc",
+      "contains": [
+        "₱"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "how much for 3 kilos rice and 2 kilos chicken",
+      "intent": "ph_budget_calc",
+      "contains": [
+        "₱"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "kasya ba ang 600 pesos sa groceries",
+      "intent": "ph_budget_calc",
+      "contains": [
+        "₱"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "estimate 2 trays of eggs and 5 kilos of rice",
+      "intent": "ph_budget_calc",
+      "contains": [
+        "₱"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "budget for 700 pesos, what groceries",
+      "intent": "ph_budget_calc",
+      "contains": [
+        "₱"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "can you count the peso bills in my photo",
+      "intent": "ph_money_counter",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how do i scan coins with my camera",
+      "intent": "ph_money_counter",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "ilang pera ang kasama sa larawan",
+      "intent": "ph_money_counter",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "use my phone to count my cash",
+      "intent": "ph_money_counter",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how many calories in fried chicken",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "nutrition of boiled egg",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "calories ng pandesal",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "protein in pork chop",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "kcal of a cup of rice",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "how much sodium is in canned sardines",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "mcdo mcnuggets calories",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "calories in jollibee chickenjoy",
+      "intent": "ph_nutrition_lookup",
+      "contains": [
+        "kcal"
+      ],
+      "split": "test2"
+    },
+    {
+      "text": "who is the prime minister of canada",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "what is the best programming language",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "tell me about the history of the philippines",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "what's the weather in davao",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how do i make pancakes",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "convert 100 dollars to pesos",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "when does the sun rise",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "recommend a good restaurant in cebu",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "what is the capital of thailand",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how can i improve my english",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "sino ang nag-imbento ng telepono",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how to fix a slow computer",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "who is the best soccer player",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "magkano ang bagong kotse",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "give me a workout routine",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how to meditate for beginners",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "how to take care of a cat",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "what are the symptoms of covid",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "when is the next holiday in the philippines",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "write a birthday message for my friend",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    },
+    {
+      "text": "what is inflation",
+      "intent": "unknown",
+      "contains": [],
+      "split": "test2"
+    }
+  ]
 }

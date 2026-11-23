@@ -159,6 +159,94 @@ def _extract_pdf_builtin(data: bytes) -> str:
     return "\n".join(chunks)
 
 
+def _extract_xlsx(data: bytes) -> str:
+    """Read a spreadsheet's cell values, one line per row.
+
+    A ``.xlsx`` is a zip of XML. Text lives in ``xl/sharedStrings.xml`` and the cells in
+    ``xl/worksheets/sheet*.xml`` hold indices into it, so both have to be read to recover what a
+    person sees. Stdlib only, matching :func:`_extract_docx` - a spreadsheet is a common thing to
+    hand an assistant, and failing on it was the plainest gap in what files Bern accepts.
+    """
+    import xml.etree.ElementTree as ET
+
+    try:
+        with zipfile.ZipFile(io.BytesIO(data)) as archive:
+            names = archive.namelist()
+            shared: list[str] = []
+            if "xl/sharedStrings.xml" in names:
+                root = ET.fromstring(archive.read("xl/sharedStrings.xml"))
+                for item in root.iter():
+                    if item.tag.endswith("}si"):
+                        shared.append("".join(t.text or "" for t in item.iter()
+                                              if t.tag.endswith("}t")))
+            sheets = sorted(n for n in names
+                            if n.startswith("xl/worksheets/sheet") and n.endswith(".xml"))
+            if not sheets:
+                raise ExtractionError("This spreadsheet has no worksheets.")
+            lines: list[str] = []
+            for sheet in sheets:
+                root = ET.fromstring(archive.read(sheet))
+                for row in root.iter():
+                    if not row.tag.endswith("}row"):
+                        continue
+                    cells: list[str] = []
+                    for cell in row:
+                        if not cell.tag.endswith("}c"):
+                            continue
+                        kind = cell.get("t")
+                        value = ""
+                        for child in cell:
+                            if child.tag.endswith("}v") and child.text:
+                                value = child.text
+                            elif child.tag.endswith("}is"):
+                                value = "".join(t.text or "" for t in child.iter()
+                                                if t.tag.endswith("}t"))
+                        if kind == "s" and value.isdigit() and int(value) < len(shared):
+                            value = shared[int(value)]
+                        if value:
+                            cells.append(value)
+                    if cells:
+                        lines.append("\t".join(cells))
+    except (zipfile.BadZipFile, KeyError, ET.ParseError) as exc:
+        raise ExtractionError(f"Not a readable .xlsx file: {exc}") from exc
+
+    if not lines:
+        raise ExtractionError("This spreadsheet has no text in it.")
+    return "\n".join(lines)
+
+
+def _extract_pptx(data: bytes) -> str:
+    """Read slide text, one block per slide.
+
+    A ``.pptx`` is a zip of XML with one part per slide. Text sits in ``<a:t>`` runs inside the
+    shapes; slide order comes from the file name, since ``ppt/slides/slide10.xml`` must sort
+    after ``slide9.xml`` and would not as plain strings.
+    """
+    import re as _re
+    import xml.etree.ElementTree as ET
+
+    try:
+        with zipfile.ZipFile(io.BytesIO(data)) as archive:
+            slides = [n for n in archive.namelist()
+                      if _re.fullmatch(r"ppt/slides/slide\d+\.xml", n)]
+            if not slides:
+                raise ExtractionError("This presentation has no slides.")
+            slides.sort(key=lambda n: int(_re.search(r"(\d+)", n.rsplit("/", 1)[1]).group(1)))
+            blocks: list[str] = []
+            for index, slide in enumerate(slides, start=1):
+                root = ET.fromstring(archive.read(slide))
+                runs = [node.text.strip() for node in root.iter()
+                        if node.tag.endswith("}t") and node.text and node.text.strip()]
+                if runs:
+                    blocks.append(f"Slide {index}: " + " ".join(runs))
+    except (zipfile.BadZipFile, KeyError, ET.ParseError) as exc:
+        raise ExtractionError(f"Not a readable .pptx file: {exc}") from exc
+
+    if not blocks:
+        raise ExtractionError("This presentation has no text in it.")
+    return "\n\n".join(blocks)
+
+
 def _extract_pdf(data: bytes) -> tuple[str, str]:
     """Return ``(text, engine_name)``, preferring ``pypdf`` when it is importable."""
     try:
@@ -248,11 +336,17 @@ def extract_text(data: bytes, filename: str = "") -> dict[str, Any]:
     if suffix in (".docx", ".doc"):
         return _summary(_extract_docx(data), "docx", "zipfile")
 
+    if suffix in (".xlsx", ".xlsm"):
+        return _summary(_extract_xlsx(data), "xlsx", "zipfile")
+
+    if suffix == ".pptx":
+        return _summary(_extract_pptx(data), "pptx", "zipfile")
+
     if suffix in TEXT_SUFFIXES or not suffix:
         return _summary(_decode_text(data), "text", "decoded")
 
     raise ExtractionError(
-        f"Unsupported file type {suffix!r}. Supported: PDF, DOCX, "
+        f"Unsupported file type {suffix!r}. Supported: PDF, DOCX, XLSX, PPTX, "
         f"{', '.join(sorted(IMAGE_SUFFIXES))}, {', '.join(sorted(TEXT_SUFFIXES))}."
     )
 

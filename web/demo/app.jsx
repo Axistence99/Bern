@@ -424,6 +424,9 @@ const INTENT_LABELS = {
   conversation_repair: "Correcting me",
   conversation_state: "Talking plainly",
   answer_check: "Checking my answer",
+  acknowledgement: "Following you",
+  conversation_pause: "Pausing",
+  message_retraction: "Taking it back",
   out_of_scope: "Outside training",
 };
 

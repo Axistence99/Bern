@@ -208,7 +208,8 @@ def extract_glyph_features(images_path: Path, labels_path: Path, limit: int) -> 
     return features, labels
 
 
-def train_portable_glyph_model(data_dir: Path, samples: int, epochs: int, seed: int = 42) -> dict:
+def train_portable_glyph_model(data_dir: Path, samples: int, epochs: int, seed: int = 42,
+                              printed_per_class: int = 220) -> dict:
     """Retrain the handwriting classifier on the portable descriptor.
 
     Mirrors ``bern.handwriting.train_glyph_model``: averaged SGD with the log-loss objective,
@@ -243,6 +244,33 @@ def train_portable_glyph_model(data_dir: Path, samples: int, epochs: int, seed: 
         20_000,
     )
 
+    # EMNIST is handwriting. The page reader is pointed at photographs of printed text, and a
+    # handwriting classifier reads 32.6% of rendered characters - R as B, A as 8, X and Y as 8,
+    # repeatedly, across fonts and sizes. Adding rendered print to the training set took that to
+    # 89.7% on a font held out of training while handwriting held at 78.1%, so both
+    # distributions are trained. `printed_glyphs.py` owns the rendering and the font split.
+    from bern import printed_glyphs
+
+    train_fonts, holdout_fonts = printed_glyphs.split_fonts(holdout=1)
+    printed_accuracy = None
+    if train_fonts:
+        printed_images, printed_labels = printed_glyphs.sample_dataset(
+            train_fonts, per_class=printed_per_class, seed=seed
+        )
+        if len(printed_images):
+            from bern.portable_features import glyph_features as _glyph_features
+
+            printed_features = np.empty((len(printed_images), FEATURE_DIM), dtype=np.float32)
+            for index, image in enumerate(printed_images):
+                printed_features[index] = _glyph_features(image)
+            printed_global = np.asarray(
+                [classes.index(printed_glyphs.CLASSES[i]) for i in printed_labels], dtype=np.int64
+            )
+            X = np.vstack([X, printed_features])
+            y = np.concatenate([y, printed_global])
+            print(f"  added {len(printed_features):,} rendered glyphs from {len(train_fonts)} fonts",
+                  flush=True)
+
     classifier = SGDClassifier(
         loss="log_loss", penalty="l2", alpha=1e-5, average=True,
         max_iter=1, tol=None, random_state=seed, learning_rate="optimal",
@@ -264,6 +292,8 @@ def train_portable_glyph_model(data_dir: Path, samples: int, epochs: int, seed: 
             "samples": int(len(X)),
             "held_out": int(len(X_test)),
             "accuracy": round(accuracy, 4),
+            "printed_fonts": len(train_fonts),
+            "printed_holdout_fonts": [Path(f).stem for f in holdout_fonts],
             "epochs": epochs,
             "feature_extractor": "portable",
             "elapsed_s": round(time.perf_counter() - started, 1),

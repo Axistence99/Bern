@@ -115,3 +115,58 @@ class TestEngineFacade:
         assert len(memory.stored_claims()) == before
         engine.learn_claim("rice is 45 per kilo")   # explicit learning does
         assert len(memory.stored_claims()) == before + 1
+
+
+# ------------------------------------------------------------------ file formats
+
+def _xlsx_bytes() -> bytes:
+    import io, zipfile
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as archive:
+        archive.writestr("xl/sharedStrings.xml",
+                         '<sst xmlns="x"><si><t>Item</t></si><si><t>Rice</t></si></sst>')
+        archive.writestr("xl/worksheets/sheet1.xml",
+                         '<worksheet xmlns="x"><sheetData>'
+                         '<row><c t="s"><v>0</v></c><c><v>45</v></c></row>'
+                         '<row><c t="s"><v>1</v></c></row>'
+                         '</sheetData></worksheet>')
+    return buf.getvalue()
+
+
+def _pptx_bytes() -> bytes:
+    import io, zipfile
+    def slide(text):
+        return ('<p:sld xmlns:p="p" xmlns:a="a"><p:cSld><p:spTree><p:sp><p:txBody>'
+                f'<a:p><a:r><a:t>{text}</a:t></a:r></a:p></p:txBody></p:sp>'
+                '</p:spTree></p:cSld></p:sld>')
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as archive:
+        archive.writestr("ppt/slides/slide1.xml", slide("Photosynthesis"))
+        archive.writestr("ppt/slides/slide2.xml", slide("Chlorophyll"))
+        archive.writestr("ppt/slides/slide10.xml", slide("Last"))
+    return buf.getvalue()
+
+
+class TestSpreadsheetAndSlides:
+    """.xlsx failed outright before this, which is the plainest gap in file support."""
+
+    def test_spreadsheet_cells_are_read(self):
+        from bern.text_extract import extract_text
+
+        result = extract_text(_xlsx_bytes(), "notes.xlsx")
+        assert "Item" in result["text"] and "45" in result["text"]
+        assert "Rice" in result["text"]
+
+    def test_slide_text_is_read_in_slide_order(self):
+        from bern.text_extract import extract_text
+
+        text = extract_text(_pptx_bytes(), "deck.pptx")["text"]
+        assert "Photosynthesis" in text and "Chlorophyll" in text
+        # "slide10" must not sort between slide1 and slide2.
+        assert text.index("Chlorophyll") < text.index("Last")
+
+    def test_a_broken_spreadsheet_says_what_went_wrong(self):
+        from bern.text_extract import ExtractionError, extract_text
+
+        with pytest.raises(ExtractionError):
+            extract_text(b"not a zip at all", "broken.xlsx")
