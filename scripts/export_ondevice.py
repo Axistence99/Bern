@@ -209,7 +209,7 @@ def extract_glyph_features(images_path: Path, labels_path: Path, limit: int) -> 
 
 
 def train_portable_glyph_model(data_dir: Path, samples: int, epochs: int, seed: int = 42,
-                              printed_per_class: int = 220) -> dict:
+                              printed_per_class: int = 800) -> dict:
     """Retrain the handwriting classifier on the portable descriptor.
 
     Mirrors ``bern.handwriting.train_glyph_model``: averaged SGD with the log-loss objective,
@@ -251,7 +251,7 @@ def train_portable_glyph_model(data_dir: Path, samples: int, epochs: int, seed: 
     # distributions are trained. `printed_glyphs.py` owns the rendering and the font split.
     from bern import printed_glyphs
 
-    train_fonts, holdout_fonts = printed_glyphs.split_fonts(holdout=1)
+    train_fonts, holdout_fonts = printed_glyphs.split_fonts(holdout_families=2)
     printed_accuracy = None
     if train_fonts:
         printed_images, printed_labels = printed_glyphs.sample_dataset(

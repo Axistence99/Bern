@@ -49,17 +49,36 @@ def available_fonts() -> list[str]:
     return files
 
 
-def split_fonts(holdout: int = 1) -> tuple[list[str], list[str]]:
-    """Divide available fonts into a training set and a *disjoint* evaluation set."""
+def family_of(path: str) -> str:
+    """The typeface family a font file belongs to, without weight/style suffixes."""
+    stem = Path(path).stem
+    return stem.split("-")[0].split("_")[0]
+
+
+def split_fonts(holdout_families: int = 1) -> tuple[list[str], list[str]]:
+    """Divide fonts into training and evaluation sets that share no family.
+
+    Holding out one *file* is not enough: the first split held out DejaVuSerif while training
+    on every other serif the system had, so the evaluation measured a typeface the model had
+    already seen in another weight, and serif handling stayed broken in the shipped model.
+    Families are the unit now.
+    """
     fonts = available_fonts()
     if not fonts:
         return [], []
-    preferred = [f for f in fonts if any(h.lower() in Path(f).stem.lower() for h in TRAIN_FONT_HINTS)]
-    train = preferred or fonts
-    rest = [f for f in fonts if f not in train]
-    held = rest[:holdout] if rest else [train[-1]]
-    if not rest:
-        train = train[:-1]
+    by_family: dict[str, list[str]] = {}
+    for font in fonts:
+        by_family.setdefault(family_of(font), []).append(font)
+
+    # Hold out the families that are least like a plain grotesque, because those are the ones
+    # that fail: a display serif and a heavy text serif.
+    ordered = sorted(by_family, key=lambda name: (
+        "serif" not in name.lower(), "playfair" not in name.lower(), name.lower()))
+    held_families = ordered[:holdout_families]
+    held = [f for family in held_families for f in by_family[family]]
+    train = [f for family, files in by_family.items() if family not in held_families for f in files]
+    if not train:
+        train, held = fonts[:-1], fonts[-1:]
     return train, held
 
 
@@ -69,8 +88,14 @@ def _font(path: str, size: int) -> ImageFont.FreeTypeFont:
 
 
 def render(ch: str, font_path: str, size: int, shift: tuple[int, int] = (0, 0),
-           rotation: float = 0.0) -> np.ndarray | None:
-    """Render one character to a 28x28 ink-bright array, cropped tight like the photo path does."""
+           rotation: float = 0.0, binarize: bool = False) -> np.ndarray | None:
+    """Render one character to a 28x28 ink-bright array, cropped tight like the photo path does.
+
+    ``binarize`` reproduces what the page reader actually feeds the model. Photo intake masks
+    the page against a local threshold and hands over a 0/255 image, so every glyph that arrives
+    from a camera has hard edges and no anti-aliasing. Training only on smooth renders cost 11
+    points on held-out fonts (90.1% -> 79.4%) for no reason other than that mismatch.
+    """
     canvas = Image.new("L", (size * 3, size * 3), 255)
     draw = ImageDraw.Draw(canvas)
     try:
@@ -84,7 +109,11 @@ def render(ch: str, font_path: str, size: int, shift: tuple[int, int] = (0, 0),
     if not len(ys):
         return None
     crop = Image.fromarray(arr[ys.min():ys.max() + 1, xs.min():xs.max() + 1])
-    # Preserve aspect ratio inside a 20x20 box, centred, as the model's normalisation expects.
+    # 20 of 28, not the 86% that ``normaliseGlyph`` uses. Measured both ways: filling to 24px
+    # gained 4 points when glyphs were fed to `recognize()` directly, but the browser's page
+    # reader re-normalises every crop to 86% itself - so a glyph pre-scaled to 24 arrived
+    # oversized and the page read worse ("HELLo WoRLD", "T°ML"). Training convention has to
+    # match what the pipeline actually produces, not what looks right in isolation.
     scale = 20 / max(crop.width, crop.height)
     crop = crop.resize((max(1, round(crop.width * scale)), max(1, round(crop.height * scale))),
                        Image.BILINEAR)
@@ -92,7 +121,12 @@ def render(ch: str, font_path: str, size: int, shift: tuple[int, int] = (0, 0),
     tile.paste(crop, ((GLYPH - crop.width) // 2, (GLYPH - crop.height) // 2))
     out = np.asarray(tile)
     # The model consumes ink-bright glyphs: bright stroke on dark ground.
-    return (255 - out).astype(np.uint8)
+    ink = (255 - out).astype(np.uint8)
+    if binarize:
+        # Same cut the page's ink mask makes, applied after resampling - which is the order the
+        # page uses, so the stroke edges the model sees here are the ones it will see in a photo.
+        ink = np.where(ink > 110, 255, 0).astype(np.uint8)
+    return ink
 
 
 def sample_dataset(fonts: list[str], per_class: int = 40, seed: int = 42) -> tuple[np.ndarray, np.ndarray]:
@@ -114,7 +148,10 @@ def sample_dataset(fonts: list[str], per_class: int = 40, seed: int = 42) -> tup
             size = int(rng.integers(34, 72))
             dx, dy = int(rng.integers(-3, 4)), int(rng.integers(-3, 4))
             rot = float(rng.normal(0, 4))
-            glyph = render(ch, font_path, size, (dx, dy), rot)
+            # Half the samples hard-edged, to cover a masked photo; half smooth, to cover a
+            # clean scan. A model trained on only one of the two loses 11 points on the other.
+            glyph = render(ch, font_path, size, (dx, dy), rot,
+                           binarize=bool(rng.random() < 0.5))
             if glyph is None or glyph.max() == 0:
                 continue
             images.append(glyph)

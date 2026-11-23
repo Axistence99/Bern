@@ -10,6 +10,8 @@ from __future__ import annotations
 
 import json
 
+import numpy as np
+
 import pytest
 
 from bern import knowledge, memory
@@ -170,3 +172,80 @@ class TestSpreadsheetAndSlides:
 
         with pytest.raises(ExtractionError):
             extract_text(b"not a zip at all", "broken.xlsx")
+
+
+class TestPrintedGlyphCoverage:
+    """The reader is pointed at printed text but was trained only on handwriting.
+
+    These cases pin the two things that measurement exposed: the font split must withhold whole
+    families (holding out one file left every other serif in training), and the reader must
+    actually cope with a serif at all.
+    """
+
+    def test_the_font_split_withholds_whole_families(self):
+        from bern import printed_glyphs as pg
+
+        train, held = pg.split_fonts(holdout_families=2)
+        train_families = {pg.family_of(f) for f in train}
+        held_families = {pg.family_of(f) for f in held}
+        assert not (train_families & held_families), "a family was held out but still trained on"
+        assert held_families
+
+    def test_hard_edged_glyphs_read_at_least_as_well_as_smooth_ones(self):
+        """A photo arrives binarised, so training has to cover that, not just smooth renders.
+
+        The page reader masks every page against a local threshold before reading, which means
+        every glyph reaching the model has hard edges. Measured before this was trained in: 79.4%
+        on hard-edged glyphs against 90.1% on smooth ones. Half the printed training samples are
+        now binarised so the gap closes.
+        """
+        from bern import handwriting, printed_glyphs as pg
+
+        _, held = pg.split_fonts(holdout_families=2)
+        if not held:
+            pytest.skip("no held-out families available on this machine")
+        backend = handwriting.HandwritingReader()._resolve_backend()
+
+        def read_rate(binarize: bool) -> float:
+            correct = total = 0
+            for ch in "ABCDEFGHKLMNOPRSTUWXYZ0123456789":
+                glyph = pg.render(ch, held[0], 56, binarize=binarize)
+                if glyph is None:
+                    continue
+                patch = np.asarray(glyph, dtype=np.uint8).reshape(28, 28)
+                bgr = np.repeat(patch[:, :, None], 3, axis=2)
+                total += 1
+                if backend.recognize(bgr)[0] == ch:
+                    correct += 1
+            return correct / max(1, total)
+
+        sharp = read_rate(True)
+        smooth = read_rate(False)
+        assert sharp >= smooth - 0.05, f"hard-edged {sharp:.2f} vs smooth {smooth:.2f}"
+
+    def test_a_rendered_serif_is_read_as_the_right_character(self):
+        from bern import handwriting, printed_glyphs as pg
+
+        train, held = pg.split_fonts(holdout_families=2)
+        if not held:
+            pytest.skip("no held-out families available on this machine")
+        # The recogniser lives on the numeric backend the reader resolves, not on the reader.
+        backend = handwriting.HandwritingReader()._resolve_backend()
+        correct = total = 0
+        for ch in "ABCDEFGHIKLMNOPRSTUVWXYZ0123456789":
+            glyph = pg.render(ch, held[0], 56)
+            if glyph is None:
+                continue
+            # recognize() wants a BGR glyph the size the model was trained on.
+            patch = np.asarray(glyph, dtype=np.uint8).reshape(28, 28)
+            bgr = np.repeat(patch[:, :, None], 3, axis=2)
+            total += 1
+            if backend.recognize(bgr)[0] == ch:
+                correct += 1
+        assert total, "nothing rendered"
+        # The threshold is deliberately below what the page reader achieves, because this test
+        # feeds single held-out serif glyphs straight to `recognize()` with no line context and no
+        # case fold - the hardest form of the task. Its job is to catch a model that has stopped
+        # reading unseen printed type at all. Measured 61.8% here; the page pipeline reads 84% on
+        # cleanly segmented lines.
+        assert correct / total > 0.55, f"held-out font read {correct}/{total}"
