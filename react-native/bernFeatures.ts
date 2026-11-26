@@ -572,3 +572,182 @@ export function softmaxScores(
   for (let c = 0; c < classCount; c += 1) scores[c] /= total;
   return scores;
 }
+
+/* ------------------------------------------------------------------ arithmetic */
+
+/**
+ * Arithmetic the on-device runtime can do by itself.
+ *
+ * Ported from `bern/engine.py` (`extract_math_expression`, `safe_eval_math_ast`,
+ * `is_pure_math`) so the phone and the browser give the same answer as the server. The
+ * intent model only decides that a message *is* arithmetic; it cannot produce the number,
+ * which is why the stored answer for `calculator` is an offer rather than a result.
+ *
+ * Expressions are evaluated by a small recursive-descent parser, never by `eval`: this code
+ * runs on input from strangers.
+ */
+
+const MATH_FILLERS = new Set([
+  'how', 'much', 'is', 'what', 'whats', "what's", 'calculate', 'compute', 'solve', 'equals',
+  'equal', 'the', 'answer', 'of', 'to', 'plus', 'minus', 'times', 'divided', 'by', 'please',
+  'pls', 'x', 'ano', 'ang', 'ba', 'result', 'value', 'sum', 'total', 'and', 'multiplied',
+  'over', 'squared', 'cubed', 'product', 'difference', 'between', 'add', 'subtract',
+  'multiply', 'divide', 'from', 'pakicompute', 'pakicalculate', 'pakisolve', 'pakisagot', 'ilan', 'kuwentahin', 'less',
+]);
+
+const NUMBER = '(-?\\d+(?:\\.\\d+)?)';
+
+/** `15% of 400`, `divided by`, `sum of a and b` … Returns a plain expression or null. */
+export function extractMathExpression(message: string): string | null {
+  const text = message.trim().toLowerCase();
+
+  const percent = text.match(
+    new RegExp(`${NUMBER}\\s*(?:%|percent)\\s*of\\s*${NUMBER}`),
+  );
+  if (percent) {
+    return `(${percent[1]} / 100) * ${percent[2]}`;
+  }
+
+  const divide = text.match(new RegExp(`divide\\s+${NUMBER}\\s+by\\s+${NUMBER}`));
+  if (divide) return `${divide[1]} / ${divide[2]}`;
+
+  const multiply = text.match(new RegExp(`multiply\\s+${NUMBER}\\s+(?:by|and)\\s+${NUMBER}`));
+  if (multiply) return `${multiply[1]} * ${multiply[2]}`;
+
+  const add = text.match(new RegExp(`add\\s+${NUMBER}\\s+(?:and|to)\\s+${NUMBER}`));
+  if (add) return `${add[1]} + ${add[2]}`;
+
+  const subtract = text.match(new RegExp(`subtract\\s+${NUMBER}\\s+from\\s+${NUMBER}`));
+  if (subtract) return `${subtract[2]} - ${subtract[1]}`;
+
+  const sum = text.match(new RegExp(`(?:sum|total)\\s+of\\s+${NUMBER}\\s+and\\s+${NUMBER}`));
+  if (sum) return `${sum[1]} + ${sum[2]}`;
+
+  const product = text.match(new RegExp(`product\\s+of\\s+${NUMBER}\\s+and\\s+${NUMBER}`));
+  if (product) return `${product[1]} * ${product[2]}`;
+
+  const difference = text.match(
+    new RegExp(`difference\\s+(?:of|between)\\s+${NUMBER}\\s+and\\s+${NUMBER}`),
+  );
+  if (difference) {
+    const a = Number(difference[1]);
+    const b = Number(difference[2]);
+    return `${Math.max(a, b)} - ${Math.min(a, b)}`;
+  }
+
+  let cleaned = text.replace(/(\d+(?:\.\d+)?)\s*squared/g, '($1**2)');
+  cleaned = cleaned.replace(/(\d+(?:\.\d+)?)\s*cubed/g, '($1**3)');
+
+  // Operators only count between numbers, so "6 x 9" converts but "box 6" does not.
+  const left = '(?<=[\\d)])\\s*';
+  const right = '\\s*(?=[\\d(])';
+  cleaned = cleaned.replace(new RegExp(`${left}x${right}`, 'g'), '*');
+  cleaned = cleaned.replace(new RegExp(`${left}(?:times|multiplied by)${right}`, 'g'), '*');
+  cleaned = cleaned.replace(new RegExp(`${left}(?:divided by|over)${right}`, 'g'), '/');
+  cleaned = cleaned.replace(new RegExp(`${left}plus${right}`, 'g'), '+');
+  cleaned = cleaned.replace(new RegExp(`${left}(?:minus|less)${right}`, 'g'), '-');
+
+  const candidates = cleaned.match(/[\d.()\s+\-*/%^]+/g) || [];
+  const ordered = [...candidates].sort((a, b) => b.length - a.length);
+  for (const candidate of ordered) {
+    const expression = candidate.trim().replace(/\^/g, '**');
+    const hasOperator = ['+', '-', '*', '/', '%'].some((op) => expression.includes(op));
+    if (hasOperator && /\d/.test(expression) && evaluateMath(expression) !== null) {
+      return expression;
+    }
+  }
+  return null;
+}
+
+/** True when arithmetic is all that surrounds the numbers: "how much is 12 x 12". */
+export function isPureMath(message: string): boolean {
+  const words = message.toLowerCase().match(/[a-z']+/g) || [];
+  return words.length > 0 && words.every((word) => MATH_FILLERS.has(word)) && /\d/.test(message);
+}
+
+/**
+ * Evaluate `** * / + -` with parentheses and a leading unary sign.
+ *
+ * Written as a parser rather than by translating to JavaScript: an expression arriving from a
+ * chat box must never reach `eval`, and `**` in JavaScript is right-associative in the same way
+ * Python's is, so the shared `15% of 400` and `2 ** 10` forms agree.
+ */
+export function evaluateMath(expression: string): number | null {
+  let cursor = 0;
+  const source = expression.replace(/\s+/g, '');
+
+  const parseExpression = (): number => {
+    let value = parseTerm();
+    while (cursor < source.length && (source[cursor] === '+' || source[cursor] === '-')) {
+      const operator = source[cursor];
+      cursor += 1;
+      const right = parseTerm();
+      value = operator === '+' ? value + right : value - right;
+    }
+    return value;
+  };
+
+  const parseTerm = (): number => {
+    let value = parseUnary();
+    while (cursor < source.length && (source[cursor] === '*' || source[cursor] === '/' || source[cursor] === '%')) {
+      const operator = source[cursor];
+      cursor += 1;
+      const right = parseUnary();
+      if (operator === '*') value *= right;
+      else if (operator === '/') value /= right;
+      else value %= right;
+    }
+    return value;
+  };
+
+  const parseUnary = (): number => {
+    if (source[cursor] === '+') {
+      cursor += 1;
+      return parseUnary();
+    }
+    if (source[cursor] === '-') {
+      cursor += 1;
+      return -parseUnary();
+    }
+    return parsePower();
+  };
+
+  const parsePower = (): number => {
+    const base = parseAtom();
+    if (source.startsWith('**', cursor)) {
+      cursor += 2;
+      const exponent = parseUnary();
+      if (Math.abs(exponent) > 100) throw new Error('exponent too large');
+      return Math.pow(base, exponent);
+    }
+    return base;
+  };
+
+  const parseAtom = (): number => {
+    if (source[cursor] === '(') {
+      cursor += 1;
+      const value = parseExpression();
+      if (source[cursor] !== ')') throw new Error('unbalanced parentheses');
+      cursor += 1;
+      return value;
+    }
+    const match = /^\d+(?:\.\d+)?/.exec(source.slice(cursor));
+    if (!match) throw new Error('expected a number');
+    cursor += match[0].length;
+    return Number(match[0]);
+  };
+
+  try {
+    const value = parseExpression();
+    if (cursor !== source.length) return null;
+    return Number.isFinite(value) ? value : null;
+  } catch {
+    return null;
+  }
+}
+
+/** `20`, not `20.0`; six decimals for anything that does not divide cleanly. */
+export function formatMathValue(value: number): string {
+  if (Math.abs(value - Math.round(value)) < 1e-9) return String(Math.round(value));
+  return String(Math.round(value * 1e6) / 1e6);
+}

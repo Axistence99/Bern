@@ -187,8 +187,21 @@ def extract_user_name(message: str, strong_only: bool = False) -> str | None:
 
 # Rejection ("I don't know this yet") thresholds. The defaults are calibrated by cross-validation in scripts/train_bern.py
 # and stored with the model (bundle["gating"]).
+#: Intents whose stored reply already gives a cause, so the "I can't explain why" prefix would be
+#: a lie. Asking "why is your reply repetitive" is a question about Bern itself, and Bern knows
+#: the answer to that one.
+SELF_EXPLAINING_INTENTS: frozenset[str] = frozenset({
+    "conversation_state",
+    "comprehension_check",
+    "conversation_repair",
+    "answer_check",
+    "ml_architecture",
+    "identity",
+})
+
+
 DEFAULT_GATING: dict[str, float] = {
-    "low_conf": 0.35,       # reject when blended confidence is below this AND nearest-phrase similarity below low_conf_sim
+    "low_conf": 0.40,       # reject when blended confidence is below this, however close the match
     "low_conf_sim": 0.36,
     "partial_conf": 0.56,   # reject short messages with many unseen words unless confidence reaches this
     "partial_cov": 0.5,
@@ -286,7 +299,12 @@ def gating_rejects(pred: dict[str, Any], gating: dict[str, float]) -> bool:
     """True when Bern should say 'I don't recognize this yet' (apart from the explicit out_of_scope class)."""
     cnt, cov = pred["content_token_count"], pred["vocab_coverage"]
     out_of_vocab = cnt >= 2 and cov == 0.0 and pred["classifier_prob"] < gating["oov_prob"]
-    low_conf = pred["confidence"] < gating["low_conf"] and pred["similarity"] < gating["low_conf_sim"]
+    # The similarity clause used to be ANDed in, which made this test almost impossible to
+    # trip: a weakly matched answer still has a decent cosine to its nearest training phrase,
+    # so "what did I just say" was served as a name question at 28% confidence. Measured on
+    # eight junk prompts and seventeen real ones, dropping the clause and raising the floor
+    # refuses 5 of 8 instead of 1, while every real question still answers.
+    low_conf = pred["confidence"] < gating["low_conf"]
     partially_unseen = cnt >= 2 and cov <= gating["partial_cov"] and pred["confidence"] < gating["partial_conf"]
     return bool(out_of_vocab or low_conf or partially_unseen)
 
@@ -423,6 +441,15 @@ class BernAI:
         except ExtractionError as exc:
             raise ValueError(str(exc)) from exc
 
+    @staticmethod
+    def _llm_configured() -> bool:
+        """Whether a language model is wired up. Consulted only when building a refusal."""
+        try:
+            from bern import llm
+        except Exception:
+            return False
+        return llm.is_available()
+
     @property
     def gating(self) -> dict[str, float]:
         return {**DEFAULT_GATING, **self.bundle.get("gating", {})}
@@ -463,13 +490,17 @@ class BernAI:
 
         wants_reason = wants_explanation(message)
         if use_llm and engine in ("llm", "auto") and (result.get("needs_training") or wants_reason):
-            generated = self._llm_answer(message, result, subject)
+            generated = self._llm_answer(message, result, subject, session_id)
             if generated is not None:
                 result = generated
-            elif wants_reason:
+            elif wants_reason and str(result.get("intent")) not in SELF_EXPLAINING_INTENTS:
                 # No model available, and the message asks for a reason. Answering it with a
                 # price table looks like an answer while being a non-answer, so say plainly
                 # what Bern cannot do and keep the facts that are still useful.
+                #
+                # The intents in SELF_EXPLAINING_INTENTS are exempt because their stored reply
+                # already explains a cause. Prefixing "I can't explain why" onto an answer that
+                # does explain why - "why is your reply repetitive" - was simply untrue.
                 result["reply"] = (
                     "**I can't explain why** — I'm a small model and I have no way to reason "
                     "about causes.\n\nHere is what I do know:\n\n" + str(result.get("reply", ""))
@@ -488,7 +519,7 @@ class BernAI:
         return result
 
     def _llm_answer(self, message: str, local: dict[str, Any],
-                    subject: str | None) -> dict[str, Any] | None:
+                    subject: str | None, session_id: str = "default") -> dict[str, Any] | None:
         """Try the language model; return ``None`` to keep the local answer.
 
         The local answer is passed in as grounding, so the model can quote Bern's own price
@@ -507,7 +538,15 @@ class BernAI:
 
         question = message if subject is None else f"{message} (about {subject})"
         try:
-            answer = llm.TutorSession(notes=context).ask(question)["answer"].strip()
+            if context:
+                # Grounded in Bern's own figures: a fresh session is correct here, because the
+                # reply being explained is the subject, not the earlier conversation.
+                answer = llm.ChatSession().ask(f"{question}\n\nGround your answer in this, "
+                                              f"which Bern already produced:\n{context}")["answer"].strip()
+            else:
+                # A general question. This one must remember the conversation, or "and the
+                # second one?" has nothing to refer to.
+                answer = llm.session(session_id).ask(question)["answer"].strip()
         except Exception:
             # A model that is down must not take the chat down with it.
             return None
@@ -672,6 +711,11 @@ class BernAI:
                     f"I'm **Bern**, and I don't recognize this topic confidently yet "
                     f"(top guess: `{intent}` at {round(confidence * 100)}%).\n\n"
                     f"Click **Teach Bern This** below or visit the **Train Bern** tab to teach me how to answer this!"
+                )
+            if not self._llm_configured():
+                unknown_reply += (
+                    "\n\nI only answer what I was trained on. General questions need a "
+                    "language model, which is not configured on this install."
                 )
             return {
                 "reply": unknown_reply,
@@ -852,6 +896,23 @@ class BernAI:
             save_dataset(dataset, self.dataset_path)
             metrics = self.retrain()
             return {"status": "trained", "tag": clean_tag, "metrics": metrics, "reassigned": reassigned}
+
+    def learn_claim(self, message: str, session_id: str = "default",
+                    override: bool = False) -> dict[str, Any]:
+        """Check a fact the user stated, and keep it only if the check allows.
+
+        A claim about a price or a nutrition figure is compared against Bern's curated tables.
+        Anything else is kept as *unverified* - never as fact, because Bern has no source for it
+        and saying "checked" without one would be a lie dressed as diligence.
+
+        Args:
+            message: What the user typed.
+            session_id: Who said it.
+            override: Keep a claim that contradicts Bern's data. The disagreement is recorded.
+        """
+        from bern import memory
+
+        return memory.learn(message, session_id=session_id, override=override)
 
     def delete_intent(self, tag: str) -> dict[str, Any]:
         with self._lock:

@@ -187,3 +187,187 @@ class TestLanguageModelThatIsMissingOrBroken:
         monkeypatch.delenv("BERN_LLM_API_KEY", raising=False)
         result = bern.chat("bakit mahal ang bigas ngayon?", session_id="test-why")
         assert "can't explain why" in result["reply"]
+
+
+# ------------------------------------------------------------------ conversational replies
+
+# These are the questions that made Bern answer a request for plain talk with an essay on
+# TF-IDF, or reply "Goodbye!" to "talk to me normally". Each case names the intent its wording
+# targets, so a regression shows up as a routing failure rather than a differing sentence.
+@pytest.fixture(scope="module")
+def engine():
+    """One trained engine for the whole module: loading the model takes about two seconds."""
+    from bern.engine import BernAI
+
+    return BernAI()
+
+
+CONVERSATIONAL_CASES = [
+    ("can you understand my prompts?", "comprehension_check"),
+    ("do you understand me", "comprehension_check"),
+    ("naiintindihan mo ba ako", "comprehension_check"),
+    ("you did not answer my question", "conversation_repair"),
+    ("that is not what i asked", "conversation_repair"),
+    ("hindi yun ang tanong ko", "conversation_repair"),
+    ("talk to me normally", "conversation_state"),
+    ("you sound like a robot", "conversation_state"),
+    ("are you listening", "conversation_state"),
+    ("was that correct", "answer_check"),
+    ("are you sure", "answer_check"),
+    ("sigurado ka ba", "answer_check"),
+]
+
+
+@pytest.mark.parametrize("message,expected", CONVERSATIONAL_CASES)
+def test_conversational_questions_route_to_their_own_intent(engine, message, expected):
+    result = engine.chat(message)
+    assert result["intent"] == expected, f"{message!r} -> {result['intent']}"
+    assert not result["needs_training"]
+    assert result["reply"].strip()
+
+
+def test_understanding_question_is_not_answered_with_architecture_essay(engine):
+    """The original complaint: a request for plain talk was met with a lecture on TF-IDF."""
+    reply = engine.chat("can you understand my prompts?")["reply"].lower()
+    for jargon in ("tf-idf", "logisticregression", "joblib", "n-gram", "cosine"):
+        assert jargon not in reply, f"reply still recites {jargon}"
+
+
+def test_weak_match_is_refused_instead_of_answered(engine):
+    """A 28% guess used to be served as fact; the similarity clause in the gate hid that."""
+    result = engine.chat("what did i just say")
+    # Either it recognises the phrase (it is now trained) or it refuses - never a wrong topic
+    # delivered with a "confident" framing.
+    assert result["intent"] in ("conversation_repair", "unknown")
+
+
+@pytest.mark.parametrize("message", ["why", "are we good", "can you hear me now"])
+def test_unanswerable_small_prompts_are_not_dressed_up_as_answers(engine, message):
+    """Either refuse and say the score, or flag that no explanation is possible.
+
+    A bare "why" is answered through the reason path, which prepends what Bern cannot do rather
+    than pretending the topic was understood. Both outcomes are honest; serving a stored reply
+    as if it were the answer is not, and that is what the score in the refusal guards against.
+    """
+    result = engine.chat(message)
+    reply = result["reply"].lower()
+    # A refusal carries the score it guessed at, unless the reason path replaced the body -
+    # "why" gets "I can't explain why" prepended instead, which is the same honesty in words.
+    explained = "can't explain why" in reply or "no way to reason" in reply
+    scored = str(round(result["confidence"] * 100)) in result["reply"]
+    if result["needs_training"]:
+        assert explained or scored, f"refused without saying why or how sure: {result['reply'][:120]}"
+    else:
+        assert explained, "answered a bare 'why' as though the topic was understood"
+
+
+def test_answering_normally_does_not_break_the_old_intents(engine):
+    """Tightening the gate must not cost real answers."""
+    assert engine.chat("10 + 10")["reply"].find("20") >= 0
+    assert engine.chat("who developed you")["intent"] == "developer"
+    assert engine.chat("magkano ang itlog")["intent"] in ("ph_price_lookup", "unknown")
+
+
+def test_no_reply_is_an_essay(engine):
+    """A question deserves an answer, not a leaflet.
+
+    "what can you do" once returned 1,116 characters that opened "Here is what I can do right
+    now: 1. ..." and buried the answer. Asked twice it returned the same wall, because the
+    bundle stored a single variant while the dataset held three. Both are checked here: the
+    ceiling on length, and that the variants actually reach the model.
+    """
+    for tag, responses in engine.bundle["intent_responses"].items():
+        assert len(responses) >= 1, tag
+        for reply in responses:
+            assert len(reply) < 700, f"{tag} reply is {len(reply)} chars: {reply[:70]}"
+
+
+def test_answers_to_the_same_question_vary(engine):
+    """One stored variant means the identical wall every time. Three means it reads like talk."""
+    stored = engine.bundle["intent_responses"]
+    assert len(stored["capabilities"]) == 3
+    assert len(stored["greeting"]) >= 2
+
+
+def test_capabilities_answers_in_one_line(engine):
+    reply = engine.chat("what can you do")["reply"]
+    assert len(reply) < 400
+    assert reply.count("\n") <= 2, "a capability list is not a paragraph"
+    for noise in ("1. **", "2. **", "/api/", "React Native"):
+        assert noise not in reply, f"capabilities still recites {noise!r}"
+
+
+def test_asking_whether_a_file_arrived_reaches_the_file_intent(engine):
+    """"can you understand files i sent" was answered with the "do you understand me" reply.
+
+    The file intent was trained only on commands - "read this pdf", "extract text from this
+    file" - and a question about an attachment shares none of those words except "file", while
+    sharing "understand" with a whole class of comprehension phrases. The question about the
+    file lost to the question about the model.
+    """
+    for message in ("can you understand files i sent", "did you get my file",
+                    "can you see my pdf", "did you receive the file"):
+        result = engine.chat(message)
+        assert result["intent"] == "file_scan", f"{message!r} -> {result['intent']}"
+
+    # And the genuine comprehension questions must still land where they did.
+    for message in ("do you understand me", "can you understand my prompts"):
+        assert engine.chat(message)["intent"] == "comprehension_check"
+
+
+def test_repetition_complaint_is_understood_and_answered_honestly(engine):
+    """"why your reply is repetitive" scored 0.17 and was refused, because "repetitive" was
+    never a word it had seen. It also must not be prefixed with "I can't explain why" - this is
+    one cause Bern genuinely can explain."""
+    result = engine.chat("why your reply is repetitive")
+    assert result["intent"] == "conversation_state"
+    assert not result["needs_training"]
+    assert not result["reply"].startswith("**I can't explain why**")
+    # The four variants rotate: this must hold for all of them, not just the one that happened
+    # to come up. Each explains the mechanism rather than apologising vaguely.
+    lowered = result["reply"].lower()
+    assert any(word in lowered for word in ("stored", "retriev", "match your words", "topic"))
+
+
+@pytest.mark.parametrize("message", [
+    "your answer is always the same", "why do you keep saying that", "be brief",
+    "your reply is too long", "stop being repetitive",
+])
+def test_repetition_and_verbosity_complaints_route(engine, message):
+    assert engine.chat(message)["intent"] == "conversation_state"
+
+
+def test_a_reason_outside_self_knowledge_still_admits_it_cannot_explain(engine):
+    """The exemption above must not spread: Bern cannot reason about rice prices."""
+    reply = engine.chat("why is rice expensive")["reply"]
+    assert reply.startswith("**I can't explain why**")
+
+
+class TestNameHandling:
+    """The browser port answered every name question with "Got it — nice to meet you!".
+
+    That line is the stored reply for the intent, so it was returned whether or not anything
+    had been learned - including for "do you know my name", where the honest answer is that it
+    does not. These cases pin the server's behaviour, which the port now mirrors.
+    """
+
+    def test_asking_before_telling_is_refused_plainly(self, engine):
+        reply = engine.chat("do you know my name")["reply"]
+        assert "don't know your name" in reply or "not told me" in reply
+
+    def test_telling_then_asking_returns_the_name(self, engine):
+        engine.chat("my name is Bro", session_id="name-test")
+        reply = engine.chat("what is my name", session_id="name-test")["reply"]
+        assert "Bro" in reply
+
+    def test_call_me_stores_the_name(self, engine):
+        engine.chat("call me Jo", session_id="name-test-2")
+        assert "Jo" in engine.chat("do you remember my name", session_id="name-test-2")["reply"]
+
+    def test_a_state_is_not_a_name(self, engine):
+        assert engine.chat("i am tired")["intent"] != "user_name" or \
+            "tired" not in engine.chat("i am tired")["reply"]
+
+    @pytest.mark.parametrize("message", ["ako si Ana", "tawagin mo akong Jay"])
+    def test_tagalog_name_forms_are_understood(self, engine, message):
+        assert "Ana" in engine.chat(message)["reply"] or "Jay" in engine.chat(message)["reply"]

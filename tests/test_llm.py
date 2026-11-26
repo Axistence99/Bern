@@ -148,3 +148,177 @@ class TestTutorSession:
         session.reset()
         assert session.history == []
         assert session.notes == NOTES
+
+
+# --------------------------------------------------------------- general conversation
+
+# A real model cannot be called from a test suite: it needs a key and a network, and a test
+# that depends on either is a test that fails for reasons unrelated to the code. So these
+# cases stand up a server that speaks the chat-completions protocol and record what it was
+# sent. That is enough to prove the wiring, the conversation memory and the fallback - and it
+# is honest about what has *not* been proven: the quality of a real model's answers.
+
+class _MockModel:
+    """A chat-completions endpoint that echoes what it was asked, and records every request."""
+
+    def __init__(self):
+        self.requests: list[dict] = []
+
+    def __call__(self, messages):
+        self.requests.append({"messages": [dict(m) for m in messages]})
+        user_turns = [m["content"] for m in messages if m["role"] == "user"]
+        return f"answer to: {user_turns[-1]}"
+
+
+@pytest.fixture
+def mock_model(monkeypatch):
+    """Point the LLM layer at an in-process fake instead of a network endpoint."""
+    from bern import llm
+
+    fake = _MockModel()
+
+    def fake_chat(messages, config=None, force_json=False):
+        return fake(messages)
+
+    monkeypatch.setattr(llm, "_chat", fake_chat)
+    monkeypatch.setenv("BERN_LLM_API_KEY", "test-key-not-a-real-one")
+    llm.forget("test-session")
+    llm.forget("other-session")
+    yield fake
+    llm.forget("test-session")
+    llm.forget("other-session")
+
+
+class TestChatSession:
+    def test_without_a_key_it_answers_nothing_and_claims_nothing(self, monkeypatch):
+        from bern import llm
+
+        monkeypatch.delenv("BERN_LLM_API_KEY", raising=False)
+        result = llm.ChatSession().ask("who wrote hamlet")
+        assert result == {"answer": "", "engine": "none"}
+
+    def test_the_conversation_is_sent_back_with_the_next_question(self, mock_model):
+        from bern import llm
+
+        chat = llm.ChatSession()
+        chat.ask("my name is Ana")
+        chat.ask("what is my name?")
+
+        last = mock_model.requests[-1]["messages"]
+        carried = [m["content"] for m in last]
+        assert "my name is Ana" in carried, "earlier turn was not replayed"
+        assert last[-1] == {"role": "user", "content": "what is my name?"}
+
+    def test_history_is_capped_so_a_long_chat_cannot_grow_without_bound(self, mock_model):
+        from bern import llm
+
+        chat = llm.ChatSession(max_turns=2)
+        for i in range(10):
+            chat.ask(f"message {i}")
+
+        last = mock_model.requests[-1]["messages"]
+        # system prompt + at most 2 turns (4 entries) + the new question
+        assert len(last) <= 1 + 4 + 1
+        assert "message 0" not in [m["content"] for m in last]
+
+    def test_the_session_survives_between_calls_by_id(self, mock_model):
+        from bern import llm
+
+        llm.session("test-session").ask("my name is Ana")
+        llm.session("test-session").ask("what is my name?")
+
+        last = mock_model.requests[-1]["messages"]
+        assert "my name is Ana" in [m["content"] for m in last]
+
+    def test_two_conversations_do_not_share_history(self, mock_model):
+        from bern import llm
+
+        llm.session("test-session").ask("secret for session one")
+        llm.session("other-session").ask("hello from the other chat")
+
+        last = mock_model.requests[-1]["messages"]
+        assert "secret for session one" not in [m["content"] for m in last]
+
+    def test_forget_starts_a_clean_conversation(self, mock_model):
+        from bern import llm
+
+        llm.session("test-session").ask("my name is Ana")
+        llm.forget("test-session")
+        llm.session("test-session").ask("what is my name?")
+
+        last = mock_model.requests[-1]["messages"]
+        assert "my name is Ana" not in [m["content"] for m in last]
+
+
+class TestGeneralChatThroughTheEngine:
+    def test_a_general_question_is_answered_when_a_model_is_configured(self, mock_model):
+        from bern.engine import BernAI
+
+        result = BernAI().chat("who wrote hamlet")
+        assert result["engine"] == "llm"
+        assert "hamlet" in result["reply"].lower()
+        assert not result["needs_training"]
+
+    def test_without_a_model_a_general_question_is_refused_and_says_why(self, monkeypatch):
+        from bern import llm
+        from bern.engine import BernAI
+
+        monkeypatch.delenv("BERN_LLM_API_KEY", raising=False)
+        llm.forget("default")
+        result = BernAI().chat("who wrote hamlet")
+        assert result["needs_training"]
+        assert "language model" in result["reply"].lower(), "refusal must say what is missing"
+
+    def test_a_broken_model_does_not_take_the_chat_down(self, monkeypatch):
+        from bern import llm
+        from bern.engine import BernAI
+
+        def explode(*args, **kwargs):
+            raise llm.LLMError("connection refused")
+
+        monkeypatch.setattr(llm, "_chat", explode)
+        monkeypatch.setenv("BERN_LLM_API_KEY", "test-key-not-a-real-one")
+        result = BernAI().chat("who wrote hamlet")
+        # Falls back to the local refusal rather than raising into the caller.
+        assert result["intent"] in ("unknown", "out_of_scope")
+        assert result["reply"].strip()
+
+    def test_arithmetic_still_beats_the_model(self, mock_model):
+        """A calculator is not a language-model problem; the local answer must win."""
+        from bern.engine import BernAI
+
+        result = BernAI().chat("24 * 15")
+        assert "360" in result["reply"]
+        assert result.get("engine") != "llm"
+        assert not mock_model.requests, "the model was called for a sum it was not needed for"
+
+    def test_a_conversation_keeps_its_context_across_turns(self, mock_model):
+        """Two general questions in a row: the second must arrive with the first.
+
+        The router answers plenty of turns without any model at all - "my name is Ana" is a
+        trained intent - so the case that proves memory is two questions the classifier cannot
+        place, where the model is what carries the thread.
+        """
+        from bern import llm
+        from bern.engine import BernAI
+
+        llm.forget("default")
+        engine = BernAI()
+        # Both must be questions the classifier genuinely cannot place, or the router answers
+        # them locally - which is correct, and proves nothing about the model's memory.
+        first = engine.chat("explain photosynthesis")
+        second = engine.chat("and how does the light reaction part work?")
+
+        assert first["engine"] == "llm" and second["engine"] == "llm"
+        last = mock_model.requests[-1]["messages"]
+        assert "explain photosynthesis" in [m["content"] for m in last]
+
+    def test_a_trained_intent_does_not_call_the_model_unnecessarily(self, mock_model):
+        """The classifier is cheaper and exact for what it knows; the model is for the rest."""
+        from bern import llm
+        from bern.engine import BernAI
+
+        llm.forget("default")
+        result = BernAI().chat("who developed you")
+        assert result["intent"] == "developer"
+        assert not mock_model.requests

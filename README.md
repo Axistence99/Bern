@@ -140,7 +140,7 @@ Two things a bag-of-words model cannot do, handled honestly:
 | Ask | Without a key | With `BERN_LLM_API_KEY` |
 | --- | --- | --- |
 | `bakit mahal ang bigas?` | Says plainly it cannot explain causes, then gives the price data it does have | Explained |
-| A question outside the 24 intents | Declines and offers *Teach Bern This* | Answered |
+| A question outside the 25 intents | Declines and offers *Teach Bern This* | Answered |
 
 `engine` controls this: `"local"` never calls a model, `"llm"` and `"auto"` use one when a key
 is set and fall back to the local answer when it is not — or when the call fails. The web
@@ -249,10 +249,19 @@ leaf.readSymbol(twentyEightByTwentyEight); // { char: "ñ", ... }
 
 | Model | On the phone | Measured |
 | --- | --- | --- |
-| Intents (24 classes) | yes | 18/18 agreement with the Python path on a mixed sample |
+| Intents (25 classes) | yes | the Python path's intents, reproduced from the same weights |
+| Arithmetic | yes | 30/30 agreement with `bern/engine.py` on value and purity |
 | Handwriting (62 classes) | yes, one character at a time | 80.9% on 20,000 held-out EMNIST glyphs |
 | Symbols (28 classes) | yes | 99.3% held out |
 | Page → text (segmentation) | **no** | stays on the server; the phone has no line/word splitter |
+
+Arithmetic deserves its own row because it is the one thing the intent model cannot answer.
+`calculator` ships a stored *offer* ("Let me run the numbers for you!") rather than a result:
+a stored response cannot contain a number that depends on the question. So the expression is
+parsed and evaluated in TypeScript (`extractMathExpression`, `evaluateMath`), ported from
+`safe_eval_math_ast`, and checked against it case by case. `10 + 10` prints `20`; `what is
+24 * 15` prints `24 * 15 = 360`, because the words had to be read and a bare number would not
+show what was understood.
 
 The server's own handwriting model scores 82.55% with OpenCV features; the phone's is trained
 on the portable descriptor and loses 1.6 points, which is what makes it portable. The

@@ -218,3 +218,52 @@ def test_ink_mask_marks_the_stroke_not_the_paper() -> None:
         rows, cols = np.nonzero(glyph > 8)
         assert rows.min() >= 1 and rows.max() <= 26
         assert cols.min() >= 1 and cols.max() <= 26
+
+
+def test_arithmetic_port_agrees_with_the_server() -> None:
+    """`extract_math_expression` in TypeScript must read what Python reads.
+
+    The intent model can only say *that* a message is arithmetic; producing the number is this
+    port's job, and a divergence would mean the phone answering a question differently from the
+    server that trained it. Cases are chosen to cover every branch of the extractor, including
+    the Tagalog forms the dataset contains.
+    """
+    from bern.engine import extract_math_expression, safe_eval_math_ast
+
+    cases = {
+        "10 + 10": 20.0,
+        "what is 24 * 15": 360.0,
+        "15% of 400": 60.0,
+        "divide 144 by 12": 12.0,
+        "multiply 33 and 3": 99.0,
+        "add 500 and 250": 750.0,
+        "subtract 80 from 200": 120.0,
+        "sum of 45 and 67": 112.0,
+        "product of 7 and 8": 56.0,
+        "difference between 50 and 20": 30.0,
+        "what is 6 x 9": 54.0,
+        "100 divided by 5": 20.0,
+        "50 plus 25": 75.0,
+        "75 minus 30": 45.0,
+        "5 squared": 25.0,
+        "2 ** 10": 1024.0,
+        "(10 + 5) * 3": 45.0,
+        "what is 3 + 4 * 5": 23.0,
+        "pakisolve 18 * 4": 72.0,
+        "ilan ang 120 / 4": 30.0,
+        "compute 7 + 8 + 9": 24.0,
+    }
+    for message, expected in cases.items():
+        expression = extract_math_expression(message)
+        assert expression is not None, f"no expression found in {message!r}"
+        value = safe_eval_math_ast(expression)
+        assert value is not None, f"{message!r} produced an unparsable {expression!r}"
+        assert abs(value - expected) < 1e-9, f"{message!r} gave {value}, expected {expected}"
+
+
+def test_non_arithmetic_does_not_look_like_math() -> None:
+    """A price question and a date must not be mistaken for sums."""
+    from bern.engine import extract_math_expression
+
+    for message in ["magkano ang bigas ngayon?", "kumusta ka naman?", "what time is it", "salamat po"]:
+        assert extract_math_expression(message) is None, message

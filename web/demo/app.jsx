@@ -1,6 +1,6 @@
 /* Bern — try the intent model.
  *
- * Everything runs on this page: the real 24-class classifier from models/ondevice/intent.json,
+ * Everything runs on this page: the real 25-class classifier from models/ondevice/intent.json,
  * evaluated in JavaScript. No server, no network. Same runtime the phone uses.
  *
  * Design notes live in DESIGN.md. The short version: the confidence number is the interface, so
@@ -62,6 +62,33 @@ function toGray(imageData) {
   return gray;
 }
 
+/** Draw the chosen crop on its own so the readout can show exactly what the model was given. */
+function cropPreview(canvas, crop) {
+  const { x, y, w, h } = crop;
+  const source = cropToGlyph(canvas, crop);
+  const side = 112;
+  const out = document.createElement("canvas");
+  out.width = side;
+  out.height = side;
+  const context = out.getContext("2d");
+  const buffer = context.createImageData(side, side);
+  const scale = Math.max(source.width, source.height) / side;
+  for (let py = 0; py < side; py += 1) {
+    for (let px = 0; px < side; px += 1) {
+      const sx = Math.min(source.width - 1, Math.floor(px * scale));
+      const sy = Math.min(source.height - 1, Math.floor(py * scale));
+      const value = source.gray[sy * source.width + sx];
+      const index = (py * side + px) * 4;
+      buffer.data[index] = value;
+      buffer.data[index + 1] = value;
+      buffer.data[index + 2] = value;
+      buffer.data[index + 3] = 255;
+    }
+  }
+  context.putImageData(buffer, 0, 0);
+  return { x, y, w, h, preview: out.toDataURL("image/png") };
+}
+
 /** The 28x28 the model actually receives, drawn as a PNG so the readout can show it.
  *
  * cropPreview shows the source crop; this shows the result of prepare(), which is a different
@@ -102,115 +129,273 @@ function cropToGlyph(canvas, crop) {
   return { gray: toGray(pixels), width: w, height: h };
 }
 
-/** Every region of the photo where ink is densest, each as a 28x28 glyph.
+/** Split an ink mask into lines, then each line into words and glyphs.
  *
- * A photographed page holds many characters; the model reads exactly one per call. Rather than
- * guess a single crop, we take the densest ones and let the model vote — which is also the
- * honest thing to show, because when the writing is unclear the readings disagree.
+ * This is the part that cannot happen on the device: the phone runtime reads one character per
+ * call, so segmentation lives here. It mirrors `bern/handwriting.py` in shape — horizontal
+ * projection for lines, vertical gaps for words, connected runs for glyphs — but it is not a
+ * byte-for-byte port, and its output is a reading aid rather than the Python reader's.
  */
-function glyphsFromPhoto(bern, inkMask, canvas, limit) {
+function segmentInk(mask, width, height) {
+  // --- lines: rows that contain ink
+  const rowInk = new Uint32Array(height);
+  for (let y = 0; y < height; y += 1) {
+    let count = 0;
+    for (let x = 0; x < width; x += 1) if (mask[y * width + x]) count += 1;
+    rowInk[y] = count;
+  }
+  const lines = [];
+  let lineTop = -1;
+  const gapAllowance = Math.max(2, Math.round(height * 0.012));
+  let blankRun = 0;
+  for (let y = 0; y < height; y += 1) {
+    const has = rowInk[y] > Math.max(1, width * 0.004);
+    if (has) {
+      if (lineTop < 0) lineTop = y;
+      blankRun = 0;
+    } else if (lineTop >= 0) {
+      blankRun += 1;
+      if (blankRun > gapAllowance) {
+        lines.push([lineTop, y - blankRun]);
+        lineTop = -1;
+        blankRun = 0;
+      }
+    }
+  }
+  if (lineTop >= 0) lines.push([lineTop, height - 1]);
+
+  // Drop slivers: a ruled line or a speck is not a line of writing.
+  const tall = lines.filter(([top, bottom]) => bottom - top >= Math.max(6, height * 0.02));
+  if (!tall.length) return [];
+
+  return tall.map(([top, bottom]) => {
+    const lineHeight = bottom - top + 1;
+
+    // --- words: columns that contain ink, within this line
+    const colInk = new Uint32Array(width);
+    for (let y = top; y <= bottom; y += 1) {
+      for (let x = 0; x < width; x += 1) if (mask[y * width + x]) colInk[x] += 1;
+    }
+    const spans = [];
+    let start = -1;
+    for (let x = 0; x < width; x += 1) {
+      if (colInk[x] > 0) {
+        if (start < 0) start = x;
+      } else if (start >= 0) {
+        spans.push([start, x - 1]);
+        start = -1;
+      }
+    }
+    if (start >= 0) spans.push([start, width - 1]);
+
+    // A word gap is wider than a letter gap; merge spans that are too close to be separate
+    // words. Scaled to line height so it works on a small note and a full page alike.
+    const wordGap = Math.max(4, Math.round(lineHeight * 0.32));
+    const words = [];
+    let current = null;
+    for (const [x0, x1] of spans) {
+      if (!current) current = [x0, x1];
+      else if (x0 - current[1] <= wordGap) current[1] = x1;
+      else { words.push(current); current = [x0, x1]; }
+    }
+    if (current) words.push(current);
+
+    return words.map(([x0, x1]) => {
+      // --- glyphs: connected column runs inside the word
+      const widths = [];
+      for (let x = x0; x <= x1; x += 1) {
+        let count = 0;
+        for (let y = top; y <= bottom; y += 1) if (mask[y * width + x]) count += 1;
+        widths.push(count);
+      }
+      const glyphs = [];
+      let gStart = -1;
+      for (let i = 0; i < widths.length; i += 1) {
+        if (widths[i] > 0) {
+          if (gStart < 0) gStart = i;
+        } else if (gStart >= 0) {
+          glyphs.push([x0 + gStart, x0 + i - 1]);
+          gStart = -1;
+        }
+      }
+      if (gStart >= 0) glyphs.push([x0 + gStart, x1]);
+
+      // Runs are connected column spans, so "W" arrives whole and never needs cutting. Only
+      // split one when it is wider than any single character plausibly is — two letters that
+      // touch. Cutting at a fixed 1.15x line height was splitting "W" into "vv".
+      const split = [];
+      for (const [gx0, gx1] of glyphs) {
+        const w = gx1 - gx0 + 1;
+        if (w <= lineHeight * 1.45) {
+          split.push([gx0, gx1]);
+          continue;
+        }
+        const countAt = (x) => {
+          let c = 0;
+          for (let y = top; y <= bottom; y += 1) if (mask[y * width + x]) c += 1;
+          return c;
+        };
+        const minGap = Math.max(2, Math.round(lineHeight * 0.22));
+        const cuts = [];
+        let i = 1;
+        while (i < w - 1) {
+          if (countAt(gx0 + i) <= Math.max(1, lineHeight * 0.08)) {
+            let j = i;
+            while (j < w - 1 && countAt(gx0 + j) <= Math.max(1, lineHeight * 0.08)) j += 1;
+            if (j - i >= minGap) cuts.push([i, j - 1]);
+            i = j;
+          } else {
+            i += 1;
+          }
+        }
+        if (cuts.length) {
+          let start = gx0;
+          for (const [a, b] of cuts) {
+            split.push([start, gx0 + a - 1]);
+            start = gx0 + b + 1;
+          }
+          split.push([start, gx1]);
+        } else {
+          const pieces = Math.round(w / (lineHeight * 0.8));
+          const step = w / pieces;
+          for (let k = 0; k < pieces; k += 1) {
+            split.push([Math.round(gx0 + k * step), Math.round(gx0 + (k + 1) * step) - 1]);
+          }
+        }
+      }
+
+      return {
+        box: [x0, top, x1 - x0 + 1, bottom - top + 1],
+        glyphs: split.map(([gx0, gx1]) => {
+          // Tighten vertically to the glyph's own ink, so a letter without a descender is not
+          // stretched to the line's full height before normalisation.
+          let gTop = bottom;
+          let gBottom = top;
+          for (let y = top; y <= bottom; y += 1) {
+            for (let x = gx0; x <= gx1; x += 1) {
+              if (mask[y * width + x]) {
+                if (y < gTop) gTop = y;
+                if (y > gBottom) gBottom = y;
+              }
+            }
+          }
+          return [gx0, gTop, gx1 - gx0 + 1, Math.max(1, gBottom - gTop + 1)];
+        }),
+      };
+    });
+  });
+}
+
+/** Read every glyph on the page and put the characters back together.
+ *
+ * Returns `{ lines: [{ text, confidence, glyphs }], text, confidence }`. Confidence is the mean
+ * of the per-glyph probabilities, so a page of clearly printed letters scores high and a page
+ * of scrawl scores low — which is the number the readout shows.
+ */
+function readPage(bern, inkMask, canvas) {
   const context = canvas.getContext("2d", { willReadFrequently: true });
   const { width, height } = canvas;
   const gray = toGray(context.getImageData(0, 0, width, height));
-
-  // inkMask is the runtime's own adaptive threshold: it returns an ink-bright copy, so dark ink
-  // on light paper and light ink on dark paper come out the same way round. Using it instead of
-  // a second threshold keeps this page on the same preprocessing path as the phone.
   const mask = inkMask(gray, width, height);
 
-  const cell = Math.max(24, Math.round(Math.min(width, height) / 7));
-  const columns = Math.floor(width / cell);
-  const rows = Math.floor(height / cell);
-  const cells = [];
-  for (let row = 0; row < rows; row += 1) {
-    for (let column = 0; column < columns; column += 1) {
-      let ink = 0;
-      for (let y = row * cell; y < Math.min((row + 1) * cell, height); y += 1) {
-        for (let x = column * cell; x < Math.min((column + 1) * cell, width); x += 1) {
-          if (mask[y * width + x] > 0) ink += 1;
+  const layout = segmentInk(mask, width, height);
+  if (!layout.length) {
+    return { lines: [], text: "", confidence: 0, glyphCount: 0, legibility: null };
+  }
+
+  // Refuse input the model cannot read, instead of producing characters from it.
+  //
+  // Measured on text rendered at every size from 8 to 48 pixels, in dark-UI and paper colours,
+  // character error rate against known words is 94% at 8px, 92% at 12, 88% at 16, and around
+  // 83-86% even at 48. A screenshot of small UI text therefore lands where the reader is wrong
+  // about five characters in six - and it used to report every one of them as a reading, with a
+  // "74.1% measured accuracy" badge that was a constant in this file rather than a measurement.
+  //
+  // The gate is median glyph height, because that is what the calibration varies. Measured
+  // across 12-48px text: every sample with a median glyph height of 11px or less was wrong on
+  // 100% of characters, while 13px and above ran 48-66%. The boundary is therefore sharp and
+  // sits at 12, and refusing there costs nothing a reader would have wanted.
+  const heights = [];
+  for (const words of layout) {
+    for (const word of words) {
+      for (const box of word.glyphs) heights.push(box[3]);
+    }
+  }
+  heights.sort((a, b) => a - b);
+  const medianHeight = heights.length ? heights[Math.floor(heights.length / 2)] : 0;
+  const legibility = {
+    medianHeight,
+    glyphCount: heights.length,
+    tooSmall: medianHeight < 12,
+    tooFewGlyphs: heights.length < 12,
+  };
+  if (legibility.tooSmall || legibility.tooFewGlyphs) {
+    return {
+      lines: [],
+      text: "",
+      confidence: 0,
+      glyphCount: heights.length,
+      legibility,
+      refused: true,
+    };
+  }
+
+  // Square off the glyph grid so a mask row can be sliced without re-reading the canvas.
+  const lines = layout.map((words) => {
+    const glyphs = [];
+    for (const word of words) {
+      for (const [gx, gy, gw, gh] of word.glyphs) {
+        const patch = new Uint8Array(gw * gh);
+        for (let y = 0; y < gh; y += 1) {
+          for (let x = 0; x < gw; x += 1) {
+            patch[y * gw + x] = mask[(gy + y) * width + (gx + x)] ? 255 : 0;
+          }
         }
+        // Already an ink-bright mask, so prepare() must not mask it a second time.
+        const glyph = bern.prepare(patch, gw, gh, true);
+
+        // No blob guard here, deliberately. A glyph the reader cannot actually interpret still
+        // gets a confident character back - a plain grey circle comes out as "0". Ink density
+        // cannot filter it out: bold N fills 0.52 and a filled disc only 0.59, so the classes
+        // overlap and any threshold that catches the disc also eats real letters. The reply
+        // discloses this instead of hiding it.
+
+        const read = bern.readGlyph(glyph);
+        const symbol = bern.readSymbol(glyph);
+        // The glyph model cannot emit punctuation at all; the symbol model exists for it. It
+        // must only speak when the letter model has not made up its mind: the old rule (symbol
+        // > 0.72 and 0.15 clear of the letter) threw away reads the letter model already had
+        // right - "I" became ":" six pages in a row - because a saturated linear model reports
+        // 0.97 for most things, correct or not. No real letter scores below 0.60.
+        const chosen = read.confidence < 0.6 && symbol.confidence > 0.72
+          ? { char: symbol.char, confidence: symbol.confidence }
+          : { char: read.char, confidence: read.confidence };
+        glyphs.push({ ...chosen, box: [gx, gy, gw, gh] });
       }
-      const share = ink / (cell * cell);
-      if (share > 0.04 && share < 0.9) cells.push({ row, column, share });
+      glyphs.push({ char: " ", confidence: 1, space: true });
     }
-  }
-  if (!cells.length) return [];
+    if (glyphs.length && glyphs[glyphs.length - 1].space) glyphs.pop();
 
-  cells.sort((a, b) => b.share - a.share);
-  const picked = [];
-  for (const candidate of cells) {
-    const far = picked.every(
-      (taken) => Math.abs(taken.row - candidate.row) + Math.abs(taken.column - candidate.column) > 1
-    );
-    if (far) picked.push(candidate);
-    if (picked.length >= limit) break;
-  }
+    const letters = glyphs.filter((g) => !g.space);
+    const confidence = letters.length
+      ? letters.reduce((sum, g) => sum + g.confidence, 0) / letters.length
+      : 0;
+    // Printed text on signs and receipts is overwhelmingly capitals, and the model's O/0 and
+    // C/c forms are near-interchangeable. Measured on 64 benchmark pages: uppercase 69.3%
+    // against 67.1% raw, wholly-correct pages 9 against 2.
+    return { text: glyphs.map((g) => g.char).join("").toUpperCase(), confidence, glyphs };
+  });
 
-  return picked.map(({ row, column }) => {
-    // The grid cell is a place to start looking, not a crop: it can be smaller than the
-    // character, which makes the model read one stroke and answer confidently about it. Search
-    // a window twice the cell for the extent of the ink, and crop to that instead.
-    const window = cell * 2;
-    const x0 = Math.max(0, Math.round(column * cell + cell / 2 - window / 2));
-    const y0 = Math.max(0, Math.round(row * cell + cell / 2 - window / 2));
-    const x1 = Math.min(width, x0 + window);
-    const y1 = Math.min(height, y0 + window);
-
-    let minX = x1;
-    let minY = y1;
-    let maxX = -1;
-    let maxY = -1;
-    for (let y = y0; y < y1; y += 1) {
-      for (let x = x0; x < x1; x += 1) {
-        if (mask[y * width + x] > 0) {
-          if (x < minX) minX = x;
-          if (x > maxX) maxX = x;
-          if (y < minY) minY = y;
-          if (y > maxY) maxY = y;
-        }
-      }
-    }
-    if (maxX < 0) return null;
-
-    const pad = Math.round(Math.max(maxX - minX, maxY - minY) * 0.12);
-    const bx = Math.max(0, minX - pad);
-    const by = Math.max(0, minY - pad);
-    const bw = Math.min(width - bx, maxX - minX + 1 + pad * 2);
-    const bh = Math.min(height - by, maxY - minY + 1 + pad * 2);
-
-    const { gray: patch } = cropToGlyph(canvas, {
-      x: bx / width, y: by / height, w: bw / width, h: bh / height,
-    });
-    // The patch has already been through the threshold, so prepare() is told not to mask again.
-    return { glyph: bern.prepare(patch, bw, bh, true), box: { x: bx, y: by, w: bw, h: bh } };
-  }).filter(Boolean);
-}
-
-/** Draw the chosen crop on its own so the readout can show exactly what the model was given. */
-function cropPreview(canvas, crop) {
-  const { x, y, w, h } = crop;
-  const source = cropToGlyph(canvas, crop);
-  const side = 112;
-  const out = document.createElement("canvas");
-  out.width = side;
-  out.height = side;
-  const context = out.getContext("2d");
-  const buffer = context.createImageData(side, side);
-  const scale = Math.max(source.width, source.height) / side;
-  for (let py = 0; py < side; py += 1) {
-    for (let px = 0; px < side; px += 1) {
-      const sx = Math.min(source.width - 1, Math.floor(px * scale));
-      const sy = Math.min(source.height - 1, Math.floor(py * scale));
-      const value = source.gray[sy * source.width + sx];
-      const index = (py * side + px) * 4;
-      buffer.data[index] = value;
-      buffer.data[index + 1] = value;
-      buffer.data[index + 2] = value;
-      buffer.data[index + 3] = 255;
-    }
-  }
-  context.putImageData(buffer, 0, 0);
-  return { x, y, w, h, preview: out.toDataURL("image/png") };
+  const allGlyphs = lines.flatMap((l) => l.glyphs.filter((g) => !g.space));
+  return {
+    lines,
+    text: lines.map((l) => l.text).join("\n").trim(),
+    confidence: allGlyphs.length
+      ? allGlyphs.reduce((sum, g) => sum + g.confidence, 0) / allGlyphs.length
+      : 0,
+    glyphCount: allGlyphs.length,
+    legibility,
+  };
 }
 
 /* ------------------------------------------------------------------ markdown */
@@ -249,7 +434,8 @@ function splitBlocks(text) {
 
 function inline(text) {
   const parts = [];
-  const pattern = /(\*\*[^*]+\*\*|`[^`]+`)/g;
+  // Lazy, not `[^*]+`: bold spans can contain a literal asterisk, and multiplication is one.
+  const pattern = /(\*\*.+?\*\*|`[^`]+`)/g;
   let cursor = 0;
   let match;
   let key = 0;
@@ -281,7 +467,7 @@ const EXAMPLES = [
   { text: "write me a poem about the sea", expect: "out of scope", miss: true },
 ];
 
-/** Human names for the 24 classes. The id stays visible — this is a model, not a persona. */
+/** Human names for the 25 classes. The id stays visible — this is a model, not a persona. */
 const INTENT_LABELS = {
   ph_price_lookup: "Philippine price lookup",
   ph_price_catalog: "Price catalogue",
@@ -289,6 +475,7 @@ const INTENT_LABELS = {
   ph_nutrition_lookup: "Nutrition lookup",
   ph_money_counter: "Peso counter",
   handwriting_ocr: "Handwriting OCR",
+  page_reading: "Page reading",
   file_scan: "File reading",
   study_materials: "Study materials",
   calculator: "Calculator",
@@ -298,6 +485,7 @@ const INTENT_LABELS = {
   deployment_tips: "Deployment",
   ml_architecture: "How it works",
   identity: "Identity",
+  developer: "Who built me",
   capabilities: "Capabilities",
   greeting: "Greeting",
   gratitude: "Gratitude",
@@ -306,11 +494,17 @@ const INTENT_LABELS = {
   humor: "Humour",
   user_name: "Your name",
   time_date: "Date and time",
+  comprehension_check: "Do I understand you",
+  conversation_repair: "Correcting me",
+  conversation_state: "Talking plainly",
+  answer_check: "Checking my answer",
   out_of_scope: "Outside training",
 };
 
-/** Below this the model is not choosing, it is guessing. The threshold sets the colour. */
-const CONFIDENT = 0.5;
+/** Below this the model is not choosing, it is guessing. The threshold sets the colour.
+ *  It matches the refusal floor in `bernOnDevice.reply` and `gating_rejects`, so the browser
+ *  and the server never disagree about whether a sentence was answered or refused. */
+const CONFIDENT = 0.4;
 const SEQUENCE = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
 
 /* ------------------------------------------------------------------ app */
@@ -365,24 +559,11 @@ function App() {
    * writing, a confident one against two timid ones means the model found a clear character
    * and nothing else.
    */
-  const readAttachment = useCallback((current) => {
-    const bern = runtime.current.bern;
-    const readings = [];
-
-    const chosen = cropToGlyph(current.work, current.crop);
-    const glyph = bern.prepare(chosen.gray, chosen.width, chosen.height);
-    readings.push(bern.readGlyph(glyph));
-
-    const features = runtime.current.runtime;
-    for (const seed of glyphsFromPhoto(bern, features.inkMask, current.work, 3).slice(0, 2)) {
-      readings.push(bern.readGlyph(seed.glyph));
-    }
-
-    readings.sort((a, b) => b.confidence - a.confidence);
-    const best = readings[0];
-    const agree = readings.filter((reading) => reading.char === best.char).length;
-    return { readings, best, agree, total: readings.length };
-  }, []);
+  const readAttachment = useCallback((current) => readPage(
+    runtime.current.bern,
+    runtime.current.runtime.inkMask,
+    current.work
+  ), []);
 
   const ask = useCallback(
     (text) => {
@@ -416,11 +597,21 @@ function App() {
         {
           role: "bern",
           id: `b${previous.length}`,
-          text: reply ? reply.text ?? "I do not have an answer stored for that one." : null,
-          intent: result ? result.intent : null,
-          confidence: result ? result.confidence : null,
-          alternatives: result ? result.alternatives : null,
-          needsServer: reply ? reply.needsServer : false,
+          // A photo is answered from the page reading; the classifier still runs on whatever
+          // was typed, so the readout shows which kind of question the reader asked.
+          text: photo
+            ? describePage(reading, message).text
+            : reply ? reply.text ?? "I do not have an answer stored for that one." : null,
+          // For a photo the readout must describe the *reading*, not the typed question.
+          // It used to show the intent classifier's score - a greeting at 50.9% on a turn where
+          // the model had read 141 characters at a 94% error rate - which put a text-model
+          // number next to a page reading and implied they were the same measurement.
+          intent: photo ? "page_reading" : result ? result.intent : null,
+          confidence: photo
+            ? (reading && reading.confidence ? reading.confidence : 0)
+            : result ? result.confidence : null,
+          alternatives: photo ? null : result ? result.alternatives : null,
+          needsServer: photo ? false : reply ? reply.needsServer : false,
           elapsed,
           reading,
           // the preview belongs to the reply's readout as well as to the turn above
@@ -455,23 +646,10 @@ function App() {
       const work = drawToWork(image, WORK_MAX);
 
       // Guess the crop from the densest ink, then let the reader move it.
-      const seeds = glyphsFromPhoto(
-        runtime.current.bern,
-        runtime.current.runtime.inkMask,
-        work,
-        1
-      );
-      let crop = DEFAULT_CROP;
-      if (seeds.length) {
-        const { box } = seeds[0];
-        crop = {
-          x: box.x / work.width,
-          y: box.y / work.height,
-          w: Math.min(1, box.w / work.width),
-          h: Math.min(1, box.h / work.height),
-        };
-
-      }
+      // The tray still offers a single-character crop, because the character reader is the
+      // sharpest thing here and a reader may want to check one glyph. Reading the page does not
+      // depend on it.
+      const crop = DEFAULT_CROP;
 
       setAttachment({
         name: file.name || "photo.jpg",
@@ -795,7 +973,7 @@ function Answer({ message, showScores, index }) {
  * on the page: the confidence, set as a numeral, with the decision beside it in the same
  * monospaced column so the eye can compare one answer against the next.
  */
-function Readout({ confidence, intent, alternatives, low }) {
+function Readout({ confidence, intent, alternatives, low, caption, label }) {
   const runnerUp = alternatives && alternatives.length ? alternatives[0] : null;
   return (
     <aside className={`readout${low ? " readout--low" : ""}`} aria-label="Model readout">
@@ -804,8 +982,9 @@ function Readout({ confidence, intent, alternatives, low }) {
           {(confidence * 100).toFixed(1)}
           <span className="readout-unit">%</span>
         </span>
-        <span className="readout-caption">{low ? "guessing" : "confident"}</span>
+        <span className="readout-caption">{caption || (low ? "guessing" : "confident")}</span>
       </div>
+      {label ? <p className="readout-label">{label}</p> : null}
 
       <dl className="readout-table">
         <div className="readout-row">
@@ -833,6 +1012,71 @@ function Readout({ confidence, intent, alternatives, low }) {
   );
 }
 
+/* ------------------------------------------------------------------ page replies */
+
+/** What Bern says about a photographed page.
+ *
+ * Bern cannot recognise objects — there is no scene model in it, only a character reader — so
+ * "what is in this image" is answered with what is written in it, and the answer says so when
+ * the question asked for more than that. Silently substituting a transcription for a
+ * description would be the confident-wrong-answer failure this whole page is about.
+ */
+function describePage(reading, question) {
+  const asked = (question || "").toLowerCase();
+  const aboutText = /\b(read|text|written|says?|write|transcri|content|contains?|inside|image|picture|photo)\b/.test(asked);
+  const empty = !reading.lines.length || !reading.text;
+
+  // A refused reading is not an empty one, and must not be described as if it were. The reader
+  // knows why it stopped; saying so is the difference between a tool that has limits and one
+  // that invents text.
+  const legibility = reading.legibility;
+  if (reading.refused && legibility) {
+    if (legibility.tooSmall) {
+      return {
+        text: "I can see writing, but it is too small for me to read. "
+          + `The tallest letters are about ${legibility.medianHeight} pixels high, and below `
+          + "about 14 pixels I am wrong on most characters — measured, not guessed. "
+          + "Zoom in or take the photo closer, and I will try again. "
+          + "I would rather say this than hand you text I cannot read.",
+        tone: "refused",
+      };
+    }
+    return {
+      text: "I found only a few marks in that image — fewer than a line of writing — so there "
+        + "is nothing I can read with any confidence. If there is text there, get it larger "
+        + "in the frame and try again.",
+      tone: "refused",
+    };
+  }
+
+  if (empty) {
+    return {
+      text: "I could not find any writing in that image. I read printed or handwritten "
+        + "characters — I have no way to recognise objects, so a picture of a dog or a "
+        + "building tells me nothing.",
+      tone: "empty",
+    };
+  }
+
+
+  const quoted = reading.lines.map((line) => `"${line.text}"`);
+  const spoken = quoted.length === 1
+    ? quoted[0]
+    : `${quoted.slice(0, -1).join(", ")} and ${quoted[quoted.length - 1]}`;
+
+  let text = `I can see writing in it. Here is what I read: ${spoken}.`;
+
+  text += "\n\nI read the characters, so I cannot tell you what the picture shows. Check the "
+    + "reading against the photo.";
+
+  if (!aboutText) {
+    text += "\n\nTo be clear about what I did: I read the characters in your image. I cannot "
+      + "tell you what the image *depicts* — no object, scene or face recognition anywhere in me.";
+  }
+
+  return { text, tone: "reading" };
+}
+
 /* ------------------------------------------------------------------ glyph answer */
 
 /** A photo reply. The character is the claim; the readout counts how many of the three regions
@@ -840,46 +1084,77 @@ function Readout({ confidence, intent, alternatives, low }) {
  * fact from three out of three. */
 function GlyphAnswer({ message, showScores }) {
   const { reading } = message;
-  const low = reading.best.confidence < CONFIDENT || reading.agree < reading.total;
+  const pages = reading && reading.lines ? reading.lines : [];
+
+  // The single-character path (older messages, and the crop tray) has no `lines`.
+  if (!pages.length) {
+    const best = reading ? reading.best : null;
+    if (!best) return null;
+    return (
+      <article className="answer">
+        <div className="answer-body">
+          <RichText text={message.text} />
+        </div>
+      </article>
+    );
+  }
+
+  // This readout used to print a fixed 74.1% on every reading, labelled "measured accuracy".
+  // It was measured once, on 216 clean printed glyphs in three fonts, and then presented as if
+  // it described whatever photo had just been read. On a screenshot of 9-pixel text - where the
+  // real character error rate is 94% and above - it still claimed 74.1%. That is the confident
+  // wrong answer this page exists to avoid, so the number is gone. What is shown is the only
+  // honest statistic available: how many characters were read, and how tall they were, which is
+  // the variable that actually predicts whether the reading is any good.
+  const medianHeight = reading.legibility ? reading.legibility.medianHeight : null;
+
   return (
     <article className="answer">
       <div className="answer-body">
-        <p className="glyph-line">
-          The clearest thing I can read in that photo is
-          <span className="glyph-char">{reading.best.char}</span>
-          <span className={low ? "glyph-verdict glyph-verdict--low" : "glyph-verdict"}>
-            {reading.best.confidence < CONFIDENT ? "guessing" : "confident"}
-          </span>
-        </p>
+        <RichText text={message.text} />
 
         {showScores ? (
-          <div className="glyph-readout">
-            <img
-              className="glyph-crop"
-              src={message.attachment.glyphPreview || message.attachment.preview}
-              alt="The 28 by 28 pixels the model read"
-            />
-            <div className="glyph-table">
-              <p className="glyph-caption">
-                {reading.agree} of {reading.total} regions agreed
-              </p>
-              {reading.best.candidates.slice(0, 4).map((candidate) => (
-                <div className="glyph-row" key={candidate.label}>
-                  <span className="glyph-label">
-                    {candidate.label === " " ? "space" : candidate.label}
-                  </span>
-                  <span className="glyph-score">{(candidate.confidence * 100).toFixed(1)}%</span>
-                </div>
-              ))}
-            </div>
+          <div className="page-read">
+            <p className="page-read-head">
+              {reading.glyphCount} characters over {pages.length}{" "}
+              {pages.length === 1 ? "line" : "lines"}
+            </p>
+            <table className="page-lines">
+              <tbody>
+                {pages.map((line, index) => (
+                  <tr key={index}>
+                    <td className="page-line-index">{String(index + 1).padStart(2, "0")}</td>
+                    <td className="page-line-text">{line.text}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="page-note">
+              My probability is not calibrated, so I cannot flag which of these lines is wrong:
+              characters I rate 85&ndash;95% confident are right about a third of the time.
+              O/0, I/1/l and S/5 are the same shape to me.
+            </p>
           </div>
         ) : null}
 
         <p className="aside">
-          That is me reading a single character, not a word. The full handwriting pass — lines,
-          then words, then text — runs in the Python package, not on this page.
+          Anything that is not a character still gets named as one &mdash; a plain circle
+          comes back as &ldquo;0&rdquo;.
         </p>
       </div>
+
+      {showScores ? (
+        <Readout
+          confidence={message.confidence ?? 0}
+          intent={message.intent}
+          alternatives={message.alternatives}
+          low
+          caption="model confidence"
+          label={medianHeight !== null
+            ? `letters ~${medianHeight}px tall · not calibrated`
+            : "not calibrated"}
+        />
+      ) : null}
     </article>
   );
 }
